@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Lobster&family=Pacifico&family=Quicksand:wght@400&display=swap');
+body {
+  background-color: azure;
+}
+
+.aeroplayHeader {
+  font-size: 44px;
+  font-family: "Pacifico", cursive;
+  color:rgb(134, 177, 233);
+}
+
+.aeroplayHeader H1 {
+  margin: 30px;
+}
+
+.searchPlayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.searchPlayer input {
+  padding: 6px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 17px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.searchPlayer button {
+  margin-left: 12px;
+  height: 31px;
+  width: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.searchPlayer img {
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.searchPlayer img {
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.App {
+  text-align: center;
+  font-family: "Quicksand";
+}
+
+.dataSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 90px;
+}
+
+.dataTable {
+  margin-left: 30px;
+}
+
+.dataTable th{
+  padding: 15px;
+}
+
+.globalData h3 {
+  margin-top: 0px;
+}
+
+.globalData {
+  color: #000000;
+  border-radius: 5px;
+  background-color:rgb(193, 204, 204);
+  padding: 20px 15px 40px;
+  margin-top: 20px;
+}
+
+.userSearchForm input {
+  margin: 10px;
+}
+
+table {
+
+}
