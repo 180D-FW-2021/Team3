@@ -1,14 +1,14 @@
 # Aeroplay :airplane:
-Fun household game where you use a 3D printed plane + Gesture + Voice controls to fly a virtual plane!
+A fun household game where you use a 3D printed plane + Gesture + Voice controls to fly a virtual plane!
 
-Checkout the online leaderboard at [here](https://www.aeroplay.online/)! 
+Checkout the online leaderboard [here](https://www.aeroplay.online/)! 
 
 ## Tech Stack Used
 - [Unity](https://unity.com/products/unity-student) for game development
 - [BerryIMU](https://ozzmaker.com/product/berryimu-accelerometer-gyroscope-magnetometer-barometricaltitude-sensor/) for Gyroscope and Accelerometer
 - [Tensorflow](https://github.com/tensorflow/tensorflow) & [Mediapipe](https://github.com/google/mediapipe) for Gesture Recognition
 - [GCP](https://cloud.google.com/speech-to-text) for Voice/Speech Recognition
-- [React](https://reactjs.org/), [Expres](https://expressjs.com/), [MySQL](https://www.mysql.com/) for Web App
+- [React](https://reactjs.org/), [Express](https://expressjs.com/), [MySQL](https://www.mysql.com/) for Web App
 
 ## How can I run this on my local machine? 
 Simply clone this repo and run it!
@@ -56,3 +56,9 @@ Keyboard Commands
 - D: Roll Right 
 - E: Throttle Increase
 - Q: Throttle Decrease
+
+## Contributors
+- [Leeksun Cho]()
+- [Moaddat Naqvi](https://github.com/mznaqvi)
+- [Kevin Wiranata](https://github.com/kevinwiranata)
+- [Eric Zhang](https://github.com/Ericzklm)
