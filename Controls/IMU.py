@@ -25,6 +25,7 @@ import IMU
 import datetime
 import os
 import socket
+import unittest
 
 
 RAD_TO_DEG = 57.29578
@@ -85,7 +86,18 @@ YP_11 = 0.0
 KFangleX = 0.0
 KFangleY = 0.0
 
+#Setup variables needed for the boost detection algorithm
+lastBoost = 0
+boostDetectStart = 0
+boostSensitivityDuration = 100 #time in ms
+accYBuf = []
+accYBufSize = 7
+boost = 0
 
+# Define constants and thresholds
+gyroThreshold = 80
+boostThreshold = -.15
+boostCooldown = 10000 #time in ms
 
 def kalmanFilterY ( accAngle, gyroRate, DT):
     y=0.0
@@ -158,6 +170,58 @@ def kalmanFilterX ( accAngle, gyroRate, DT):
 
     return KFangleX
 
+def getRollPitch(scaler, kalman):
+    return scaler * kalman
+
+def updateBuffer(bufferArray, bufferArraySize, newValue):
+    bufferArray.append(newValue)
+    if len(bufferArray) > bufferArraySize:
+        bufferArray.pop(0)
+    return bufferArray
+
+def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBuffer, currentTime):
+    global boostDetectStart
+    global lastBoost
+    global boost
+    print(lastBoost)
+    if all(value < boostThreshold for value in accBuffer) and boostDetectStart == 0:
+        boostDetectStart = currentTime
+    if not all(value < boostThreshold for value in accBuffer) and boostDetectStart != 0:
+        if currentTime - boostDetectStart <= boostSensitivityDuration and boost == 0:
+            lastBoost = currentTime
+            boost = 1
+        boostDetectStart = 0
+    if currentTime - lastBoost <= boostCooldown:
+        boost = -1
+    elif boost != 1:
+        boost = 0
+
+def getDirectionFromRollPitch(roll, pitch, threshold):
+    if abs(roll) < threshold:
+        if abs(pitch) < threshold:
+            return "straight"
+        elif pitch <= threshold:
+            return "right"
+        else:
+            return "left"
+    elif roll <= threshold:
+        if abs(pitch) < threshold:
+            return "up"
+        elif pitch <= threshold:
+            return "upright"
+        else:
+            return "upleft"
+    else:
+        if abs(pitch) < threshold:
+            return "down"
+        elif pitch <= threshold:
+            return "downright"
+        else:
+            return "downleft"
+
+def getOutputString(roll, pitch, accX, accY, accZ, boost):
+    return f"{round(roll, 4)},{round(pitch, 4)},{round(accX, 4)},{round(accY, 4)},{round(accZ,4)},{boost};"
+
 gyroXangle = 0.0
 gyroYangle = 0.0
 gyroZangle = 0.0
@@ -176,18 +240,7 @@ oldZAccRawValue = 0
 
 a = datetime.datetime.now()
 
-#Setup variables needed for the boost detection algorithm
-lastBoost = 0
-boostDetectStart = 0
-boostSensitivityDuration = 100 #time in ms
-accYBuf = []
-accYBufSize = 7
-boost = 0
 
-# Define constants and thresholds
-gyroThreshold = 80
-boostThreshold = -.15
-boostCooldown = 10000 #time in ms
 
 #Setup the tables for the mdeian filter. Fill them all with '1' so we dont get devide by zero error
 acc_medianTable1X = [1] * ACC_MEDIANTABLESIZE
@@ -400,103 +453,35 @@ while True:
 
     ##################### Send Data ####################################
 
-    # Data output from roll and pitch
-    bigR = 5.2 * kalmanX
-    bigP = 5.2 * kalmanY
-    
-    # Boost detection algorithm handling
-    currentTime = int(time.time() * 1000) #time in ms
-    accYBuf.append(accYnorm)
-    if len(accYBuf) > accYBufSize: accYBuf.pop(0)
+    # Get normalized roll and pitch values
+    roll = getRollPitch(5.2, kalmanX)
+    pitch = getRollPitch(5.2, kalmanY)
 
-    '''
-    if currentTime - lastBoost <= boostCooldown:
-        boost = -1
-    elif all(value < boostThreshold for value in accYBuf):
-        boost = 1
-        lastBoost = currentTime
-    else:
-        boost = 0
-    '''
+    # Get the current time in ms
+    currentTime = int(time.time() * 1000)
 
-    if all(value < boostThreshold for value in accYBuf) and boostDetectStart == 0:
-        boostDetectStart = currentTime
-    if not all(value < boostThreshold for value in accYBuf) and boostDetectStart != 0:
-        #boostDetectEnd = currentTime
-        if currentTime - boostDetectStart <= boostSensitivityDuration and boost == 0:
-            boost = 1
-            lastBoost = currentTime
-        boostDetectStart = 0
-    
-    if currentTime - lastBoost <= boostCooldown:
-        boost = -1
-    elif boost != 1:
-        boost = 0
+    # Update accY buffer for boost detection
+    accYBuf = updateBuffer(accYBuf, accYBufSize, accYnorm)
 
-    # Down is positive x
-    # Up is negative x
-    # Tilting left is positive y
-    # Tilting right is negative y
+    # Perform the boost detection algorithm
+    setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accYBuf, currentTime)
 
-    messageOutput = ""
-    if abs(bigR) < gyroThreshold:
-        if abs(bigP) < gyroThreshold:
-            messageOutput = "Straight"
-        elif bigP <= gyroThreshold:
-            messageOutput = "right"
-        else:
-            messageOutput = "left"
-    elif bigR <= gyroThreshold:
-        if abs(bigP) < gyroThreshold:
-            messageOutput = "Up"
-        elif bigP <= gyroThreshold:
-            messageOutput = "Upright"
-        else:
-            messageOutput = "Upleft"
-    else:
-        if abs(bigP) < gyroThreshold:
-            messageOutput = "Down"
-        elif bigP <= gyroThreshold:
-            messageOutput = "Downright"
-        else:
-            messageOutput = "Downleft"
-
-    # Front tilt is x 
-    # Side tilt is y
-
-    '''
-    if 0:                       #Change to '0' to stop showing the angles from the accelerometer
-        outputString += "#  ACCX Angle %5.2f ACCY Angle %5.2f  #  " % (AccXangle, AccYangle)
-
-    if 0:                       #Change to '0' to stop  showing the angles from the gyro
-        #outputString +="\t# GRYX Angle %5.2f  GYRY Angle %5.2f  GYRZ Angle %5.2f # " % (gyroXangle,gyroYangle,gyroZangle)
-        outputString +="\t# GRYX Angle %5.2f  GYRY Angle %5.2f # " % (gyroXangle, gyroYangle)
-
-    if 0:
-        outputString += "# Pitch %10f  Roll %10f  # " % (roll,pitch)
-
-    if 1:
-        outputString += messageOutput
-
-    if 0:                       #Change to '0' to stop  showing the angles from the complementary filter
-        outputString +="\t#  CFangleX Angle %5.2f   CFangleY Angle %5.2f  #" % (CFangleX,CFangleY)
-
-    if 0:                       #Change to '0' to stop  showing the heading
-        outputString +="\t# HEADING %5.2f  tiltCompensatedHeading %5.2f #" % (heading,tiltCompensatedHeading)
-
-    if 1:                       #Change to '0' to stop  showing the angles from the Kalman filter
-        outputString +="# kalmanX %5.2f   kalmanY %5.2f #" % (bigR,bigP)
-    '''
-
-    outputString = f"{round(bigR, 4)},{round(bigP, 4)},{round(accXnorm, 4)},{round(accYnorm, 4)},{round(accZnorm,4)},{boost};"
-
-    print(f"{outputString} {messageOutput}")
+    # Output Data
+    outputString = getOutputString(roll, pitch, accXnorm, accYnorm, accZnorm, boost)
+    print(f"{outputString} {getDirectionFromRollPitch(roll, pitch, gyroThreshold)}")
     client.send(outputString.encode())
+    break
 
-    #slow program down a bit, makes the output more readable
-    #time.sleep(0.01)
-    #counter += 1
-    #if(counter == 2000):
-    #    cont = 0
+if __name__ == "__main__":
+    unittest.main()
 
+class TestIMU(unittest.TestCase):
+    def testRollPitch(self):
+        self.assertEqual(getRollPitch(5.2, 10), 52)
+        self.assertEqual(getRollPitch(5.2, 10.1), 52.52)
 
+    def testUpdateBuffer(self):
+        self.assertEqual(updateBuffer([1,2,3], 3, 4), [2,3,4])
+        self.assertEqual(updateBuffer([1.23,4.56,7], 3, 8.9), [4.56, 7, 8.9])
+        self.assertEqual(updateBuffer([1,2], 3, 3), [1,2,3])
+        self.assertEqual(updateBuffer([], 3, 1), [1])
