@@ -33,6 +33,18 @@ app.post("/api/user", (req, res) => {
     });
 });
 
+app.post("/api/insert", (req, res) => {
+    const username = req.body.username;
+    const score = req.body.score;
+    const balloons_popped = req.body.balloons_popped;
+    const shot_accuracy = req.body.shot_accuracy;
+    const boosts_used = req.body.boosts_used;
+    const sql_insert_user = "INSERT INTO game_data VALUES (NULL,?,?,?,?,?)";
+    db.query(sql_insert_user, [username, score, balloons_popped, shot_accuracy, boosts_used], (err,result) => {
+        res.send(result);
+    })
+});
+
 app.listen(process.env.PORT || PORT, () => {
     console.log(`running on port ${PORT}`);
 });
