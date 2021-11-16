@@ -26,13 +26,13 @@ public class PlaneControl : MonoBehaviour
 	private float increment = 0.0f;
 	//this variable stores the vertical axis values  
 	private float vertAxis = 0.0f;
-    private float acceleration = 0f;
+	private float acceleration = 0f;
 
 	//the throttle  
 	public float throttle = 1f;
 
-    // affected by pitch
-    public float airSpeed = 1f;
+	// affected by pitch
+	public float airSpeed = 1f;
 
 	// Start is called before the first frame update
 	void Start()
@@ -82,26 +82,30 @@ public class PlaneControl : MonoBehaviour
 		//set the throttle limit between 0 and 2f (max speed)  
 		throttle = Mathf.Clamp(throttle, 0f, 2f);
 
-        // acceleration calculation 
-        if (throttle >= airSpeed) {
-            acceleration = 0.004f*(throttle - airSpeed);
-        } else {
-            acceleration = 0.0001f*(1/(throttle - airSpeed));
-        }
-  
-        airSpeed += acceleration;
+		// acceleration calculation 
+		if (throttle >= airSpeed)
+		{
+			acceleration = 0.004f * (throttle - airSpeed);
+		}
+		else
+		{
+			acceleration = 0.0001f * (1 / (throttle - airSpeed));
+		}
 
-        // clamp from throttle only
-        airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2f);  
+		airSpeed += acceleration;
 
-        // clamp with pitch gravity
-        airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
-        airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
+		// clamp from throttle only
+		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2f);
+
+		// clamp with pitch gravity
+		airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
+		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
 		//translates the game object based on the throttle  
 		goTransform.Translate(airSpeed * Vector3.forward);
 
 		//rotates the game object, based on horizontal input  
+		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
         goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal"));
 		goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
 		setText("none");
