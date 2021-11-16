@@ -19,7 +19,6 @@ public class PropellerControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		Debug.Log(planeControl.throttle);
 		transform.localRotation *= Quaternion.AngleAxis(propMultiplier * planeControl.throttle * Time.deltaTime, Vector3.up);
 	}
 }
