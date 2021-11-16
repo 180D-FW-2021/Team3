@@ -18,6 +18,7 @@ Simply clone this repo and run it!
 Download and Installl Unity Hub, get student ver if possible
 Inside Unity Hub -> Install Unity 2019.4.32f1 (LTS)
 In the Projects Tab -> Add -> Team3/Unity Directory
+In Unity -> Drag the "Main Scene" under the Assets/Scenes folder in the Project tab into the Hierarchy
 ```
 
 2. Server
