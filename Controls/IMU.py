@@ -1,487 +1,291 @@
-#!/usr/bin/python
-#
-#    This program  reads the angles from the acceleromteer, gyroscope
-#    and mangnetometer on a BerryIMU connected to a Raspberry Pi.
-#
-#    This program includes two filters (low pass and median) to improve the
-#    values returned from BerryIMU by reducing noise.
-#
-#    The BerryIMUv1, BerryIMUv2 and BerryIMUv3 are supported
-#
-#    This script is python 2.7 and 3 compatible
-#
-#    Feel free to do whatever you like with this code.
-#    Distributed as-is; no warranty is given.
-#
-#    http://ozzmaker.com/
-
-
-
-import sys
+import smbus
+bus = smbus.SMBus(1)
+from LSM9DS0 import *
+from LSM9DS1 import *
+from LSM6DSL import *
+from LIS3MDL import *
 import time
-import math
-import smbus2 as smbus
-import IMU
-import datetime
-import os
-import socket
-import unittest
 
 
-RAD_TO_DEG = 57.29578
-M_PI = 3.14159265358979323846
-G_GAIN = 0.070          # [deg/s/LSB]  If you change the dps for gyro, you need to update this value accordingly
-AA =  0.40              # Complementary filter constant
-MAG_LPF_FACTOR = 0.4    # Low pass filter constant magnetometer
-ACC_LPF_FACTOR = 0.4    # Low pass filter constant for accelerometer
-ACC_MEDIANTABLESIZE = 9         # Median filter table size for accelerometer. Higher = smoother but a longer delay
-MAG_MEDIANTABLESIZE = 9         # Median filter table size for magnetometer. Higher = smoother but a longer delay
 
 
-################# Initialize Client #####################
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("192.168.1.15", 8080)) # Change the IP to the IP of the server
+BerryIMUversion = 99
 
 
-################# Compass Calibration values ############
-# Use calibrateBerryIMU.py to get calibration values
-# Calibrating the compass isnt mandatory, however a calibrated
-# compass will result in a more accurate heading value.
-
-magXmin =  0
-magYmin =  0
-magZmin =  0
-magXmax =  0
-magYmax =  0
-magZmax =  0
 
 
-'''
-Here is an example:
-magXmin =  -1748
-magYmin =  -1025
-magZmin =  -1876
-magXmax =  959
-magYmax =  1651
-magZmax =  708
-Dont use the above values, these are just an example.
-'''
-############### END Calibration offsets #################
+
+def detectIMU():
+    #Detect which version of BerryIMU is connected using the 'who am i' register
+    #BerryIMUv1 uses the LSM9DS0
+    #BerryIMUv2 uses the LSM9DS1
+    #BerryIMUv3 uses the LSM6DSL and LIS3MDL
+ 
+    global BerryIMUversion
 
 
-#Kalman filter variables
-Q_angle = 0.02
-Q_gyro = 0.0015
-R_angle = 0.005
-y_bias = 0.0
-x_bias = 0.0
-XP_00 = 0.0
-XP_01 = 0.0
-XP_10 = 0.0
-XP_11 = 0.0
-YP_00 = 0.0
-YP_01 = 0.0
-YP_10 = 0.0
-YP_11 = 0.0
-KFangleX = 0.0
-KFangleY = 0.0
-
-#Setup variables needed for the boost detection algorithm
-lastBoost = 0
-boostDetectStart = 0
-boostSensitivityDuration = 100 #time in ms
-accYBuf = []
-accYBufSize = 7
-boost = 0
-
-# Define constants and thresholds
-gyroThreshold = 80
-boostThreshold = -.15
-boostCooldown = 10000 #time in ms
-
-def kalmanFilterY ( accAngle, gyroRate, DT):
-    y=0.0
-    S=0.0
-
-    global KFangleY
-    global Q_angle
-    global Q_gyro
-    global y_bias
-    global YP_00
-    global YP_01
-    global YP_10
-    global YP_11
-
-    KFangleY = KFangleY + DT * (gyroRate - y_bias)
-
-    YP_00 = YP_00 + ( - DT * (YP_10 + YP_01) + Q_angle * DT )
-    YP_01 = YP_01 + ( - DT * YP_11 )
-    YP_10 = YP_10 + ( - DT * YP_11 )
-    YP_11 = YP_11 + ( + Q_gyro * DT )
-
-    y = accAngle - KFangleY
-    S = YP_00 + R_angle
-    K_0 = YP_00 / S
-    K_1 = YP_10 / S
-
-    KFangleY = KFangleY + ( K_0 * y )
-    y_bias = y_bias + ( K_1 * y )
-
-    YP_00 = YP_00 - ( K_0 * YP_00 )
-    YP_01 = YP_01 - ( K_0 * YP_01 )
-    YP_10 = YP_10 - ( K_1 * YP_00 )
-    YP_11 = YP_11 - ( K_1 * YP_01 )
-
-    return KFangleY
-
-def kalmanFilterX ( accAngle, gyroRate, DT):
-    x=0.0
-    S=0.0
-
-    global KFangleX
-    global Q_angle
-    global Q_gyro
-    global x_bias
-    global XP_00
-    global XP_01
-    global XP_10
-    global XP_11
-
-
-    KFangleX = KFangleX + DT * (gyroRate - x_bias)
-
-    XP_00 = XP_00 + ( - DT * (XP_10 + XP_01) + Q_angle * DT )
-    XP_01 = XP_01 + ( - DT * XP_11 )
-    XP_10 = XP_10 + ( - DT * XP_11 )
-    XP_11 = XP_11 + ( + Q_gyro * DT )
-
-    x = accAngle - KFangleX
-    S = XP_00 + R_angle
-    K_0 = XP_00 / S
-    K_1 = XP_10 / S
-
-    KFangleX = KFangleX + ( K_0 * x )
-    x_bias = x_bias + ( K_1 * x )
-
-    XP_00 = XP_00 - ( K_0 * XP_00 )
-    XP_01 = XP_01 - ( K_0 * XP_01 )
-    XP_10 = XP_10 - ( K_1 * XP_00 )
-    XP_11 = XP_11 - ( K_1 * XP_01 )
-
-    return KFangleX
-
-def getRollPitch(scaler, kalman):
-    return scaler * kalman
-
-def updateBuffer(bufferArray, bufferArraySize, newValue):
-    bufferArray.append(newValue)
-    if len(bufferArray) > bufferArraySize:
-        bufferArray.pop(0)
-    return bufferArray
-
-def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBuffer, currentTime):
-    global boostDetectStart
-    global lastBoost
-    global boost
-    print(lastBoost)
-    if all(value < boostThreshold for value in accBuffer) and boostDetectStart == 0:
-        boostDetectStart = currentTime
-    if not all(value < boostThreshold for value in accBuffer) and boostDetectStart != 0:
-        if currentTime - boostDetectStart <= boostSensitivityDuration and boost == 0:
-            lastBoost = currentTime
-            boost = 1
-        boostDetectStart = 0
-    if currentTime - lastBoost <= boostCooldown:
-        boost = -1
-    elif boost != 1:
-        boost = 0
-
-def getDirectionFromRollPitch(roll, pitch, threshold):
-    if abs(roll) < threshold:
-        if abs(pitch) < threshold:
-            return "straight"
-        elif pitch <= threshold:
-            return "right"
-        else:
-            return "left"
-    elif roll <= threshold:
-        if abs(pitch) < threshold:
-            return "up"
-        elif pitch <= threshold:
-            return "upright"
-        else:
-            return "upleft"
+    try:
+        #Check for BerryIMUv1 (LSM9DS0)
+        #If no LSM9DS0 is connected, there will be an I2C bus error and the program will exit.
+        #This section of code stops this from happening.
+        LSM9DS0_WHO_G_response = (bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_WHO_AM_I_G))
+        LSM9DS0_WHO_XM_response = (bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_WHO_AM_I_XM))
+    except IOError as e:
+        print('')        #need to do something here, so we just print a space
     else:
-        if abs(pitch) < threshold:
-            return "down"
-        elif pitch <= threshold:
-            return "downright"
-        else:
-            return "downleft"
-
-def getOutputString(roll, pitch, accX, accY, accZ, boost):
-    return f"{round(roll, 4)},{round(pitch, 4)},{round(accX, 4)},{round(accY, 4)},{round(accZ,4)},{boost};"
-
-gyroXangle = 0.0
-gyroYangle = 0.0
-gyroZangle = 0.0
-CFangleX = 0.0
-CFangleY = 0.0
-CFangleXFiltered = 0.0
-CFangleYFiltered = 0.0
-kalmanX = 0.0
-kalmanY = 0.0
-oldXMagRawValue = 0
-oldYMagRawValue = 0
-oldZMagRawValue = 0
-oldXAccRawValue = 0
-oldYAccRawValue = 0
-oldZAccRawValue = 0
-
-a = datetime.datetime.now()
+        if (LSM9DS0_WHO_G_response == 0xd4) and (LSM9DS0_WHO_XM_response == 0x49):
+            print("Found BerryIMUv1 (LSM9DS0)")
+            BerryIMUversion = 1
 
 
+    try:
+        #Check for BerryIMUv2 (LSM9DS1)
+        #If no LSM9DS1 is connnected, there will be an I2C bus error and the program will exit.
+        #This section of code stops this from happening.
+        LSM9DS1_WHO_XG_response = (bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_WHO_AM_I_XG))
+        LSM9DS1_WHO_M_response = (bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_WHO_AM_I_M))
 
-#Setup the tables for the mdeian filter. Fill them all with '1' so we dont get devide by zero error
-acc_medianTable1X = [1] * ACC_MEDIANTABLESIZE
-acc_medianTable1Y = [1] * ACC_MEDIANTABLESIZE
-acc_medianTable1Z = [1] * ACC_MEDIANTABLESIZE
-acc_medianTable2X = [1] * ACC_MEDIANTABLESIZE
-acc_medianTable2Y = [1] * ACC_MEDIANTABLESIZE
-acc_medianTable2Z = [1] * ACC_MEDIANTABLESIZE
-mag_medianTable1X = [1] * MAG_MEDIANTABLESIZE
-mag_medianTable1Y = [1] * MAG_MEDIANTABLESIZE
-mag_medianTable1Z = [1] * MAG_MEDIANTABLESIZE
-mag_medianTable2X = [1] * MAG_MEDIANTABLESIZE
-mag_medianTable2Y = [1] * MAG_MEDIANTABLESIZE
-mag_medianTable2Z = [1] * MAG_MEDIANTABLESIZE
-
-IMU.detectIMU()     #Detect if BerryIMU is connected.
-if(IMU.BerryIMUversion == 99):
-    print(" No BerryIMU found... exiting ")
-    sys.exit()
-IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
-
-while True:
-
-    #Read the accelerometer,gyroscope and magnetometer values
-    ACCx = IMU.readACCx()
-    ACCy = IMU.readACCy()
-    ACCz = IMU.readACCz()
-    GYRx = IMU.readGYRx()
-    GYRy = IMU.readGYRy()
-    GYRz = IMU.readGYRz()
-    MAGx = IMU.readMAGx()
-    MAGy = IMU.readMAGy()
-    MAGz = IMU.readMAGz()
-
-
-    #Apply compass calibration
-    MAGx -= (magXmin + magXmax) /2
-    MAGy -= (magYmin + magYmax) /2
-    MAGz -= (magZmin + magZmax) /2
-
-
-    ##Calculate loop Period(LP). How long between Gyro Reads
-    b = datetime.datetime.now() - a
-    a = datetime.datetime.now()
-    LP = b.microseconds/(1000000*1.0)
-    outputString = "Loop Time %5.2f " % ( LP )
-
-
-
-    ###############################################
-    #### Apply low pass filter ####
-    ###############################################
-    MAGx =  MAGx  * MAG_LPF_FACTOR + oldXMagRawValue*(1 - MAG_LPF_FACTOR);
-    MAGy =  MAGy  * MAG_LPF_FACTOR + oldYMagRawValue*(1 - MAG_LPF_FACTOR);
-    MAGz =  MAGz  * MAG_LPF_FACTOR + oldZMagRawValue*(1 - MAG_LPF_FACTOR);
-    ACCx =  ACCx  * ACC_LPF_FACTOR + oldXAccRawValue*(1 - ACC_LPF_FACTOR);
-    ACCy =  ACCy  * ACC_LPF_FACTOR + oldYAccRawValue*(1 - ACC_LPF_FACTOR);
-    ACCz =  ACCz  * ACC_LPF_FACTOR + oldZAccRawValue*(1 - ACC_LPF_FACTOR);
-
-    oldXMagRawValue = MAGx
-    oldYMagRawValue = MAGy
-    oldZMagRawValue = MAGz
-    oldXAccRawValue = ACCx
-    oldYAccRawValue = ACCy
-    oldZAccRawValue = ACCz
-
-    #########################################
-    #### Median filter for accelerometer ####
-    #########################################
-    # cycle the table
-    for x in range (ACC_MEDIANTABLESIZE-1,0,-1 ):
-        acc_medianTable1X[x] = acc_medianTable1X[x-1]
-        acc_medianTable1Y[x] = acc_medianTable1Y[x-1]
-        acc_medianTable1Z[x] = acc_medianTable1Z[x-1]
-
-    # Insert the lates values
-    acc_medianTable1X[0] = ACCx
-    acc_medianTable1Y[0] = ACCy
-    acc_medianTable1Z[0] = ACCz
-
-    # Copy the tables
-    acc_medianTable2X = acc_medianTable1X[:]
-    acc_medianTable2Y = acc_medianTable1Y[:]
-    acc_medianTable2Z = acc_medianTable1Z[:]
-
-    # Sort table 2
-    acc_medianTable2X.sort()
-    acc_medianTable2Y.sort()
-    acc_medianTable2Z.sort()
-
-    # The middle value is the value we are interested in
-    ACCx = acc_medianTable2X[int(ACC_MEDIANTABLESIZE/2)];
-    ACCy = acc_medianTable2Y[int(ACC_MEDIANTABLESIZE/2)];
-    ACCz = acc_medianTable2Z[int(ACC_MEDIANTABLESIZE/2)];
-
-
-
-    #########################################
-    #### Median filter for magnetometer ####
-    #########################################
-    # cycle the table
-    for x in range (MAG_MEDIANTABLESIZE-1,0,-1 ):
-        mag_medianTable1X[x] = mag_medianTable1X[x-1]
-        mag_medianTable1Y[x] = mag_medianTable1Y[x-1]
-        mag_medianTable1Z[x] = mag_medianTable1Z[x-1]
-
-    # Insert the latest values
-    mag_medianTable1X[0] = MAGx
-    mag_medianTable1Y[0] = MAGy
-    mag_medianTable1Z[0] = MAGz
-
-    # Copy the tables
-    mag_medianTable2X = mag_medianTable1X[:]
-    mag_medianTable2Y = mag_medianTable1Y[:]
-    mag_medianTable2Z = mag_medianTable1Z[:]
-
-    # Sort table 2
-    mag_medianTable2X.sort()
-    mag_medianTable2Y.sort()
-    mag_medianTable2Z.sort()
-
-    # The middle value is the value we are interested in
-    MAGx = mag_medianTable2X[int(MAG_MEDIANTABLESIZE/2)];
-    MAGy = mag_medianTable2Y[int(MAG_MEDIANTABLESIZE/2)];
-    MAGz = mag_medianTable2Z[int(MAG_MEDIANTABLESIZE/2)];
-
-
-
-    #Convert Gyro raw to degrees per second
-    rate_gyr_x =  GYRx * G_GAIN
-    rate_gyr_y =  GYRy * G_GAIN
-    rate_gyr_z =  GYRz * G_GAIN
-
-
-    #Calculate the angles from the gyro.
-    gyroXangle+=rate_gyr_x*LP
-    gyroYangle+=rate_gyr_y*LP
-    gyroZangle+=rate_gyr_z*LP
-
-    #Convert Accelerometer values to degrees
-    AccXangle =  (math.atan2(ACCy,ACCz)*RAD_TO_DEG)
-    AccYangle =  (math.atan2(ACCz,ACCx)+M_PI)*RAD_TO_DEG
-
-
-    #Change the rotation value of the accelerometer to -/+ 180 and
-    #move the Y axis '0' point to up.  This makes it easier to read.
-    if AccYangle > 90:
-        AccYangle -= 270.0
+    except IOError as f:
+        print('')        #need to do something here, so we just print a space
     else:
-        AccYangle += 90.0
+        if (LSM9DS1_WHO_XG_response == 0x68) and (LSM9DS1_WHO_M_response == 0x3d):
+            print("Found BerryIMUv2 (LSM9DS1)")
+            BerryIMUversion = 2
 
+    try:
+        #Check for BerryIMUv3 (LSM6DSL and LIS3MDL)
+        #If no LSM6DSL or LIS3MDL is connected, there will be an I2C bus error and the program will exit.
+        #This section of code stops this from happening.
+        LSM6DSL_WHO_AM_I_response = (bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_WHO_AM_I))
+        LIS3MDL_WHO_AM_I_response = (bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_WHO_AM_I))
 
-
-    #Complementary filter used to combine the accelerometer and gyro values.
-    CFangleX=AA*(CFangleX+rate_gyr_x*LP) +(1 - AA) * AccXangle
-    CFangleY=AA*(CFangleY+rate_gyr_y*LP) +(1 - AA) * AccYangle
-
-    #Kalman filter used to combine the accelerometer and gyro values.
-    kalmanY = kalmanFilterY(AccYangle, rate_gyr_y,LP)
-    kalmanX = kalmanFilterX(AccXangle, rate_gyr_x,LP)
-
-    #Calculate heading
-    heading = 180 * math.atan2(MAGy,MAGx)/M_PI
-
-    #Only have our heading between 0 and 360
-    if heading < 0:
-        heading += 360
-
-    ####################################################################
-    ###################Tilt compensated heading#########################
-    ####################################################################
-    #Normalize accelerometer raw values.
-    accXnorm = ACCx/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-    accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-    accZnorm = ACCz/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
-
-    #Calculate pitch and roll
-    pitch = math.asin(accXnorm)
-    roll = -math.asin(accYnorm/math.cos(pitch))
-
-
-    #Calculate the new tilt compensated values
-    #The compass and accelerometer are orientated differently on the the BerryIMUv1, v2 and v3.
-    #This needs to be taken into consideration when performing the calculations
-
-    #X compensation
-    if(IMU.BerryIMUversion == 1 or IMU.BerryIMUversion == 3):            #LSM9DS0 and (LSM6DSL & LIS2MDL)
-        magXcomp = MAGx*math.cos(pitch)+MAGz*math.sin(pitch)
-    else:                                                                #LSM9DS1
-        magXcomp = MAGx*math.cos(pitch)-MAGz*math.sin(pitch)
-
-    #Y compensation
-    if(IMU.BerryIMUversion == 1 or IMU.BerryIMUversion == 3):            #LSM9DS0 and (LSM6DSL & LIS2MDL)
-        magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)-MAGz*math.sin(roll)*math.cos(pitch)
-    else:                                                                #LSM9DS1
-        magYcomp = MAGx*math.sin(roll)*math.sin(pitch)+MAGy*math.cos(roll)+MAGz*math.sin(roll)*math.cos(pitch)
+    except IOError as f:
+        print('')        #need to do something here, so we just print a space
+    else:
+        if (LSM6DSL_WHO_AM_I_response == 0x6A) and (LIS3MDL_WHO_AM_I_response == 0x3D):
+            print("Found BerryIMUv3 (LSM6DSL and LIS3MDL)")
+            BerryIMUversion = 3
+    time.sleep(1)
 
 
 
 
 
-    #Calculate tilt compensated heading
-    tiltCompensatedHeading = 180 * math.atan2(magYcomp,magXcomp)/M_PI
-
-    if tiltCompensatedHeading < 0:
-        tiltCompensatedHeading += 360
 
 
-    ##################### END Tilt Compensation ########################
 
-    ##################### Send Data ####################################
 
-    # Get normalized roll and pitch values
-    roll = getRollPitch(5.2, kalmanX)
-    pitch = getRollPitch(5.2, kalmanY)
 
-    # Get the current time in ms
-    currentTime = int(time.time() * 1000)
 
-    # Update accY buffer for boost detection
-    accYBuf = updateBuffer(accYBuf, accYBufSize, accYnorm)
 
-    # Perform the boost detection algorithm
-    setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accYBuf, currentTime)
 
-    # Output Data
-    outputString = getOutputString(roll, pitch, accXnorm, accYnorm, accZnorm, boost)
-    print(f"{outputString} {getDirectionFromRollPitch(roll, pitch, gyroThreshold)}")
-    client.send(outputString.encode())
-    break
 
-if __name__ == "__main__":
-    unittest.main()
+def writeByte(device_address,register,value):
+    bus.write_byte_data(device_address, register, value)
 
-class TestIMU(unittest.TestCase):
-    def testRollPitch(self):
-        self.assertEqual(getRollPitch(5.2, 10), 52)
-        self.assertEqual(getRollPitch(5.2, 10.1), 52.52)
 
-    def testUpdateBuffer(self):
-        self.assertEqual(updateBuffer([1,2,3], 3, 4), [2,3,4])
-        self.assertEqual(updateBuffer([1.23,4.56,7], 3, 8.9), [4.56, 7, 8.9])
-        self.assertEqual(updateBuffer([1,2], 3, 3), [1,2,3])
-        self.assertEqual(updateBuffer([], 3, 1), [1])
+
+def readACCx():
+    acc_l = 0
+    acc_h = 0
+    if(BerryIMUversion == 1):
+        acc_l = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_X_L_A)
+        acc_h = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_X_H_A)
+    elif(BerryIMUversion == 2):
+        acc_l = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_X_L_XL)
+        acc_h = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_X_H_XL)
+    elif(BerryIMUversion == 3):
+        acc_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTX_L_XL)
+        acc_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTX_H_XL)
+
+    acc_combined = (acc_l | acc_h <<8)
+    return acc_combined  if acc_combined < 32768 else acc_combined - 65536
+
+
+
+ 
+
+
+def readACCy():
+    acc_l = 0
+    acc_h = 0
+    if(BerryIMUversion == 1):
+        acc_l = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_Y_L_A)
+        acc_h = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_Y_H_A)
+    elif(BerryIMUversion == 2):
+        acc_l = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_Y_L_XL)
+        acc_h = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_Y_H_XL)
+    elif(BerryIMUversion == 3):
+        acc_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTY_L_XL)
+        acc_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTY_H_XL)
+
+    acc_combined = (acc_l | acc_h <<8)
+    return acc_combined  if acc_combined < 32768 else acc_combined - 65536
+
+
+def readACCz():
+    acc_l = 0
+    acc_h = 0
+    if(BerryIMUversion == 1):
+        acc_l = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_Z_L_A)
+        acc_h = bus.read_byte_data(LSM9DS0_ACC_ADDRESS, LSM9DS0_OUT_Z_H_A)
+    elif(BerryIMUversion == 2):
+        acc_l = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_Z_L_XL)
+        acc_h = bus.read_byte_data(LSM9DS1_ACC_ADDRESS, LSM9DS1_OUT_Z_H_XL)
+    elif(BerryIMUversion == 3):
+        acc_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTZ_L_XL)
+        acc_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTZ_H_XL)
+
+    acc_combined = (acc_l | acc_h <<8)
+    return acc_combined  if acc_combined < 32768 else acc_combined - 65536
+
+
+def readGYRx():
+    gyr_l = 0
+    gyr_h = 0
+    if(BerryIMUversion == 1):
+        gyr_l = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_X_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_X_H_G)
+    elif(BerryIMUversion == 2):
+        gyr_l = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_X_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_X_H_G)
+    elif(BerryIMUversion == 3):
+        gyr_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTX_L_G)
+        gyr_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTX_H_G)
+
+    gyr_combined = (gyr_l | gyr_h <<8)
+    return gyr_combined  if gyr_combined < 32768 else gyr_combined - 65536
+
+
+def readGYRy():
+    gyr_l = 0
+    gyr_h = 0
+    if(BerryIMUversion == 1):
+        gyr_l = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_Y_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_Y_H_G)
+    elif(BerryIMUversion == 2):
+        gyr_l = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_Y_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_Y_H_G)
+    elif(BerryIMUversion == 3):
+        gyr_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTY_L_G)
+        gyr_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTY_H_G)
+
+    gyr_combined = (gyr_l | gyr_h <<8)
+    return gyr_combined  if gyr_combined < 32768 else gyr_combined - 65536
+
+def readGYRz():
+    gyr_l = 0
+    gyr_h = 0
+    if(BerryIMUversion == 1):
+        gyr_l = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_Z_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS0_GYR_ADDRESS, LSM9DS0_OUT_Z_H_G)
+    elif(BerryIMUversion == 2):
+        gyr_l = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_Z_L_G)
+        gyr_h = bus.read_byte_data(LSM9DS1_GYR_ADDRESS, LSM9DS1_OUT_Z_H_G)
+    elif(BerryIMUversion == 3):
+        gyr_l = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTZ_L_G)
+        gyr_h = bus.read_byte_data(LSM6DSL_ADDRESS, LSM6DSL_OUTZ_H_G)
+
+    gyr_combined = (gyr_l | gyr_h <<8)
+    return gyr_combined  if gyr_combined < 32768 else gyr_combined - 65536
+
+
+def readMAGx():
+    mag_l = 0
+    mag_h = 0
+    if(BerryIMUversion == 1):
+        mag_l = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_X_L_M)
+        mag_h = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_X_H_M)
+    elif(BerryIMUversion == 2):
+        mag_l = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_X_L_M)
+        mag_h = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_X_H_M)
+    elif(BerryIMUversion == 3):
+        mag_l = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_X_L)
+        mag_h = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_X_H)
+
+    mag_combined = (mag_l | mag_h <<8)
+    return mag_combined  if mag_combined < 32768 else mag_combined - 65536
+
+
+def readMAGy():
+    mag_l = 0
+    mag_h = 0
+    if(BerryIMUversion == 1):
+        mag_l = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_Y_L_M)
+        mag_h = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_Y_H_M)
+    elif(BerryIMUversion == 2):
+        mag_l = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_Y_L_M)
+        mag_h = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_Y_H_M)
+    elif(BerryIMUversion == 3):
+        mag_l = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_Y_L)
+        mag_h = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_Y_H)
+
+    mag_combined = (mag_l | mag_h <<8)
+    return mag_combined  if mag_combined < 32768 else mag_combined - 65536
+
+
+def readMAGz():
+    mag_l = 0
+    mag_h = 0
+    if(BerryIMUversion == 1):
+        mag_l = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_Z_L_M)
+        mag_h = bus.read_byte_data(LSM9DS0_MAG_ADDRESS, LSM9DS0_OUT_Z_H_M)
+    elif(BerryIMUversion == 2):
+        mag_l = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_Z_L_M)
+        mag_h = bus.read_byte_data(LSM9DS1_MAG_ADDRESS, LSM9DS1_OUT_Z_H_M)
+    elif(BerryIMUversion == 3):
+        mag_l = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_Z_L)
+        mag_h = bus.read_byte_data(LIS3MDL_ADDRESS, LIS3MDL_OUT_Z_H)
+
+    mag_combined = (mag_l | mag_h <<8)
+    return mag_combined  if mag_combined < 32768 else mag_combined - 65536
+
+
+
+def initIMU():
+
+    if(BerryIMUversion == 1):   #For BerryIMUv1
+        #initialise the accelerometer
+        writeByte(LSM9DS0_ACC_ADDRESS,LSM9DS0_CTRL_REG1_XM, 0b01100111)  #z,y,x axis enabled, continuos update,  100Hz data rate
+        writeByte(LSM9DS0_ACC_ADDRESS,LSM9DS0_CTRL_REG2_XM, 0b00011000)  #+/- 8G full scale
+
+        #initialise the magnetometer
+        writeByte(LSM9DS0_MAG_ADDRESS,LSM9DS0_CTRL_REG5_XM, 0b11110000)  #Temp enable, M data rate = 50Hz
+        writeByte(LSM9DS0_MAG_ADDRESS,LSM9DS0_CTRL_REG6_XM, 0b01100000)  #+/- 12gauss
+        writeByte(LSM9DS0_MAG_ADDRESS,LSM9DS0_CTRL_REG7_XM, 0b00000000)  #Continuous-conversion mode
+
+        #initialise the gyroscope
+        writeByte(LSM9DS0_GYR_ADDRESS,LSM9DS0_CTRL_REG1_G, 0b00001111)   #Normal power mode, all axes enabled
+        writeByte(LSM9DS0_GYR_ADDRESS,LSM9DS0_CTRL_REG4_G, 0b00110000)   #Continuos update, 2000 dps full scale
+
+    elif(BerryIMUversion == 2):       #For BerryIMUv2
+        #initialise the accelerometer
+        writeByte(LSM9DS1_ACC_ADDRESS,LSM9DS1_CTRL_REG5_XL,0b00111000)   #z, y, x axis enabled for accelerometer
+        writeByte(LSM9DS1_ACC_ADDRESS,LSM9DS1_CTRL_REG6_XL,0b00111000)   #+/- 8g
+
+        #initialise the gyroscope
+        writeByte(LSM9DS1_GYR_ADDRESS,LSM9DS1_CTRL_REG4,0b00111000)      #z, y, x axis enabled for gyro
+        writeByte(LSM9DS1_GYR_ADDRESS,LSM9DS1_CTRL_REG1_G,0b10111000)    #Gyro ODR = 476Hz, 2000 dps
+        writeByte(LSM9DS1_GYR_ADDRESS,LSM9DS1_ORIENT_CFG_G,0b10111000)   #Swap orientation
+
+        #initialise the magnetometer
+        writeByte(LSM9DS1_MAG_ADDRESS,LSM9DS1_CTRL_REG1_M, 0b10011100)    #Temp compensation enabled,Low power mode mode,80Hz ODR
+        writeByte(LSM9DS1_MAG_ADDRESS,LSM9DS1_CTRL_REG2_M, 0b01000000)    #+/- 2gauss
+        writeByte(LSM9DS1_MAG_ADDRESS,LSM9DS1_CTRL_REG3_M, 0b00000000)    #continuos update
+        writeByte(LSM9DS1_MAG_ADDRESS,LSM9DS1_CTRL_REG4_M, 0b00000000)    #lower power mode for Z axis
+
+    elif(BerryIMUversion == 3):       #For BerryIMUv3
+        #initialise the accelerometer
+        writeByte(LSM6DSL_ADDRESS,LSM6DSL_CTRL1_XL,0b10011111)           #ODR 3.33 kHz, +/- 8g , BW = 400hz
+        writeByte(LSM6DSL_ADDRESS,LSM6DSL_CTRL8_XL,0b11001000)           #Low pass filter enabled, BW9, composite filter
+        writeByte(LSM6DSL_ADDRESS,LSM6DSL_CTRL3_C,0b01000100)            #Enable Block Data update, increment during multi byte read
+
+        #initialise the gyroscope
+        writeByte(LSM6DSL_ADDRESS,LSM6DSL_CTRL2_G,0b10011100)            #ODR 3.3 kHz, 2000 dps
+
+        #initialise the magnetometer
+        writeByte(LIS3MDL_ADDRESS,LIS3MDL_CTRL_REG1, 0b11011100)         # Temp sesnor enabled, High performance, ODR 80 Hz, FAST ODR disabled and Selft test disabled.
+        writeByte(LIS3MDL_ADDRESS,LIS3MDL_CTRL_REG2, 0b00100000)         # +/- 8 gauss
+        writeByte(LIS3MDL_ADDRESS,LIS3MDL_CTRL_REG3, 0b00000000)         # Continuous-conversion mode
+
+
