@@ -21,17 +21,12 @@ In the Projects Tab -> Add -> Team3/Unity Directory
 In Unity -> Drag the "Main Scene" under the Assets/Scenes folder in the Project tab into the Hierarchy
 ```
 
-2. Server
-``` 
-git clone https://github.com/180D-FW-2021/Team3.git
-cd Team 3
-npm start
+2. Gesture Recognition
 ```
-
-3. Client (in new terminal)
-``` 
-cd Team3/client/src
-npm start
+pip3 install mediapipe 
+pip3 install --upgrade tensorflow    
+cd Hand_Gesture_Recognization/HandGesture 
+python3 hgr.py 
 ```
 
 ## Controls
