@@ -523,6 +523,20 @@ MonoBehaviour:
   throttle: {fileID: 2065347045}
   speed: {fileID: 1792598517}
   altitude: {fileID: 2142886894}
+--- !u!114 &116129728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116129724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf54eff8699c834d82a357620523a3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShooterObject: {fileID: 2107393473}
+  ShooterInstance: {fileID: 0}
 --- !u!1 &173582385
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,7 +61,7 @@ public class Shooter : MonoBehaviour {
         }
     }
 
-    double GetShotAccuracy() {
+    public double GetShotAccuracy() {
         return (double)this.shotsHit / this.shotsTaken;
     }
 }

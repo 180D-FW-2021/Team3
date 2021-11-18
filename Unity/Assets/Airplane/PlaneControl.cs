@@ -106,9 +106,9 @@ public class PlaneControl : MonoBehaviour
 
 		//rotates the game object, based on horizontal input  
 		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
-		Debug.Log(Vector3.up.ToString() + " " + Input.GetAxis("Horizontal").ToString());
-        //goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
-		goTransform.Rotate(new Vector3(0,0,1)); //UD, LR, 
+		//Debug.Log(Vector3.up.ToString() + " " + Input.GetAxis("Horizontal").ToString());
+        
+		goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
 		goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
 		setText("none");
 	}
