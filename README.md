@@ -26,6 +26,8 @@ In Unity -> Drag the "Main Scene" under the Assets/Scenes folder in the Project 
 pip3 install mediapipe 
 pip3 install --upgrade tensorflow    
 cd Hand_Gesture_Recognization/HandGesture 
+vim hgr.py -> Add your IP Address in line 31 (udpIP="")
+In Unity Hierarchy -> Select Plane -> Add your IP Address to the IP Script (Inspector)
 python3 hgr.py 
 ```
 
