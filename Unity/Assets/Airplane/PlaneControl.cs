@@ -10,7 +10,7 @@ public class PlaneControl : MonoBehaviour
 {
 	[HideInInspector] public bool isTxStarted = false;
 
-	[SerializeField] string IP = "192.168.1.84"; // local host
+	[SerializeField] string IP = "0.0.0.0"; // local host
 	[SerializeField] int rxPort = 8000; // port to receive data from Python on
 	[SerializeField] int txPort = 8001; // port to send data to Python on
 
@@ -58,6 +58,11 @@ public class PlaneControl : MonoBehaviour
 		{
 			increment = -0.1f;
 			throttle = throttle + increment;
+			setText("");
+		}
+		else if(getText() == "shoot")
+		{
+			Shooter.instance.Shoot();
 			setText("");
 		}
 		else
@@ -143,7 +148,6 @@ public class PlaneControl : MonoBehaviour
 				string text = Encoding.UTF8.GetString(data);
 				// print(">> " + text);
 				ProcessInput(text);
-				print(text);
 				setText(text);
 			}
 			catch (Exception err)

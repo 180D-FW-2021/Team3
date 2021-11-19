@@ -13,6 +13,20 @@ public class Shooter : MonoBehaviour {
 
     public Camera fpsCam;
 
+    // Allows access to shoot function 
+    private static Shooter ShooterInstance;
+	public static Shooter instance
+	{
+		get
+		{
+			if(ShooterInstance==null)
+			{
+				ShooterInstance = FindObjectOfType(typeof(Shooter)) as Shooter;
+			}
+			return ShooterInstance;
+		}
+	}
+
     // Start is called before the first frame update
     void Start() {
         layerMask = 1 << 9;
@@ -26,7 +40,7 @@ public class Shooter : MonoBehaviour {
         }
     }
 
-    void Shoot() {
+    public void Shoot() {
         RaycastHit hit;
         this.shotsTaken++;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range, layerMask)) {
