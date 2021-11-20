@@ -207,7 +207,6 @@ public class PlaneControl : MonoBehaviour
 					int numByte = clientSocket.Receive(bytes);
 					data = Encoding.ASCII.GetString(bytes, 0, numByte);
 					IMUData = data.Split(';');
-
 					foreach (var Reading in IMUData)
 					{
 						if (!String.IsNullOrEmpty(Reading))
