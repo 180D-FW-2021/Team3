@@ -6,9 +6,11 @@ using UnityEngine.Networking;
 public class WebAPIAccess : MonoBehaviour {
     public GameObject ShooterObject;
     public Shooter ShooterInstance;
+    public PlaneControl PlaneControlInstance;
     // Start is called before the first frame update
     void Start() {
         ShooterInstance = ShooterObject.GetComponent<Shooter>();
+        PlaneControlInstance = GetComponent<PlaneControl>();
     }
 
     IEnumerator Upload() {
@@ -17,7 +19,7 @@ public class WebAPIAccess : MonoBehaviour {
         form.AddField("score", ShooterInstance.score);
         form.AddField("balloons_popped", ShooterInstance.shotsHit);
         form.AddField("shot_accuracy", ShooterInstance.GetShotAccuracy().ToString());
-        form.AddField("boosts_used", 3);
+        form.AddField("boosts_used", PlaneControlInstance.boostCount);
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/insert", form)) {
             yield return www.SendWebRequest();
