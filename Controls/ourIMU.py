@@ -89,7 +89,7 @@ KFangleY = 0.0
 #Setup variables needed for the boost detection algorithm
 lastBoost = 0
 boostDetectStart = 0
-boostSensitivityDuration = 100 #time in ms
+boostSensitivityDuration = 300 #time in ms
 accYBuf = []
 accYBufSize = 7
 boost = 0
@@ -184,14 +184,16 @@ def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBu
     global lastBoost
     global boost
     print(lastBoost)
+    foundBoost = 0
     if all(value < boostThreshold for value in accBuffer) and boostDetectStart == 0:
         boostDetectStart = currentTime
     if not all(value < boostThreshold for value in accBuffer) and boostDetectStart != 0:
         if currentTime - boostDetectStart <= boostSensitivityDuration and boost == 0:
             lastBoost = currentTime
             boost = 1
+            foundBoost = 1
         boostDetectStart = 0
-    if currentTime - lastBoost <= boostCooldown:
+    if currentTime - lastBoost <= boostCooldown and foundBoost == 0:
         boost = -1
     elif boost != 1:
         boost = 0
@@ -220,7 +222,8 @@ def getDirectionFromRollPitch(roll, pitch, threshold):
             return "downleft"
 
 def getOutputString(roll, pitch, accX, accY, accZ, boost):
-    return f"{round(roll, 4)},{round(pitch, 4)},{round(accX, 4)},{round(accY, 4)},{round(accZ,4)},{boost};"
+    #return f"{round(roll, 4)},{round(pitch, 4)},{round(accX, 4)},{round(accY, 4)},{round(accZ,4)},{boost};"
+    return f"{round(roll,4)},{round(pitch,4)},{boost};"
 
 gyroXangle = 0.0
 gyroYangle = 0.0
@@ -470,7 +473,7 @@ while True:
     outputString = getOutputString(roll, pitch, accXnorm, accYnorm, accZnorm, boost)
     print(f"{outputString} {getDirectionFromRollPitch(roll, pitch, gyroThreshold)}")
     client.send(outputString.encode())
-    break
+    #break
 
 if __name__ == "__main__":
     unittest.main()
