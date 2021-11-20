@@ -6,9 +6,11 @@ using UnityEngine.Networking;
 public class WebAPIAccess : MonoBehaviour {
     public GameObject ShooterObject;
     public Shooter ShooterInstance;
+    public PlaneControl PlaneControlInstance;
     // Start is called before the first frame update
     void Start() {
         ShooterInstance = ShooterObject.GetComponent<Shooter>();
+        PlaneControlInstance = GetComponent<PlaneControl>();
     }
 
     IEnumerator Upload() {
@@ -35,6 +37,9 @@ public class WebAPIAccess : MonoBehaviour {
         if (Input.GetKeyDown("m")) {
             StartCoroutine(Upload());
             //Upload();
+        }
+        if (Input.GetKeyDown("n")) {
+            Debug.Log(PlaneControlInstance.throttle);
         }
     }
 }
