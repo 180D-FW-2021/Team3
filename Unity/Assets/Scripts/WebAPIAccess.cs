@@ -19,7 +19,7 @@ public class WebAPIAccess : MonoBehaviour {
         form.AddField("score", ShooterInstance.score);
         form.AddField("balloons_popped", ShooterInstance.shotsHit);
         form.AddField("shot_accuracy", ShooterInstance.GetShotAccuracy().ToString());
-        form.AddField("boosts_used", 3);
+        form.AddField("boosts_used", PlaneControlInstance.boostCount);
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/insert", form)) {
             yield return www.SendWebRequest();
@@ -37,9 +37,6 @@ public class WebAPIAccess : MonoBehaviour {
         if (Input.GetKeyDown("m")) {
             StartCoroutine(Upload());
             //Upload();
-        }
-        if (Input.GetKeyDown("n")) {
-            Debug.Log(PlaneControlInstance.throttle);
         }
     }
 }

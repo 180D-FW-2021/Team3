@@ -40,6 +40,8 @@ public class PlaneControl : MonoBehaviour
 	// affected by pitch
 	public float airSpeed = 1f;
 
+	public int boostCount = 0;
+
 	// Start is called before the first frame update
 	async void Start()
 	{
@@ -114,8 +116,8 @@ public class PlaneControl : MonoBehaviour
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
 		//translates the game object based on the throttle  
-		goTransform.Translate(airSpeed * Vector3.forward * boost);
-		goTransform.Translate(airSpeed * Vector3.right * pitch / 90 * boost);
+		goTransform.Translate(airSpeed * Vector3.forward);
+		goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
 
 		//rotates the game object, based on horizontal input  
 		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
@@ -197,16 +199,18 @@ public class PlaneControl : MonoBehaviour
 					int numByte = clientSocket.Receive(bytes);
 					data = Encoding.ASCII.GetString(bytes, 0, numByte);
 					IMUData = data.Split(';');
+					Debug.Log(data);
 					foreach (var Reading in IMUData)
 					{
 						if (!String.IsNullOrEmpty(Reading))
 						{
-							Debug.Log(Reading);
+							//Debug.Log(Reading);
 							String[] IMUValues = Reading.Split(',');
 							roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
 							pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
 							if (IMUValues[2] == "1")
 							{
+								this.boostCount++;
 								this.airSpeed = 2f;
 							}
 						}
