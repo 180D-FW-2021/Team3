@@ -5,6 +5,8 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class PlaneControl : MonoBehaviour
 {
@@ -28,18 +30,25 @@ public class PlaneControl : MonoBehaviour
 	private float vertAxis = 0.0f;
 	private float acceleration = 0f;
 
+	public float roll;
+	public float pitch;
+
 	//the throttle  
 	public float throttle = 1f;
+	public float boost = 1f;
 
 	// affected by pitch
 	public float airSpeed = 1f;
 
+	public int boostCount = 0;
+
 	// Start is called before the first frame update
-	void Start()
+	async void Start()
 	{
 		gameObject.tag = "Plane";
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
+		await Task.Run(() => ReadIMU());
 	}
 
 
@@ -108,13 +117,18 @@ public class PlaneControl : MonoBehaviour
 
 		//translates the game object based on the throttle  
 		goTransform.Translate(airSpeed * Vector3.forward);
+		goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
 
 		//rotates the game object, based on horizontal input  
 		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
 		//Debug.Log(Vector3.up.ToString() + " " + Input.GetAxis("Horizontal").ToString());
         
-		goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
-		goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
+		//transform.rotation = Quaternion.Euler(45,90,90);
+		//Debug.Log(goTransform.eulerAngles.y);
+		transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 30, -1 * pitch);
+		//goTransform.Rotate(Vector3.right * pitch / 90);
+		//goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
+		//goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
 		setText("none");
 	}
 
@@ -157,6 +171,64 @@ public class PlaneControl : MonoBehaviour
 				print(err.ToString());
 			}
 		}
+	}
+
+	public void ReadIMU() 
+	{
+		IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 8081);
+
+		Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+		String[] IMUData;
+		try 
+		{
+			listener.Bind(localEndPoint);
+			listener.Listen(10);
+			while (true) 
+			{
+				Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
+				Socket clientSocket = listener.Accept();
+
+				byte[] bytes = new Byte[1024];
+				string data = null;
+
+				while (true)
+				{
+					int numByte = clientSocket.Receive(bytes);
+					data = Encoding.ASCII.GetString(bytes, 0, numByte);
+					IMUData = data.Split(';');
+					Debug.Log(data);
+					foreach (var Reading in IMUData)
+					{
+						if (!String.IsNullOrEmpty(Reading))
+						{
+							//Debug.Log(Reading);
+							String[] IMUValues = Reading.Split(',');
+							roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
+							pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
+							if (IMUValues[2] == "1")
+							{
+								this.boostCount++;
+								this.airSpeed = 2f;
+							}
+						}
+					}
+					//Debug.Log(data);
+				}
+				clientSocket.Shutdown(SocketShutdown.Both);
+				clientSocket.Close();
+			}
+		} 
+		catch (Exception e)
+		{
+			Debug.Log(e.ToString());
+		}
+	}
+
+	public void Service(CancellationToken token) {
+		
 	}
 
 	void setText(string text)
