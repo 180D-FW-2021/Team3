@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shooter : MonoBehaviour {
     public float damage = 100f;
@@ -15,6 +16,7 @@ public class Shooter : MonoBehaviour {
 
     // Allows access to shoot function 
     private static Shooter ShooterInstance;
+    [SerializeField] Text displayScore;
 	public static Shooter instance
 	{
 		get
@@ -38,6 +40,7 @@ public class Shooter : MonoBehaviour {
         if (Input.GetButtonDown("Fire1")) {
             Shoot();
         }
+        displayScore.text = "Score: " + score.ToString();
     }
 
     public void Shoot() {
