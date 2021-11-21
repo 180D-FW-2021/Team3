@@ -13,7 +13,7 @@ public class WebAPIAccess : MonoBehaviour {
         PlaneControlInstance = GetComponent<PlaneControl>();
     }
 
-    IEnumerator Upload() {
+    public IEnumerator Upload() {
         WWWForm form = new WWWForm();
         form.AddField("username", "Sparrow");
         form.AddField("score", ShooterInstance.score);
@@ -36,7 +36,6 @@ public class WebAPIAccess : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown("m")) {
             StartCoroutine(Upload());
-            //Upload();
         }
     }
 }

@@ -27,51 +27,52 @@ public class Bullet : MonoBehaviour
 	{
 		lastPosition = transform.position;
 		transform.position += transform.forward * speed * Time.deltaTime;
-		if (gameObject.active)
+		if (gameObject.activeInHierarchy)
 		{
 			CheckHit();
-		}
-	}
 
-	void CheckHit()
-	{
-		Ray ray = new Ray(lastPosition, fpsCam.transform.forward);
-		float dist = Vector3.Distance(lastPosition, transform.position);
-		if (Physics.RaycastNonAlloc(ray, hits, dist) > 0)
+		}
+
+		void CheckHit()
 		{
-			Target target = hits[0].transform.GetComponent<Target>();
-			if (target != null)
+			Ray ray = new Ray(lastPosition, fpsCam.transform.forward);
+			float dist = Vector3.Distance(lastPosition, transform.position);
+			if (Physics.RaycastNonAlloc(ray, hits, dist) > 0)
 			{
-				target.TakeDamage(damage);
-				Debug.Log(target.transform.name);
-				//this.shotsHit++;
-				switch (hits[0].transform.name)
+				Target target = hits[0].transform.GetComponent<Target>();
+				if (target != null)
 				{
-					case "Balloon1(Clone)":
-						ShooterInstance.score += 1;
-						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
-						break;
-					case "Balloon2(Clone)":
-						ShooterInstance.score += 2;
-						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
-						break;
-					case "Balloon3(Clone)":
-						ShooterInstance.score += 3;
-						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
-						break;
-					case "Balloon5(Clone)":
-						ShooterInstance.score += 5;
-						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
-						break;
-					case "Balloon10(Clone)":
-						ShooterInstance.score += 10;
-						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
-						break;
-					default:
-						break;
+					target.TakeDamage(damage);
+					Debug.Log(target.transform.name);
+					//this.shotsHit++;
+					switch (hits[0].transform.name)
+					{
+						case "Balloon1(Clone)":
+							ShooterInstance.score += 1;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						case "Balloon2(Clone)":
+							ShooterInstance.score += 2;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						case "Balloon3(Clone)":
+							ShooterInstance.score += 3;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						case "Balloon5(Clone)":
+							ShooterInstance.score += 5;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						case "Balloon10(Clone)":
+							ShooterInstance.score += 10;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						default:
+							break;
+					}
 				}
+				Destroy(gameObject);
 			}
-			Destroy(gameObject);
 		}
 	}
 }
