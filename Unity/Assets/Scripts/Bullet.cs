@@ -10,19 +10,16 @@ public class Bullet : MonoBehaviour
 	public Camera fpsCam;
 	public float speed = 500f;
 	public float damage = 100f;
-	public int score = 0;
-
-	private Camera mainCamera;
-	public Vector2 widthThreshold;
-	public Vector2 heightThreshold;
 
 	RaycastHit[] hits;
+
+	public GameObject hitParticleSystem;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		ShooterInstance = ShooterObject.GetComponent<Shooter>();
 		hits = new RaycastHit[1];
-		Destroy(gameObject, 20f);
 	}
 
 	// Update is called once per frame
@@ -52,18 +49,23 @@ public class Bullet : MonoBehaviour
 				{
 					case "Balloon1(Clone)":
 						ShooterInstance.score += 1;
+						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 						break;
 					case "Balloon2(Clone)":
 						ShooterInstance.score += 2;
+						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 						break;
 					case "Balloon3(Clone)":
 						ShooterInstance.score += 3;
+						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 						break;
 					case "Balloon5(Clone)":
 						ShooterInstance.score += 5;
+						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 						break;
 					case "Balloon10(Clone)":
 						ShooterInstance.score += 10;
+						Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 						break;
 					default:
 						break;

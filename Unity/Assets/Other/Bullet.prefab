@@ -158,3 +158,5 @@ MonoBehaviour:
   score: 0
   widthThreshold: {x: 0, y: 0}
   heightThreshold: {x: 0, y: 0}
+  hitParticleSystem: {fileID: 2177264716790443761, guid: b0fcee1e3fca842b08f67cef2d9762e5,
+    type: 3}

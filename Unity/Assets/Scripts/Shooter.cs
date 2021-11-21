@@ -47,6 +47,7 @@ public class Shooter : MonoBehaviour
 	{
 		this.shotsTaken++;
 		var bulletInstance = (GameObject)Instantiate(bullet, transform.position, transform.rotation);
+        Destroy(bulletInstance, 10f);
 	}
 
 	public double GetShotAccuracy()
