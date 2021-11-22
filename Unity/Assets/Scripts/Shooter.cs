@@ -40,14 +40,14 @@ public class Shooter : MonoBehaviour
 		{
 			Shoot();
 		}
-		displayScore.text = "Score: " + score.ToString();
+		displayScore.text = score.ToString() + " Points";
 	}
 
 	public void Shoot()
 	{
 		this.shotsTaken++;
 		var bulletInstance = (GameObject)Instantiate(bullet, transform.position, transform.rotation);
-        Destroy(bulletInstance, 10f);
+        Destroy(bulletInstance, 5f);
 	}
 
 	public double GetShotAccuracy()
