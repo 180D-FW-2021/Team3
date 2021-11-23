@@ -21,6 +21,9 @@ public class PlaneControl : MonoBehaviour
 	Thread receiveThread; // Receiving Thread
 	string ges = "";
 
+	public GameObject TimerObject;
+    public CountdownTimer TimerInstance;
+
 	//The game object's Transform  
 	private Transform goTransform;
 
@@ -42,6 +45,7 @@ public class PlaneControl : MonoBehaviour
 
 	public int boostCount = 0;
 	public int imuControl = 0;
+	public int imuDataReceived = 0;
 
 	// Start is called before the first frame update
 	async void Start()
@@ -49,6 +53,7 @@ public class PlaneControl : MonoBehaviour
 		gameObject.tag = "Plane";
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
+		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
 		await Task.Run(() => ReadIMU());
 	}
 
@@ -117,8 +122,7 @@ public class PlaneControl : MonoBehaviour
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
 		//translates the game object based on the throttle  
-		goTransform.Translate(airSpeed * Vector3.forward);
-		goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
+		
 
 		//rotates the game object, based on horizontal input  
 		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
@@ -126,15 +130,18 @@ public class PlaneControl : MonoBehaviour
         
 		//transform.rotation = Quaternion.Euler(45,90,90);
 		//Debug.Log(goTransform.eulerAngles.y);
-		if (imuControl == 1) 
+		if (imuDataReceived == 1) 
 		{
+			goTransform.Translate(airSpeed * Vector3.forward);
+			goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
 			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 30, -1 * pitch);
 		}
 		else
 		{
+			TimerInstance.timeLeft = 180;
 			//goTransform.Rotate(Vector3.right * pitch / 90);
-			goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
-			goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
+			///goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
+			///goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
 		}
 		setText("none");
 	}
@@ -207,6 +214,7 @@ public class PlaneControl : MonoBehaviour
 					int numByte = clientSocket.Receive(bytes);
 					data = Encoding.ASCII.GetString(bytes, 0, numByte);
 					IMUData = data.Split(';');
+					imuDataReceived = 1;
 					foreach (var Reading in IMUData)
 					{
 						if (!String.IsNullOrEmpty(Reading))
