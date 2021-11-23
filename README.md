@@ -43,9 +43,19 @@ Gesture Recognition
 - Open palm to shoot projectile
 
 Voice Commands
-> "Start Game"
+> "Start"
 
-> "Pause Game"
+> "Pause"
+
+> "Play"
+
+> "Pause"
+
+> "Resume"
+
+> "Restart"
+
+> "Quit"
 
 Keyboard Commands
 - W: Pitch up

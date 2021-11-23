@@ -49,22 +49,27 @@ public class Bullet : MonoBehaviour
 					{
 						case "Balloon1(Clone)":
 							ShooterInstance.score += 1;
+							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
 						case "Balloon2(Clone)":
 							ShooterInstance.score += 2;
+							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
 						case "Balloon3(Clone)":
 							ShooterInstance.score += 3;
+							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
 						case "Balloon5(Clone)":
 							ShooterInstance.score += 5;
+							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
 						case "Balloon10(Clone)":
 							ShooterInstance.score += 10;
+							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
 						default:

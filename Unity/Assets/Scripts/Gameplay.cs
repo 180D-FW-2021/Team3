@@ -7,12 +7,17 @@ public static class Gameplay
 {
 	public static bool isPaused = false;
 
+	public static void startGame()
+	{
+		SceneManager.LoadScene("Main Scene");
+	}
+
 	public static void pauseGame()
 	{
 		if (!isPaused)
 		{
-			Debug.Log("pause");
-			SceneManager.LoadScene("Menu Scene");
+			Debug.Log("Game Paused");
+			Time.timeScale = 0f;
 			isPaused = !isPaused;
 		}
 	}
@@ -21,8 +26,8 @@ public static class Gameplay
 	{
 		if (isPaused)
 		{
-			Debug.Log("resume");
-			SceneManager.LoadScene("Main Scene");
+			Debug.Log("Game Resume");
+			Time.timeScale = 1f;
 			isPaused = !isPaused;
 		}
 	}
@@ -30,5 +35,10 @@ public static class Gameplay
 	public static void quitGame()
 	{
 		Application.Quit();
+	}
+
+	public static void restartGame()
+	{
+		SceneManager.LoadScene("Menu Scene");
 	}
 }

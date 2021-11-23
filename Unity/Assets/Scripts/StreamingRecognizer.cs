@@ -281,25 +281,27 @@ public class StreamingRecognizer : MonoBehaviour
 			{
 				if (enableDebugLogging)
 				{
-					Debug.Log("Final: " + transcript);
+					Debug.Log(transcript);
 				}
 
 				switch (transcript.ToLower())
 				{
 					case "start":
-						break;
-					case "stop":
+						Gameplay.startGame();
 						break;
 					case "pause":
 						Gameplay.pauseGame();
 						break;
 					case "play":
-                    case "resume":
-                        Gameplay.resumeGame();
+					case "resume":
+						Gameplay.resumeGame();
 						break;
-                    case "quit":
-                        Gameplay.quitGame();
-                        break;
+					case "quit":
+						Gameplay.quitGame();
+						break;
+					case "restart":
+						Gameplay.restartGame();
+						break;
 				}
 
 				_isFinalEndTime = _resultEndTime;
