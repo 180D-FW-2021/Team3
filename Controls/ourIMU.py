@@ -16,7 +16,6 @@
 #    http://ozzmaker.com/
 
 
-
 import sys
 import time
 import math
@@ -40,8 +39,9 @@ MAG_MEDIANTABLESIZE = 9         # Median filter table size for magnetometer. Hig
 
 ################# Initialize Client #####################
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("192.168.1.15", 8080)) # Change the IP to the IP of the server
-
+#client.connect(("192.168.1.86", 8080)) # Change the IP to the IP of the server
+#client.connect(('172.18.144.1', 8081))
+client.connect(("192.168.1.86", 8081))
 
 ################# Compass Calibration values ############
 # Use calibrateBerryIMU.py to get calibration values
@@ -183,7 +183,7 @@ def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBu
     global boostDetectStart
     global lastBoost
     global boost
-    print(lastBoost)
+    #print(lastBoost)
     foundBoost = 0
     if all(value < boostThreshold for value in accBuffer) and boostDetectStart == 0:
         boostDetectStart = currentTime
@@ -223,7 +223,12 @@ def getDirectionFromRollPitch(roll, pitch, threshold):
 
 def getOutputString(roll, pitch, accX, accY, accZ, boost):
     #return f"{round(roll, 4)},{round(pitch, 4)},{round(accX, 4)},{round(accY, 4)},{round(accZ,4)},{boost};"
-    return f"{round(roll,4)},{round(pitch,4)},{boost};"
+    rollData = round(roll,4)
+    pitchData = round(pitch,4)
+    #dataOutput = F("{{rollData}},{{pitchData}},{{boost}}")
+    dataOutput = str(rollData) + "," + str(pitchData) + "," + str(boost)
+    return dataOutput
+    #return f"{round(roll,4)},{round(pitch,4)},{boost};"
 
 gyroXangle = 0.0
 gyroYangle = 0.0
@@ -471,8 +476,15 @@ while True:
 
     # Output Data
     outputString = getOutputString(roll, pitch, accXnorm, accYnorm, accZnorm, boost)
-    print(f"{outputString} {getDirectionFromRollPitch(roll, pitch, gyroThreshold)}")
-    client.send(outputString.encode())
+
+    directionFromRP = getDirectionFromRollPitch(roll,pitch, gyroThreshold)
+
+    #output = F("{{ outputString }} {{directionFromRP}}")
+    output = outputString + " " + directionFromRP + ";"
+    print(output)
+    #print(f"{outputString} {getDirectionFromRollPitch(roll, pitch, gyroThreshold)}")
+    #client.send(outputString.encode())
+    client.send(output.encode())
     #break
 
 if __name__ == "__main__":
