@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.25
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 984039097}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0.25}
+  m_IndirectSpecularColor: {r: 0.19824126, g: 0.2196444, b: 0.2560858, a: 0.25}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -506,6 +506,8 @@ MonoBehaviour:
   IP: 192.168.1.84
   rxPort: 8000
   txPort: 8001
+  TimerObject: {fileID: 1647500450}
+  TimerInstance: {fileID: 0}
   roll: 0
   pitch: 0
   throttle: 1
@@ -513,6 +515,7 @@ MonoBehaviour:
   airSpeed: 1
   boostCount: 0
   imuControl: 0
+  imuDataReceived: 0
 --- !u!114 &116129727
 MonoBehaviour:
   m_ObjectHideFlags: 0
