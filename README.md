@@ -23,7 +23,9 @@ git clone https://github.com/180D-FW-2021/Team3.git
 1. Download and Installl Unity Hub, get the [student version]((https://unity.com/products/unity-student)) if possible
 2. Inside Unity Hub -> Install Unity 2019.4.32f1 (LTS)
 3. In the Projects Tab -> Add -> Team3/Unity Directory
-In Unity -> Drag the `Main Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
+In Unity -> 
+4. Drag the `Main Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
+5. Drag the `Menu Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
    
 
 

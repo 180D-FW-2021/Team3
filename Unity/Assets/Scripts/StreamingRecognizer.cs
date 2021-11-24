@@ -302,6 +302,9 @@ public class StreamingRecognizer : MonoBehaviour
 					case "restart":
 						Gameplay.restartGame();
 						break;
+					case "options":
+						Gameplay.loadOptions();
+						break;
 				}
 
 				_isFinalEndTime = _resultEndTime;

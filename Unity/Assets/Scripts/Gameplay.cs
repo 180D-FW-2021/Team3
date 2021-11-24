@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class Gameplay
+public static class Gameplay 
 {
+	[SerializeField] static GameObject MainMenuContainer;
+	[SerializeField] static GameObject OptionsMenu;
 	public static bool isPaused = false;
 
 	public static void startGame()
@@ -40,5 +42,14 @@ public static class Gameplay
 	public static void restartGame()
 	{
 		SceneManager.LoadScene("Menu Scene");
+	}
+
+	public static void loadOptions()
+	{
+		Scene currentScene = SceneManager.GetActiveScene();
+		if (currentScene.name == "Menu Scene")
+		{
+			// TBD load objects
+		}
 	}
 }

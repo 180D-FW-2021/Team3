@@ -493,6 +493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168925440}
   - component: {fileID: 168925439}
+  - component: {fileID: 168925441}
   - component: {fileID: 168925438}
   m_Layer: 0
   m_Name: Speech Recognition 1
@@ -633,6 +634,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &168925441
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168925437}
+  m_Enabled: 1
 --- !u!1 &274212836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1068,7 @@ GameObject:
   - component: {fileID: 588273090}
   - component: {fileID: 588273089}
   - component: {fileID: 588273088}
+  - component: {fileID: 588273091}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -1128,8 +1138,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 588273091}
+        m_MethodName: startGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1235,6 +1245,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588273086}
   m_CullTransparentMesh: 0
+--- !u!114 &588273091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588273086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cef8471c6d144b98e104a371372879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &862793953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,6 +1269,7 @@ GameObject:
   - component: {fileID: 862793957}
   - component: {fileID: 862793956}
   - component: {fileID: 862793955}
+  - component: {fileID: 862793958}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -1316,7 +1339,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 862793958}
         m_MethodName: quitGame
         m_Mode: 1
         m_Arguments:
@@ -1423,6 +1446,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862793953}
   m_CullTransparentMesh: 0
+--- !u!114 &862793958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862793953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cef8471c6d144b98e104a371372879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &969072455
 GameObject:
   m_ObjectHideFlags: 0
