@@ -61,6 +61,9 @@ public class PlaneControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (Gameplay.isPaused) {
+			return;
+		}
 		// Gesture Controls
 		increment = 0.0f;
 		if (getText() == "thumbs up")

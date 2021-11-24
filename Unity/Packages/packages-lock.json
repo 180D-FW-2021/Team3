@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.oshoham.unity-google-cloud-streaming-speech-to-text": {
+      "version": "https://github.com/oshoham/UnityGoogleStreamingSpeechToText.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "80a4a38539ae47726ab011e3629aadede73000ed"
+    },
     "com.unity.cinemachine": {
       "version": "2.6.11",
       "depth": 0,

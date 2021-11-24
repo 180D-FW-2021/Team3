@@ -40,6 +40,6 @@ public class CountdownTimer : MonoBehaviour
 	{
 		float minutes = Mathf.FloorToInt(time / 60);
 		float seconds = Mathf.FloorToInt(time % 60);
-		displayTimer.text = minutes.ToString() + ":" + seconds.ToString() + "  left";
+		displayTimer.text = string.Format("{0:0}:{1:00}", minutes, seconds) + " left";
 	}
 }
