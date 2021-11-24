@@ -14,5 +14,6 @@ public class ButtonHandler : MonoBehaviour
 	public void quitGame()
 	{
 		Application.Quit();
+		UnityEditor.EditorApplication.isPlaying = false;
 	}
 }

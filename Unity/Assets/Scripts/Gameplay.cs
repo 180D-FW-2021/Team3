@@ -37,6 +37,7 @@ public static class Gameplay
 	public static void quitGame()
 	{
 		Application.Quit();
+		UnityEditor.EditorApplication.isPlaying = false;
 	}
 
 	public static void restartGame()
