@@ -41,7 +41,10 @@ MAG_MEDIANTABLESIZE = 9         # Median filter table size for magnetometer. Hig
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #client.connect(("192.168.1.86", 8080)) # Change the IP to the IP of the server
 #client.connect(('172.18.144.1', 8081))
-client.connect(("192.168.1.86", 8081))
+#client.connect(("192.168.1.86", 8081))
+ipAddress = sys.argv[1]
+#client.connect(("172.20.10.2", 8081))
+client.connect((ipAddress, 8081))
 
 ################# Compass Calibration values ############
 # Use calibrateBerryIMU.py to get calibration values
