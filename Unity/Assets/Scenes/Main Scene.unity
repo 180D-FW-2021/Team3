@@ -503,9 +503,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTxStarted: 0
-  IP: 192.168.1.84
+  IP: 192.168.1.86
   rxPort: 8000
   txPort: 8001
+  TimerObject: {fileID: 1647500450}
+  TimerInstance: {fileID: 0}
   roll: 0
   pitch: 0
   throttle: 1
@@ -513,6 +515,7 @@ MonoBehaviour:
   airSpeed: 1
   boostCount: 0
   imuControl: 0
+  imuDataReceived: 0
 --- !u!114 &116129727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,7 +1032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37.2, y: -110.8}
+  m_AnchoredPosition: {x: -37.19995, y: -110.79999}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &426269110
@@ -3023,7 +3026,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37.2, y: -50.6}
+  m_AnchoredPosition: {x: -37.19995, y: -50.599976}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647500452
