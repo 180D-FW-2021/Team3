@@ -7,11 +7,10 @@ using System.Threading;
 using System.Linq;
 using UnityEngine;
 
-/*
-public class IPAddress : MonoBehaviour
+public class GetIPAddress : MonoBehaviour
 {
-	public string output = "0.0.0.0";
-	//public Text myText;
+    // Start is called before the first frame update
+    public string output = "0.0.0.0";
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +18,6 @@ public class IPAddress : MonoBehaviour
     	IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
     	IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
     	output = ipAddr.MapToIPv4().ToString();
-    	//myText.text = output;
     }
 
     // Update is called once per frame
@@ -28,4 +26,3 @@ public class IPAddress : MonoBehaviour
         
     }
 }
-*/

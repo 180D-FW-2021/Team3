@@ -140,7 +140,7 @@ public class PlaneControl : MonoBehaviour
 		{
 			goTransform.Translate(airSpeed * Vector3.forward);
 			goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
-			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 30, -1 * pitch);
+			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 45, -1 * pitch);
 		}
 		else
 		{
