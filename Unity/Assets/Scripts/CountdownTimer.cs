@@ -11,6 +11,7 @@ public class CountdownTimer : MonoBehaviour
 	private bool updated = false;
 	[SerializeField] Text displayTimer;
 
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -26,12 +27,14 @@ public class CountdownTimer : MonoBehaviour
 		}
 		else
 		{
+			FindObjectOfType<GameEnd>().EndGame();
 			timeLeft = 0;
 			if (!updated)
 			{
 				StartCoroutine(WebAPIAccessInstance.Upload());
 				updated = true;
 			}
+			
 		}
 		DisplayTime(timeLeft);
 	}

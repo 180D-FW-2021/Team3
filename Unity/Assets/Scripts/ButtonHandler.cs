@@ -16,4 +16,9 @@ public class ButtonHandler : MonoBehaviour
 		Application.Quit();
 		UnityEditor.EditorApplication.isPlaying = false;
 	}
+
+	public void goToMainMenu()
+	{
+		SceneManager.LoadScene("Menu Scene");
+	}
 }
