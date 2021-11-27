@@ -1,6 +1,5 @@
 # https://techvidvan.com/tutorials/hand-gesture-recognition-tensorflow-opencv/
 # TechVidvan hand Gesture Recognizer
-# Two-way communication between Python 3 and Unity (C#) - Y. T. Elashry
 
 # import necessary packages
 import UdpComms as U
@@ -28,8 +27,8 @@ print(classNames)
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)
-sock = U.UdpComms(udpIP="0.0.0.0", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)   #change IP address 
-
+sock = U.UdpComms(udpIP="131.179.18.71", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
+i = 0
 
 while True:
     # Read each frame from the webcam
@@ -72,15 +71,15 @@ while True:
                     if (classID == 2 or classID == 3 or classID == 5 or classID == 7):
                         cv2.putText(frame, className, (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv2.LINE_AA)
                         print(className)
-                        sock.SendData('Sent from Python: ' + className) # Send this string to other application
-                    
+                        sock.SendData(className) # Send this string to other application
+                        i += 1
 
                         data = sock.ReadReceivedData() # read data
 
-                        if data != None: 
-                            print(data) 
+                        if data != None: # if NEW data has been received since last ReadReceivedData function call
+                            print(data) # print new received data
 
-                        time.sleep(0.1) # print data
+                        time.sleep(0.1)
 
     
 

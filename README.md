@@ -29,6 +29,18 @@ In Unity ->
    
 
 
+## IMU Plane Control
+1. Go to the Controls Directory
+```
+cd Controls
+```
+2. Run the game on Unity and get the IP Address from the Unity console
+
+3. Run 'ourIMU.py' file with the IP Address from part 2 as an argument
+```
+python2 ourIMU.py 'IP Address'
+```
+
 ## Gesture Recognition
 1. Install the prerequisites
 ```

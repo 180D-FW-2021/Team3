@@ -53,8 +53,11 @@ public class PlaneControl : MonoBehaviour
 		gameObject.tag = "Plane";
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
+		Debug.Log("is timer the problem");
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
+		Debug.Log("Hello");
 		await Task.Run(() => ReadIMU());
+		Debug.Log("I am running");
 	}
 
 
@@ -137,7 +140,7 @@ public class PlaneControl : MonoBehaviour
 		{
 			goTransform.Translate(airSpeed * Vector3.forward);
 			goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
-			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 30, -1 * pitch);
+			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 45, -1 * pitch);
 		}
 		else
 		{
@@ -194,7 +197,13 @@ public class PlaneControl : MonoBehaviour
 	{
 		IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-        IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 8081);
+		IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 8081);
+		//IP = "192.168.1.86";
+		//Debug.Log(ipAddr);
+						Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
+
+
+		//IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse(IP), 8081);
 
 		Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
