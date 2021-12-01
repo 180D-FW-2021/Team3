@@ -22,7 +22,7 @@ public class PlaneControl : MonoBehaviour
 	string ges = "";
 
 	public GameObject TimerObject;
-    public CountdownTimer TimerInstance;
+	public CountdownTimer TimerInstance;
 
 	//The game object's Transform  
 	private Transform goTransform;
@@ -53,18 +53,16 @@ public class PlaneControl : MonoBehaviour
 		gameObject.tag = "Plane";
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
-		Debug.Log("is timer the problem");
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
-		Debug.Log("Hello");
 		await Task.Run(() => ReadIMU());
-		Debug.Log("I am running");
 	}
 
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (Gameplay.isPaused) {
+		if (Gameplay.isPaused)
+		{
 			return;
 		}
 		// Gesture Controls
@@ -81,7 +79,7 @@ public class PlaneControl : MonoBehaviour
 			throttle = throttle + increment;
 			setText("");
 		}
-		else if(getText() == "shoot")
+		else if (getText() == "shoot")
 		{
 			Shooter.instance.Shoot();
 			setText("");
@@ -127,27 +125,21 @@ public class PlaneControl : MonoBehaviour
 		airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
-		//translates the game object based on the throttle  
-		
-
-		//rotates the game object, based on horizontal input  
-		//goTransform.Rotate(-Vector3.forward * Input.GetAxis("Horizontal"));
-		//Debug.Log(Vector3.up.ToString() + " " + Input.GetAxis("Horizontal").ToString());
-        
-		//transform.rotation = Quaternion.Euler(45,90,90);
-		//Debug.Log(goTransform.eulerAngles.y);
-		if (imuDataReceived == 1) 
+		if (imuDataReceived == 1)
 		{
 			goTransform.Translate(airSpeed * Vector3.forward);
 			goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
 			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 45, -1 * pitch);
 		}
+		else if (Gameplay.keyboardMode)
+		{
+			goTransform.Translate(airSpeed * Vector3.forward);
+			goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal"));
+			goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
+		}
 		else
 		{
 			TimerInstance.timeLeft = 180;
-			//goTransform.Rotate(Vector3.right * pitch / 90);
-			///goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal")); //sideways
-			///goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
 		}
 		setText("none");
 	}
@@ -193,14 +185,14 @@ public class PlaneControl : MonoBehaviour
 		}
 	}
 
-	public void ReadIMU() 
+	public void ReadIMU()
 	{
 		IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+		IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
 		IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 8081);
 		//IP = "192.168.1.86";
 		//Debug.Log(ipAddr);
-						Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
+		Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
 
 
 		//IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse(IP), 8081);
@@ -208,11 +200,11 @@ public class PlaneControl : MonoBehaviour
 		Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
 		String[] IMUData;
-		try 
+		try
 		{
 			listener.Bind(localEndPoint);
 			listener.Listen(10);
-			while (true) 
+			while (true)
 			{
 				Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
 				Socket clientSocket = listener.Accept();
@@ -247,15 +239,16 @@ public class PlaneControl : MonoBehaviour
 				clientSocket.Shutdown(SocketShutdown.Both);
 				clientSocket.Close();
 			}
-		} 
+		}
 		catch (Exception e)
 		{
 			Debug.Log(e.ToString());
 		}
 	}
 
-	public void Service(CancellationToken token) {
-		
+	public void Service(CancellationToken token)
+	{
+
 	}
 
 	void setText(string text)

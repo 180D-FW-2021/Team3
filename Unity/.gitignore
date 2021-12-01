@@ -83,4 +83,4 @@ Temporary Items
 .apdisk
 
 #GCP Credentials
-.gcp_credentials.json
+Assets/StreamingAssets/gcp_credentials.json

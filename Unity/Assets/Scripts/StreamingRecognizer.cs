@@ -305,6 +305,9 @@ public class StreamingRecognizer : MonoBehaviour
 					case "options":
 						Gameplay.loadOptions();
 						break;
+					case "keyboard mode":
+						Gameplay.enableKeyboard();
+						break;
 				}
 
 				_isFinalEndTime = _resultEndTime;
