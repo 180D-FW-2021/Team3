@@ -200,6 +200,25 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: THR
+--- !u!1 &13253027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3161590181684939375, guid: a3b85ee7155343c0a5077c56fdbddf1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 430924918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &13253032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13253027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2000, y: 1, z: 2000}
+  m_Center: {x: 0, y: -2, z: 0}
 --- !u!1001 &64582774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,10 +606,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119a91365ca4841eea3f52c804f0d65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlaneObject: {fileID: 116129724}
+  PlaneInstance: {fileID: 0}
   ShooterObject: {fileID: 2107393473}
   ShooterInstance: {fileID: 0}
   hitParticleSystem: {fileID: 3854239353065907991, guid: b0fcee1e3fca842b08f67cef2d9762e5,
     type: 3}
+  TimerObject: {fileID: 1647500450}
+  TimerInstance: {fileID: 0}
   damage: 100
 --- !u!1 &173582385
 GameObject:
