@@ -65,5 +65,22 @@ public class ObjectCollision : MonoBehaviour
 		PlaneInstance.transform.position = new Vector3(0f, 100f, 0f);
 		PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+		TimerInstance.timeLeft -= 20;
+		StartCoroutine(ChangeColor());
+	}
+
+	private IEnumerator ChangeColor()
+	{
+		TimerObject.GetComponent<Text>().color = Color.red;
+		yield return new WaitForSeconds(0.5f);
+		TimerObject.GetComponent<Text>().color = Color.black;
+		yield return new WaitForSeconds(0.2f);
+		TimerObject.GetComponent<Text>().color = Color.red;
+		yield return new WaitForSeconds(0.5f);
+		TimerObject.GetComponent<Text>().color = Color.black;
+		yield return new WaitForSeconds(0.2f);
+		TimerObject.GetComponent<Text>().color = Color.red;
+		yield return new WaitForSeconds(1f);
+		TimerObject.GetComponent<Text>().color = Color.black;
 	}
 }
