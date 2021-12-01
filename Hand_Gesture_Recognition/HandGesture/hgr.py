@@ -27,7 +27,7 @@ print(classNames)
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)
-sock = U.UdpComms(udpIP="131.179.18.71", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
+sock = U.UdpComms(udpIP="192.168.50.126", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
 i = 0
 
 while True:

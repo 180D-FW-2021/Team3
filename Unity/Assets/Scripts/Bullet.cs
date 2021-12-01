@@ -44,7 +44,6 @@ public class Bullet : MonoBehaviour
 				{
 					target.TakeDamage(damage);
 					Debug.Log(target.transform.name);
-					//this.shotsHit++;
 					switch (hits[0].transform.name)
 					{
 						case "Balloon1(Clone)":
@@ -75,8 +74,8 @@ public class Bullet : MonoBehaviour
 						default:
 							break;
 					}
+					Destroy(gameObject);
 				}
-				Destroy(gameObject);
 			}
 		}
 	}

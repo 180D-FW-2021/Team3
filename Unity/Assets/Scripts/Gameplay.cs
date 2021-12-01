@@ -8,6 +8,7 @@ public static class Gameplay
 	[SerializeField] static GameObject MainMenuContainer;
 	[SerializeField] static GameObject OptionsMenu;
 	public static bool isPaused = false;
+	public static bool keyboardMode = false;
 
 	public static void startGame()
 	{
@@ -52,5 +53,10 @@ public static class Gameplay
 		{
 			// TBD load objects
 		}
+	}
+
+	public static void enableKeyboard()
+	{
+		keyboardMode = true;
 	}
 }

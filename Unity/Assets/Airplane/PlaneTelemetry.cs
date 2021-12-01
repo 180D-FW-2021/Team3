@@ -20,7 +20,7 @@ public class PlaneTelemetry : MonoBehaviour
         var planePosY = GameObject.Find("Plane").transform.position.y;
         throttle.text = (Math.Round(planeControl.throttle*50, 0)).ToString() + "%";
         speed.text = (Math.Round(planeControl.airSpeed*125, 0)).ToString()  +  " kph";
-        altitude.text = (Math.Round(planePosY - 47, 1)).ToString() + "m";
+        altitude.text = (Math.Round(planePosY - 47.7, 1)).ToString() + "m";
     }
 
     // Update is called once per frame
