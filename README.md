@@ -46,7 +46,7 @@ python2 ourIMU.py 'IP Address'
 ```
 pip3 install mediapipe 
 pip3 install --upgrade tensorflow    
-cd Hand_Gesture_Recognization/HandGesture 
+cd Hand_Gesture_Recognition/HandGesture 
 ```
 ---
 **NOTE: [If you're using an ARM M1 Mac**](https://gist.github.com/kevinwiranata/864682f6c1f195dbbc956b5497f178ff)
