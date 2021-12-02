@@ -5,18 +5,9 @@ using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour
 {
-	public GameObject WebAPIObject;
-	public WebAPIAccess WebAPIAccessInstance;
 	public float timeLeft = 180;
 	private bool updated = false;
 	[SerializeField] Text displayTimer;
-
-
-	// Start is called before the first frame update
-	void Start()
-	{
-		WebAPIAccessInstance = WebAPIObject.GetComponent<WebAPIAccess>();
-	}
 
 	// Update is called once per frame
 	void Update()
@@ -31,7 +22,6 @@ public class CountdownTimer : MonoBehaviour
 			timeLeft = 0;
 			if (!updated)
 			{
-				StartCoroutine(WebAPIAccessInstance.Upload());
 				updated = true;
 			}
 			

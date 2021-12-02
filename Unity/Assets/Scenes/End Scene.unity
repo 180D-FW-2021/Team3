@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 151423678}
   - component: {fileID: 151423677}
-  - component: {fileID: 151423676}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -139,14 +138,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &151423676
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151423675}
-  m_Enabled: 1
 --- !u!20 &151423677
 Camera:
   m_ObjectHideFlags: 0
@@ -853,8 +844,8 @@ GameObject:
   m_Component:
   - component: {fileID: 897463515}
   - component: {fileID: 897463514}
-  - component: {fileID: 897463516}
   - component: {fileID: 897463517}
+  - component: {fileID: 897463516}
   m_Layer: 0
   m_Name: GameEndObject
   m_TagString: Untagged
@@ -874,7 +865,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6726be874d8f33d4a8246f0d16d93106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: 
+  score: 0
+  balloons_popped: 0
+  shot_accuracy: 0
+  boosts_used: 0
 --- !u!4 &897463515
 Transform:
   m_ObjectHideFlags: 0
@@ -898,15 +892,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 897463513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009cedb171d9abe41a822282ac7674c4, type: 3}
+  m_Script: {fileID: 11500000, guid: a9409d636a52845e2a23402ce4b8cf01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask: 0
-  shotsTaken: 0
-  shotsHit: 0
   score: 0
-  bullet: {fileID: 0}
-  displayScore: {fileID: 1408619211}
+  display_score: {fileID: 1408619211}
 --- !u!114 &897463517
 MonoBehaviour:
   m_ObjectHideFlags: 0
