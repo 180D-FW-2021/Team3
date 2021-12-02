@@ -42,12 +42,16 @@ python2 ourIMU.py 'IP Address'
 ```
 
 ## Gesture Recognition
-1. Install the prerequisites
+1. Install the prerequisites (Use 3.6 <= Python <= 3.8 )
 ```
 pip3 install mediapipe 
 pip3 install --upgrade tensorflow    
 cd Hand_Gesture_Recognization/HandGesture 
 ```
+---
+**NOTE: [If you're using an ARM M1 Mac**](https://gist.github.com/kevinwiranata/864682f6c1f195dbbc956b5497f178ff)
+
+---
 2. Add your IP Address in `hgr.py` and `IP Script (Hierarchy)`
 ```
 vim hgr.py -> Add your IP Address in line 31 (udpIP="")
@@ -80,19 +84,24 @@ Gesture Recognition
 - Open palm to shoot projectile
 
 Voice Commands
-> "Start"
+> "Start" / "Play"
+- Starts the game when in Start Screen
 
 > "Pause"
-
-> "Play"
-
-> "Pause"
+- Pauses the game while playing
 
 > "Resume"
+- Resume the game if the current game is paused
 
 > "Restart"
+- "Takes you back to the Start Screen if currently in-game"
 
 > "Quit"
+- "Quits the game"
+
+> "Keyboard Mode"
+- Activates Keyboard Mode for the game, will default to IMU if an IMU is detected
+- Note: Game will not start until an IMU is detected, or until keyboard mode is activated
 
 
 Keyboard Commands
