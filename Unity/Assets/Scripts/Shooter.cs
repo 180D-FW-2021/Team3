@@ -26,6 +26,13 @@ public class Shooter : MonoBehaviour
 		}
 	}
 
+	void OnDisable()
+	{
+		PlayerPrefs.SetInt("score", score);
+		PlayerPrefs.SetInt("balloons_popped", shotsHit);
+		PlayerPrefs.SetFloat("shot_accuracy", GetShotAccuracy());
+	}
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -47,11 +54,11 @@ public class Shooter : MonoBehaviour
 	{
 		this.shotsTaken++;
 		var bulletInstance = (GameObject)Instantiate(bullet, transform.position, transform.rotation);
-        Destroy(bulletInstance, 5f);
+		Destroy(bulletInstance, 5f);
 	}
 
-	public double GetShotAccuracy()
+	public float GetShotAccuracy()
 	{
-		return (double)this.shotsHit / this.shotsTaken;
+		return (float)this.shotsHit / this.shotsTaken;
 	}
 }
