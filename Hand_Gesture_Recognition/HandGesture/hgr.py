@@ -29,7 +29,7 @@ print(classNames)
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)
-#ipAddress = sys.argv[1]
+
 def extract_ip():
 	st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	try:
