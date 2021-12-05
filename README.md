@@ -26,7 +26,7 @@ git clone https://github.com/180D-FW-2021/Team3.git
 In Unity -> 
 4. Drag the `Main Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
 5. Drag the `Menu Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
-   
+6. Drag the `End Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy   
 
 
 ## IMU Plane Control
@@ -39,6 +39,8 @@ cd Controls
 3. Run 'ourIMU.py' file with the IP Address from part 2 as an argument
 ```
 python2 ourIMU.py 'IP Address'
+or
+python3 ourIMU.py 'IP Address'
 ```
 
 ## Gesture Recognition
@@ -48,15 +50,8 @@ pip3 install mediapipe
 pip3 install --upgrade tensorflow    
 cd Hand_Gesture_Recognition/HandGesture 
 ```
----
 **NOTE: [If you're using an ARM M1 Mac**](https://gist.github.com/kevinwiranata/864682f6c1f195dbbc956b5497f178ff)
-
----
-2. Add your IP Address in `hgr.py` and `IP Script (Hierarchy)`
 ```
-vim hgr.py -> Add your IP Address in line 31 (udpIP="")
-In Unity Hierarchy -> Select Plane -> Add your IP Address to the IP Script (Inspector)
-
 python3 hgr.py 
 ```
 

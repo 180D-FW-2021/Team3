@@ -2,6 +2,8 @@
 # TechVidvan hand Gesture Recognizer
 
 # import necessary packages
+import socket
+import sys
 import UdpComms as U
 import time
 import cv2
@@ -27,7 +29,24 @@ print(classNames)
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)
-sock = U.UdpComms(udpIP="131.179.35.16", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
+
+def extract_ip():
+	st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	try:
+		st.connect(('10.255.255.255', 1))
+		IP = st.getsockname()[0]
+	except Exception:
+		IP = '127.0.0.1'
+	finally:
+		st.close()
+	return IP
+
+
+# sock = U.UdpComms(udpIP="192.168.50.126", portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
+
+ipAddress = extract_ip()
+
+sock = U.UdpComms(udpIP=ipAddress, portTX=8000, portRX=8001, enableRX=True, suppressWarnings=True)
 i = 0
 
 while True:
