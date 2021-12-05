@@ -284,31 +284,57 @@ public class StreamingRecognizer : MonoBehaviour
 					Debug.Log(transcript);
 				}
 
-				switch (transcript.ToLower())
+				// if (transcript.ToLower().Contains("start"))
+				// {
+				// 	Gameplay.startGame();
+				// }
+				if (transcript.Contains("pause"))
 				{
-					case "start":
-						Gameplay.startGame();
-						break;
-					case "pause":
-						Gameplay.pauseGame();
-						break;
-					case "play":
-					case "resume":
-						Gameplay.resumeGame();
-						break;
-					case "quit":
-						Gameplay.quitGame();
-						break;
-					case "restart":
-						Gameplay.restartGame();
-						break;
-					case "options":
-						Gameplay.loadOptions();
-						break;
-					case "keyboard mode":
-						Gameplay.enableKeyboard();
-						break;
+					Gameplay.pauseGame();
 				}
+				else if (transcript.Contains("resume"))
+				{
+					Gameplay.resumeGame();
+				}
+				// else if (transcript.ToLower().Contains("quit"))
+				// {
+				// 	Gameplay.quitGame();
+				// }
+				// else if (transcript.ToLower().Contains("restart"))
+				// {
+				// 	Gameplay.restartGame();
+				// }
+				// else if (transcript.ToLower().Contains("keyboard mode"))
+				// {
+				// 	Gameplay.enableKeyboard();
+				// }
+
+
+				// switch (transcript.ToLower())
+				// {
+				// 	case "start":
+				// 		Gameplay.startGame();
+				// 		break;
+				// 	case "pause":
+				// 		Gameplay.pauseGame();
+				// 		break;
+				// 	case "play":
+				// 	case "resume":
+				// 		Gameplay.resumeGame();
+				// 		break;
+				// 	case "quit":
+				// 		Gameplay.quitGame();
+				// 		break;
+				// 	case "restart":
+				// 		Gameplay.restartGame();
+				// 		break;
+				// 	case "options":
+				// 		Gameplay.loadOptions();
+				// 		break;
+				// 	case "keyboard mode":
+				// 		Gameplay.enableKeyboard();
+				// 		break;
+				// }
 
 				_isFinalEndTime = _resultEndTime;
 				onFinalResult.Invoke(transcript);

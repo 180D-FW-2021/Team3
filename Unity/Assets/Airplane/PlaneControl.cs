@@ -225,7 +225,6 @@ public class PlaneControl : MonoBehaviour
 						{
 							//Debug.Log(Reading);
 							String[] IMUValues = Reading.Split(',');
-							print(-1 * float.Parse(IMUValues[0]) / 4);
 							roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
 							pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
 							if (IMUValues[2] == "1")
