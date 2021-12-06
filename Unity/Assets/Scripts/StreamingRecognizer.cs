@@ -296,6 +296,10 @@ public class StreamingRecognizer : MonoBehaviour
 				{
 					Gameplay.resumeGame();
 				}
+				else if (transcript.Contains("keyboard mode"))
+				{
+					Gameplay.enableKeyboard();
+				}
 				// else if (transcript.ToLower().Contains("quit"))
 				// {
 				// 	Gameplay.quitGame();
@@ -303,10 +307,6 @@ public class StreamingRecognizer : MonoBehaviour
 				// else if (transcript.ToLower().Contains("restart"))
 				// {
 				// 	Gameplay.restartGame();
-				// }
-				// else if (transcript.ToLower().Contains("keyboard mode"))
-				// {
-				// 	Gameplay.enableKeyboard();
 				// }
 
 
