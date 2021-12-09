@@ -16,7 +16,6 @@ public class IMUReader : MonoBehaviour
     public int boostCount = 0;
 	public int imuControl = 0;
 	public int imuDataReceived = 0;
-    public int boost = 0;
 
     private TcpListener tcpListener;
     private TcpClient tcpClient;
@@ -25,20 +24,17 @@ public class IMUReader : MonoBehaviour
     public GameObject TimerObject;
 	public CountdownTimer TimerInstance;
 
+    public PlaneControl PlaneControlInstance;
+
     // Start is called before the first frame update
     void Start()
     {
         //DontDestroyOnLoad(this.gameObject);
         TimerInstance = TimerObject.GetComponent<CountdownTimer>();
+        PlaneControlInstance = this.GetComponent<PlaneControl>();
         IMUThread = new Thread(new ThreadStart(ReadIMU));
 		IMUThread.IsBackground = true;
 		IMUThread.Start();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void ReadIMU()
@@ -73,12 +69,12 @@ public class IMUReader : MonoBehaviour
                                 {
                                     String[] IMUValues = Reading.Split(',');
                                     roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
-                                    //Debug.Log(roll);
                                     pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
-                                    if (IMUValues[2] == "1")
+                                    if (IMUValues[2][0] == '1')
                                     {
+                                        Debug.Log("Here");
                                         this.boostCount++;
-                                        //this.airSpeed = 2f;
+                                        PlaneControlInstance.boost = 10f;
                                     }
                                 }
                             }
