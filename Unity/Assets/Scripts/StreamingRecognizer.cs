@@ -284,10 +284,10 @@ public class StreamingRecognizer : MonoBehaviour
 					Debug.Log(transcript);
 				}
 
-				// if (transcript.ToLower().Contains("start"))
-				// {
-				// 	Gameplay.startGame();
-				// }
+				if (transcript.ToLower().Contains("start"))
+				{
+				 	Gameplay.startGame();
+				}
 				if (transcript.Contains("pause"))
 				{
 					Gameplay.pauseGame();
@@ -300,10 +300,10 @@ public class StreamingRecognizer : MonoBehaviour
 				{
 					Gameplay.enableKeyboard();
 				}
-				// else if (transcript.ToLower().Contains("quit"))
-				// {
-				// 	Gameplay.quitGame();
-				// }
+				else if (transcript.ToLower().Contains("quit"))
+				{
+					Gameplay.quitGame();
+				}
 				// else if (transcript.ToLower().Contains("restart"))
 				// {
 				// 	Gameplay.restartGame();

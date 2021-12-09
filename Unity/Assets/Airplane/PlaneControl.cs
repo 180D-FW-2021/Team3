@@ -24,6 +24,8 @@ public class PlaneControl : MonoBehaviour
 	public GameObject TimerObject;
 	public CountdownTimer TimerInstance;
 
+	public IMUReader IMUReaderInstance;
+
 	//The game object's Transform  
 	private Transform goTransform;
 
@@ -38,7 +40,8 @@ public class PlaneControl : MonoBehaviour
 
 	//the throttle  
 	public float throttle = 1f;
-	public float boost = 1f;
+	public float boost = 0;
+	public int boostFrames = 0;
 
 	// affected by pitch
 	public float airSpeed = 1f;
@@ -48,23 +51,41 @@ public class PlaneControl : MonoBehaviour
 	public int imuDataReceived = 0;
 
 	// Start is called before the first frame update
-	async void Start()
+	void Start()
 	{
 		gameObject.tag = "Plane";
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
-		await Task.Run(() => ReadIMU());
+		IMUReaderInstance = this.GetComponent<IMUReader>();
+		//await Task.Run(() => ReadIMU());
 	}
 
 
 	// Update is called once per frame
 	void Update()
 	{
+		roll = IMUReaderInstance.roll;
+		pitch = IMUReaderInstance.pitch;
+		boostCount = IMUReaderInstance.boostCount;
+		imuControl = IMUReaderInstance.imuControl;
+		imuDataReceived = IMUReaderInstance.imuDataReceived;
+
+		if (boost != 0) 
+		{
+			boostFrames++;
+		}
+		if (boostFrames > 50)
+		{
+			boostFrames = 0;
+			boost = 0;
+		}
+
 		if (Gameplay.isPaused)
 		{
 			return;
 		}
+
 		// Gesture Controls
 		increment = 0.0f;
 		if (getText() == "thumbs up")
@@ -128,6 +149,10 @@ public class PlaneControl : MonoBehaviour
 		if (imuDataReceived == 1)
 		{
 			goTransform.Translate(airSpeed * Vector3.forward);
+			if (boostFrames > 0)
+			{
+				goTransform.Translate(boost * Vector3.forward);
+			}
 			goTransform.Translate(airSpeed * Vector3.right * pitch / 90);
 			transform.rotation = Quaternion.Euler(-1 * roll, goTransform.eulerAngles.y + pitch / 45, -1 * pitch);
 		}
@@ -183,72 +208,6 @@ public class PlaneControl : MonoBehaviour
 				print(err.ToString());
 			}
 		}
-	}
-
-	public void ReadIMU()
-	{
-		IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-		IPAddress ipAddr = ipHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-		IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 8081);
-		//IP = "192.168.1.86";
-		//Debug.Log(ipAddr);
-		Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
-
-
-		//IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse(IP), 8081);
-
-		Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-		String[] IMUData;
-		try
-		{
-			listener.Bind(localEndPoint);
-			listener.Listen(10);
-			while (true)
-			{
-				Debug.Log("Waiting for a connection... host:" + ipAddr.MapToIPv4().ToString());
-				Socket clientSocket = listener.Accept();
-				imuControl = 1;
-
-				byte[] bytes = new Byte[1024];
-				string data = null;
-
-				while (true)
-				{
-					int numByte = clientSocket.Receive(bytes);
-					data = Encoding.ASCII.GetString(bytes, 0, numByte);
-					IMUData = data.Split(';');
-					imuDataReceived = 1;
-					foreach (var Reading in IMUData)
-					{
-						if (!String.IsNullOrEmpty(Reading))
-						{
-							//Debug.Log(Reading);
-							String[] IMUValues = Reading.Split(',');
-							roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
-							pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
-							if (IMUValues[2] == "1")
-							{
-								this.boostCount++;
-								this.airSpeed = 2f;
-							}
-						}
-					}
-					//Debug.Log(data);
-				}
-				clientSocket.Shutdown(SocketShutdown.Both);
-				clientSocket.Close();
-			}
-		}
-		catch (Exception e)
-		{
-			Debug.Log(e.ToString());
-		}
-	}
-
-	public void Service(CancellationToken token)
-	{
-
 	}
 
 	void setText(string text)
