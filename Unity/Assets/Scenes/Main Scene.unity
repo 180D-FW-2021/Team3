@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.25
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 984039097}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0.25}
+  m_IndirectSpecularColor: {r: 0.19805709, g: 0.2195459, b: 0.25603554, a: 0.25}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -527,6 +527,7 @@ MonoBehaviour:
   txPort: 8001
   TimerObject: {fileID: 1647500450}
   TimerInstance: {fileID: 0}
+  IMUReaderInstance: {fileID: 0}
   roll: 0
   pitch: 0
   throttle: 1
@@ -566,6 +567,26 @@ MonoBehaviour:
   throttle: {fileID: 2065347045}
   speed: {fileID: 1792598517}
   altitude: {fileID: 2142886894}
+--- !u!114 &116129728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116129724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1f0c31d17a11046bd2315756d41fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roll: 0
+  pitch: 0
+  boostCount: 0
+  imuControl: 0
+  imuDataReceived: 0
+  boost: 0
+  TimerObject: {fileID: 1647500450}
+  TimerInstance: {fileID: 0}
 --- !u!65 &116129729
 BoxCollider:
   m_ObjectHideFlags: 0

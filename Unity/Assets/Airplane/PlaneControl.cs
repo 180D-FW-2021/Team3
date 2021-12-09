@@ -24,6 +24,8 @@ public class PlaneControl : MonoBehaviour
 	public GameObject TimerObject;
 	public CountdownTimer TimerInstance;
 
+	public IMUReader IMUReaderInstance;
+
 	//The game object's Transform  
 	private Transform goTransform;
 
@@ -54,13 +56,19 @@ public class PlaneControl : MonoBehaviour
 		//get this game object's Transform  
 		goTransform = this.GetComponent<Transform>();
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
-		await Task.Run(() => ReadIMU());
+		IMUReaderInstance = this.GetComponent<IMUReader>();
+		//await Task.Run(() => ReadIMU());
 	}
 
 
 	// Update is called once per frame
 	void Update()
 	{
+		roll = IMUReaderInstance.roll;
+		pitch = IMUReaderInstance.pitch;
+		boostCount = IMUReaderInstance.boostCount;
+		imuControl = IMUReaderInstance.imuControl;
+		imuDataReceived = IMUReaderInstance.imuDataReceived;
 		if (Gameplay.isPaused)
 		{
 			return;
