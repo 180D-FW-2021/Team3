@@ -64,7 +64,6 @@ public class IMUReader : MonoBehaviour
                             imuData = serverMessage.Split(';');
                             foreach (var Reading in imuData)
                             {
-                                Debug.Log(Reading);
                                 if (!String.IsNullOrEmpty(Reading))
                                 {
                                     String[] IMUValues = Reading.Split(',');
@@ -72,7 +71,6 @@ public class IMUReader : MonoBehaviour
                                     pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
                                     if (IMUValues[2][0] == '1')
                                     {
-                                        Debug.Log("Here");
                                         this.boostCount++;
                                         PlaneControlInstance.boost = 10f;
                                     }
