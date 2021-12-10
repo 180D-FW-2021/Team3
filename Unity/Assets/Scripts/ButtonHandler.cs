@@ -8,7 +8,8 @@ public class ButtonHandler : MonoBehaviour
 	// Start is called before the first frame update
 	public void startGame()
 	{
-		SceneManager.LoadSceneAsync("Main Scene");
+		Gameplay.startGame();
+		//SceneManager.LoadSceneAsync("Main Scene");
 	}
 
 	public void quitGame()
