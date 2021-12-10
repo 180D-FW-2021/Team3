@@ -64,6 +64,9 @@ public class StreamingRecognizer : MonoBehaviour
 	private const float MicInitializationTimeout = 1;
 	private const int StreamingLimit = 290000; // almost 5 minutes
 
+	public GameObject buttonObject;
+	public ButtonHandler buttonHandler;
+
 	public void StartListening()
 	{
 		if (!_initialized)
@@ -72,6 +75,11 @@ public class StreamingRecognizer : MonoBehaviour
 		}
 
 		StartCoroutine(nameof(RequestMicrophoneAuthorizationAndStartListening));
+	}
+
+	public void Start()
+	{
+		buttonHandler = buttonObject.GetComponent<ButtonHandler>();
 	}
 
 	public async void StopListening()
@@ -286,7 +294,8 @@ public class StreamingRecognizer : MonoBehaviour
 
 				if (transcript.ToLower().Contains("start"))
 				{
-				 	Gameplay.startGame();
+				 	//Gameplay.startGame();
+					buttonHandler.startGame();
 				}
 				if (transcript.Contains("pause"))
 				{

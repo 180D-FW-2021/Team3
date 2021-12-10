@@ -13,6 +13,7 @@ public static class Gameplay
 
 	public static void startGame()
 	{
+		scene = ButtonHandler.sceneName;
 		SceneManager.LoadSceneAsync(scene);
 	}
 
