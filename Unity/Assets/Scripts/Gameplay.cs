@@ -9,10 +9,12 @@ public static class Gameplay
 	[SerializeField] static GameObject OptionsMenu;
 	public static bool isPaused = false;
 	public static bool keyboardMode = false;
+	public static string scene = "Main Scene";
 
 	public static void startGame()
 	{
-		SceneManager.LoadScene("Main Scene");
+		scene = ButtonHandler.sceneName;
+		SceneManager.LoadSceneAsync(scene);
 	}
 
 	public static void pauseGame()
