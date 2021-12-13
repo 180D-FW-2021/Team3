@@ -525,6 +525,8 @@ MonoBehaviour:
   _microphoneName: 
   buttonObject: {fileID: 986370957}
   buttonHandler: {fileID: 0}
+  mapSelectObject: {fileID: 1102473046}
+  mapSelector: {fileID: 0}
 --- !u!82 &168925439
 AudioSource:
   m_ObjectHideFlags: 0
