@@ -74,6 +74,11 @@ public class ButtonHandler : MonoBehaviour
 		}
 	}
 
+	public void openLeaderboard()
+	{
+		Application.OpenURL("https://aeroplay.online");
+	}
+
 	public void quitGame()
 	{
 		Application.Quit();
