@@ -319,6 +319,10 @@ public class StreamingRecognizer : MonoBehaviour
 				{
 					mapSelector.value = Mathf.Abs(mapSelector.value - 1);
 				}
+				else if (transcript.Contains("main menu"))
+				{
+					Gameplay.restartGame();
+				}
 				else if (transcript.ToLower().Contains("quit"))
 				{
 					Gameplay.quitGame();

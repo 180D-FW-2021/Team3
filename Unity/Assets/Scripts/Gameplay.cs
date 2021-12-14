@@ -45,7 +45,7 @@ public static class Gameplay
 
 	public static void restartGame()
 	{
-		SceneManager.LoadScene("Menu Scene");
+		SceneManager.LoadSceneAsync("Menu Scene");
 	}
 
 	public static void loadOptions()
