@@ -6,6 +6,7 @@ public class MenuBalloon : MonoBehaviour
 {
     public float index = 0f;
     public float deltaHeight;
+    public float modifier;
     private RectTransform location;
 
     // Start is called before the first frame update
@@ -19,7 +20,7 @@ public class MenuBalloon : MonoBehaviour
     void Update()
     {
         index += Time.deltaTime;
-        float y = .02f * deltaHeight * Mathf.Sin(index);
+        float y = modifier * deltaHeight * Mathf.Sin(index);
         location.anchoredPosition = new Vector2(location.anchoredPosition.x, location.anchoredPosition.y + y);
     }
 }
