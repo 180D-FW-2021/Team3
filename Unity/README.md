@@ -1,7 +1,7 @@
 # Aeroplay Unity
 ### High-Level Overview
 
-This Unity App is the foundation of the entire game, where all the IMU, gesture and voice controls will pool into to control a virtual plane. 
+This Unity App is the foundation of the entire game, where all the IMU, gesture and voice controls will pool into to control a virtual plane. We chose this game to run on `Unity 2019.4.32f1 (LTS)` as we had compatability issues with Unity 2020 on macOS.
 
 ### Gameplay Rules
 - Once the player is in the `Main Scene`, the game will officially start when either an IMU has been detected and sucesfully connected, or when the player enables `keyboard mode`.
