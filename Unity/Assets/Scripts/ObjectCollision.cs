@@ -12,6 +12,7 @@ public class ObjectCollision : MonoBehaviour
 	public GameObject hitParticleSystem;
 	public GameObject TimerObject;
 	public CountdownTimer TimerInstance;
+	public Color originalColor;
 	public float damage = 100f;
 
 
@@ -20,6 +21,7 @@ public class ObjectCollision : MonoBehaviour
 		ShooterInstance = ShooterObject.GetComponent<Shooter>();
 		PlaneInstance = PlaneObject.GetComponent<PlaneControl>();
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
+		originalColor = TimerObject.GetComponent<Text>().color;
 	}
 
 	// Balloon Collision
@@ -54,6 +56,11 @@ public class ObjectCollision : MonoBehaviour
 				ShooterInstance.shotsHit += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
+			case "Default.007":
+				ShooterInstance.score += 9;
+				ShooterInstance.shotsHit += 1;
+				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
+				break;
 			default:
 				break;
 		}
@@ -71,16 +78,17 @@ public class ObjectCollision : MonoBehaviour
 
 	private IEnumerator ChangeColor()
 	{
+		Debug.Log(originalColor);
 		TimerObject.GetComponent<Text>().color = Color.red;
 		yield return new WaitForSeconds(0.5f);
-		TimerObject.GetComponent<Text>().color = Color.black;
+		TimerObject.GetComponent<Text>().color = originalColor;
 		yield return new WaitForSeconds(0.2f);
 		TimerObject.GetComponent<Text>().color = Color.red;
 		yield return new WaitForSeconds(0.5f);
-		TimerObject.GetComponent<Text>().color = Color.black;
+		TimerObject.GetComponent<Text>().color = originalColor;
 		yield return new WaitForSeconds(0.2f);
 		TimerObject.GetComponent<Text>().color = Color.red;
 		yield return new WaitForSeconds(1f);
-		TimerObject.GetComponent<Text>().color = Color.black;
+		TimerObject.GetComponent<Text>().color = originalColor;
 	}
 }

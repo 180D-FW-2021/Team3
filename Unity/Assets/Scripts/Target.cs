@@ -6,6 +6,10 @@ public class Target : MonoBehaviour
     public float index = 0f;
     public float health = 1f;
     public float deltaHeight = .5f;
+    public int isBobbing;
+    public int isWindAffected;
+    public MeshRenderer rend;
+
     public void TakeDamage(float amount) 
     {
         health -= amount;
@@ -17,12 +21,29 @@ public class Target : MonoBehaviour
 
     void Die() 
     {
-        Destroy(gameObject);
+        AudioSource audio = GetComponent<AudioSource>();
+        if (audio)
+        {
+            audio.Play();
+        }
+        if (rend) //heart edge case
+        {
+            rend.enabled = false;
+            MeshCollider meshCollider = GetComponent<MeshCollider>();
+            meshCollider.enabled = false;
+        }
+        else
+        {
+            SphereCollider sphereCollider = GetComponent<SphereCollider>();
+            sphereCollider.enabled = false;
+        }
+        Destroy(gameObject, audio.clip.length);
     }
 
     public void Start()
     {
         index = UnityEngine.Random.Range(0f, 6.28f);
+        rend = GetComponent<MeshRenderer>();
     }
 
     public float GetWindModifier()
@@ -47,7 +68,7 @@ public class Target : MonoBehaviour
     public void Update() 
     {
         index += Time.deltaTime;
-        float y = deltaHeight * Mathf.Sin(index);
-        transform.localPosition = this.transform.position + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier();
+        float y = deltaHeight * Mathf.Sin(index) * isBobbing;
+        transform.localPosition = this.transform.localPosition + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier() * isWindAffected;
     }
 }

@@ -23,6 +23,8 @@ Stylized Swamp Pack: https://assetstore.unity.com/packages/3d/environments/lands
 Stones and Buried Treasure: https://assetstore.unity.com/packages/3d/environments/fantasy/stones-and-buried-treasure-95557
 Raft On The Desert: https://assetstore.unity.com/packages/3d/environments/free-low-poly-raft-on-the-desert-141948
 Simple Skull: https://sketchfab.com/3d-models/simple-skull-cba160e50086468cba3b44e04f5a5c8b
+Polygonal Low-Poly Particle Pack: https://assetstore.unity.com/packages/vfx/particles/polygonal-s-low-poly-particle-pack-118355
+Sound Effects: https://www.epidemicsound.com/sound-effects/
 
 Low Poly Terrain: Custom
 Low Poly Rail Bridge: Custom

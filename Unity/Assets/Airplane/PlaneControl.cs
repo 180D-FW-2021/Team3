@@ -26,6 +26,8 @@ public class PlaneControl : MonoBehaviour
 
 	public IMUReader IMUReaderInstance;
 
+	public AudioSource audio;
+
 	//The game object's Transform  
 	private Transform goTransform;
 
@@ -58,6 +60,7 @@ public class PlaneControl : MonoBehaviour
 		goTransform = this.GetComponent<Transform>();
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
 		IMUReaderInstance = this.GetComponent<IMUReader>();
+		audio = GetComponent<AudioSource>();
 		//await Task.Run(() => ReadIMU());
 	}
 
@@ -145,6 +148,8 @@ public class PlaneControl : MonoBehaviour
 		// clamp with pitch gravity
 		airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
+
+		audio.volume = throttle / 1f * .03f;
 
 		if (imuDataReceived == 1)
 		{

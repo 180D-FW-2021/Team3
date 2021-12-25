@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End Scene.unity
     guid: 28ce5fb312833ec458139c6f4be2228e
+  - enabled: 1
+    path: Assets/Scenes/LowPolyScene.unity
+    guid: 68c5d22130a642b4d8dddb2e31da66cf
   m_configObjects: {}

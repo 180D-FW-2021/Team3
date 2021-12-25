@@ -54,6 +54,8 @@ public class Shooter : MonoBehaviour
 	{
 		this.shotsTaken++;
 		var bulletInstance = (GameObject)Instantiate(bullet, transform.position, transform.rotation);
+		AudioSource audio = GetComponent<AudioSource>();
+		audio.Play();
 		Destroy(bulletInstance, 5f);
 	}
 
