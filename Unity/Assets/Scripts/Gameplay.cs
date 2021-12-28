@@ -11,7 +11,7 @@ public static class Gameplay
 	public static bool keyboardMode = true;
 	public static string scene = "Main Scene";
 
-	public static void startGame()
+	public static void startGame() // not used
 	{
 		scene = ButtonHandler.sceneName;
 		SceneManager.LoadSceneAsync(scene);

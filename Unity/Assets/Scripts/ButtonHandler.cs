@@ -36,6 +36,7 @@ public class ButtonHandler : MonoBehaviour
 	public void startGame()
 	{
 		sceneName = GetSceneName(sceneToggle.value);
+		Gameplay.scene = sceneName;
 		StartCoroutine(loadScene(sceneName));
 		//Gameplay.startGame();
 		//SceneManager.LoadSceneAsync("Main Scene");

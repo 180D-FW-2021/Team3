@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/api/get", (req, res) => {
-    const sql_select_all = "SELECT * FROM game_data ORDER BY score DESC, shot_accuracy DESC, balloons_popped DESC, boosts_used ASC, username ASC";
+    const sql_select_all = "SELECT * FROM game_data ORDER BY score DESC, shot_accuracy DESC, balloons_popped DESC, boosts_used DESC, username ASC";
     db.query(sql_select_all, (err, result) => {
         res.send(result);
     })
@@ -26,7 +26,7 @@ app.get("/api/get", (req, res) => {
 
 app.post("/api/user", (req, res) => {
     const username = req.body.username;
-    const sql_select_user = "SELECT * FROM game_data WHERE username = " + '"' + username + '" ORDER BY score DESC, shot_accuracy DESC, balloons_popped DESC, boosts_used ASC, username ASC'
+    const sql_select_user = "SELECT * FROM game_data WHERE username = " + '"' + username + '" ORDER BY score DESC, shot_accuracy DESC, balloons_popped DESC, boosts_used DESC, username ASC'
     //const trivial_sql_insert = "INSERT INTO game_data VALUES (7,?,0,0,0,0)";
     db.query(sql_select_user, (err, result) => {
         res.send(result);
@@ -39,8 +39,9 @@ app.post("/api/insert", (req, res) => {
     const balloons_popped = req.body.balloons_popped;
     const shot_accuracy = req.body.shot_accuracy;
     const boosts_used = req.body.boosts_used;
-    const sql_insert_user = "INSERT INTO game_data VALUES (NULL,?,?,?,?,?)";
-    db.query(sql_insert_user, [username, score, balloons_popped, shot_accuracy, boosts_used], (err,result) => {
+    const game_map = req.body.game_map;
+    const sql_insert_user = "INSERT INTO game_data VALUES (NULL,?,?,?,?,?,?)";
+    db.query(sql_insert_user, [username, score, balloons_popped, shot_accuracy, boosts_used, game_map], (err,result) => {
         res.send(result);
     })
 });

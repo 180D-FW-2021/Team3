@@ -35,11 +35,26 @@ function getGlobalStats(data) {
   }
 }
 
+function getMapEntries(entries, selectMap) {
+  let filtered = [];
+  if (entries) {
+    for (let item in entries) {
+      if (entries[item]) {
+        if (entries[item].game_map == selectMap) {
+          filtered.push(entries[item]);
+        }
+      }
+    }
+  }
+  return filtered;
+}
+
 function App() {
   let globalMode = true;
-;  const [gameDataList, setGameDataList] = useState([]);
+  const [gameDataList, setGameDataList] = useState([]);
   const [userSearch, setuserSearch] = useState("");
   const [userData, setUserData] = useState([]);
+  const [mapSelect, setMapSelect] = useState("Realistic");
 
   useEffect(() => {
     Axios.get("https://aeroplay.herokuapp.com/api/get").then((response) => {
@@ -77,11 +92,18 @@ function App() {
         }} onSubmit={submitUser}></input>
         <button onClick={submitUser}><img src="https://img.icons8.com/ios-glyphs/90/000000/search--v2.png"/></button>
         <button onClick={updateScores}><img src="https://img.icons8.com/material-rounded/96/000000/globe--v1.png"/></button>
-      </div>
+        <div className="mapSelect">
+          <label>Map:</label>
+          <select id="map_select" onChange={(selected) => setMapSelect(selected.target.value)}>
+            <option value="Realistic">Realistic</option>
+            <option value="Low-Poly">Low-Poly</option>
+          </select>
+        </div>
+      </div> 
       <div className="dataSection">
         <div className="globalData">
           {global ? <h3>Global Statistics</h3> : <h3>Player Statistics</h3>}
-          {getGlobalStats(global ? gameDataList : userData).map((value) => {
+          {getGlobalStats(global ? getMapEntries(gameDataList, mapSelect) : getMapEntries(userData, mapSelect)).map((value) => {
             return (
               <table>
                 <tr>
@@ -101,7 +123,7 @@ function App() {
                 <th>Boosts Used</th>
             </tr>
           {global ? 
-            gameDataList.slice(0,15).map((value) => {
+            getMapEntries(gameDataList, mapSelect).slice(0,15).map((value) => {
               return (
               <tr>
                 <td>{value.username}</td>
@@ -112,7 +134,7 @@ function App() {
               </tr>
               )
             }) : 
-            userData.slice(0,15).map((value) => {
+            getMapEntries(userData, mapSelect).slice(0,15).map((value) => {
               return (
                 <tr>
                   <td>{value.username}</td>

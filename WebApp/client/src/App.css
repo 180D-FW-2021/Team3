@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Lobster&family=Pacifico&family=Quicksand:wght@400&display=swap');
+
 body {
   background-color: azure;
 }
 
+.App {
+  text-align: center;
+  font-family: "Quicksand";
+}
+
 .aeroplayHeader {
-  font-size: 44px;
+  font-size: 56px;
   font-family: "Pacifico", cursive;
   color:rgb(134, 177, 233);
 }
@@ -51,9 +57,24 @@ body {
   max-height: 100px;
 }
 
-.App {
-  text-align: center;
-  font-family: "Quicksand";
+.mapSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-left: 20px;
+  background-color: #c1cccc;
+  padding: 6px 20px;
+  border-radius: 8px;
+}
+
+.mapSelect select {
+  padding: 6px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 17px;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
 .dataSection {
