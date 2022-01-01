@@ -62,6 +62,8 @@ public class PlaneControl : MonoBehaviour
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
 		IMUReaderInstance = this.GetComponent<IMUReader>();
 		audio = GetComponent<AudioSource>();
+		Gameplay.keyboardMode = false;
+		Gameplay.gameStarted = false;
 		Gameplay.pauseGame();
 		//await Task.Run(() => ReadIMU());
 	}

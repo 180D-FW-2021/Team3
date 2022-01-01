@@ -457,10 +457,10 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: 4c4463ef09f54da45b1dc0a92a0fcaa3, type: 3}
     chance: 5
     volume: 0.25
-  - song: {fileID: 8300000, guid: c0168e02ef02b0f48a1e3ef56ea3bb4d, type: 3}
+  - song: {fileID: 8300000, guid: 68621b682f1a67b43ace4dba7a45dbcd, type: 3}
     chance: 8
     volume: 0.25
-  - song: {fileID: 8300000, guid: 4cf6c4d578d6dec408ae32597b00d5a1, type: 3}
+  - song: {fileID: 8300000, guid: deeb2c76e24a86949857274eef4f9451, type: 3}
     chance: 5
     volume: 0.75
 --- !u!1 &254579992
