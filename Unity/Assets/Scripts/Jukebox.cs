@@ -1,87 +1,70 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Jukebox : MonoBehaviour
 {
-    public AudioClip[] songs;
-    public int[] chances;
-    public float[] volumes;
+    public Song[] music;
 
+    private System.Random randomGenerator;
     private AudioSource jukebox;
-    private int songNum;
-    private AudioClip song;
-    private float volume;
+    private Song chosenSong;
 
-    void Start() 
+    void Start()
     {
-        GetJukebox();
-        GetSongConfig();
-        LoadSong();
-        PlaySong();
+        randomGenerator = new System.Random(); 
+        jukebox = GetJukebox();
+        chosenSong = GetChosenSong();
+        PlayChosenSong();
     }
 
-    void GetJukebox() // jukebox AudioSource should be the last AudioSource in an object
-    {
+    public AudioSource GetJukebox() //jukebox AudioSource should be the last AudioSource in an object
+    { 
         AudioSource[] allAudioSources = GetComponents<AudioSource>();
         AudioSource jukeboxAudioSource = allAudioSources[allAudioSources.Length - 1];
-        jukebox = jukeboxAudioSource;
+        return jukeboxAudioSource;
     }
 
-    float[] GetChanceThresholds()
+    public Song GetChosenSong() //find a song according to the chance of playing
     {
-        List<float> chanceThresholdsList = new List<float>();
-        float totalChance = chances.Sum();
-        foreach (float chance in chances)
+        double randomValue = randomGenerator.NextDouble();
+        double accumulatedChance = 0.0;
+        int totalChance = GetTotalChance();
+        for (int songIndex = 0; songIndex < music.Length; songIndex++)
         {
-            chanceThresholdsList.Add(chance / totalChance + chanceThresholdsList.Sum());
-        }
-        float[] chanceThresholds = chanceThresholdsList.ToArray();
-        return chanceThresholds;
-    }
-
-    void GetSongNum()
-    {
-        float[] chanceThresholds = GetChanceThresholds();
-        float randomValue = Random.Range(0, 999);
-        for (int thresholdIndex = 0; thresholdIndex < chanceThresholds.Length; thresholdIndex++)
-        {
-            if (randomValue < chanceThresholds[thresholdIndex] * 1000)
+            accumulatedChance += music[songIndex].chance / (double)totalChance;
+            if (randomValue < accumulatedChance)
             {
-                songNum =  thresholdIndex;
-                break;
+                return music[songIndex];
             }
         }
+        return music[0];
     }
 
-    AudioClip GetSong()
+    public int GetTotalChance() //find the combined sum of chances for normalization
     {
-        AudioClip song = songs[songNum];
-        return song;
+        int totalChance = 0;
+        foreach (Song songItem in music)
+        {
+            totalChance += songItem.chance;
+        }
+        return totalChance;
     }
 
-    float GetVolume()
+    public void PlayChosenSong() //load a song into the jukebox and play it
     {
-        float volume = volumes[songNum];
-        return volume;
-    }
-
-    void GetSongConfig()
-    {
-        GetSongNum();
-        song = GetSong();
-        volume = GetVolume();
-    }
-
-    void LoadSong()
-    {
-        jukebox.clip = song;
-        jukebox.volume = volume;
-    }
-
-    void PlaySong()
-    {
+        jukebox.clip = chosenSong.song;
+        jukebox.volume = chosenSong.volume;
         jukebox.Play();
     }
+}
+
+[System.Serializable]
+public struct Song
+{
+    public AudioClip song;
+    public int chance;
+    public float volume;
 }

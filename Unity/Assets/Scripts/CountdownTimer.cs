@@ -31,8 +31,8 @@ public class CountdownTimer : MonoBehaviour
 
 	void DisplayTime(float time)
 	{
-		float minutes = Mathf.FloorToInt(time / 60);
-		float seconds = Mathf.FloorToInt(time % 60);
+		float minutes = time > 0 ? Mathf.FloorToInt(time / 60) : 0f;
+		float seconds = time > 0 ? Mathf.FloorToInt(time % 60) : 0f;
 		displayTimer.text = string.Format("{0:0}:{1:00}", minutes, seconds) + " Left";
 	}
 }

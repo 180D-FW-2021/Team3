@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Plane
   - FxTemporaire
+  - BalloonGold
   layers:
   - Default
   - TransparentFX

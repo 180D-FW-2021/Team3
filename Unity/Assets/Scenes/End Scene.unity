@@ -447,11 +447,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f82ba97767933429e3f8258f77472a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songs:
-  - {fileID: 8300000, guid: 34aa799c00d8bc244ba930d721748c77, type: 3}
-  chances: 01000000
-  volumes:
-  - 1
+  music:
+  - song: {fileID: 8300000, guid: 34aa799c00d8bc244ba930d721748c77, type: 3}
+    chance: 5
+    volume: 1
+  - song: {fileID: 8300000, guid: 4f73d1f7ca4cd91458bc1eaa8bb6f5ce, type: 3}
+    chance: 12
+    volume: 0.25
+  - song: {fileID: 8300000, guid: 4c4463ef09f54da45b1dc0a92a0fcaa3, type: 3}
+    chance: 5
+    volume: 0.25
+  - song: {fileID: 8300000, guid: c0168e02ef02b0f48a1e3ef56ea3bb4d, type: 3}
+    chance: 8
+    volume: 0.25
+  - song: {fileID: 8300000, guid: 4cf6c4d578d6dec408ae32597b00d5a1, type: 3}
+    chance: 5
+    volume: 0.75
 --- !u!1 &254579992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,6 +1592,7 @@ MonoBehaviour:
   balloons_popped: 0
   shot_accuracy: 0
   boosts_used: 0
+  game_map: 
 --- !u!4 &897463515
 Transform:
   m_ObjectHideFlags: 0

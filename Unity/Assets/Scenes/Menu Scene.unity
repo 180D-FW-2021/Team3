@@ -4172,7 +4172,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4266,13 +4266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f82ba97767933429e3f8258f77472a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songs:
-  - {fileID: 8300000, guid: adfb87658482f8844bd54d046b7e6fb7, type: 3}
-  - {fileID: 8300000, guid: 8d66f682108f9724284b24fea7723fd0, type: 3}
-  chances: 0900000001000000
-  volumes:
-  - 0.25
-  - 0.15
+  music:
+  - song: {fileID: 8300000, guid: adfb87658482f8844bd54d046b7e6fb7, type: 3}
+    chance: 7
+    volume: 0.25
+  - song: {fileID: 8300000, guid: a2d01ae12b6051849b83aa4a65f6c561, type: 3}
+    chance: 5
+    volume: 0.25
+  - song: {fileID: 8300000, guid: 725d105dac86fd14b910870f6cd93315, type: 3}
+    chance: 7
+    volume: 0.5
+  - song: {fileID: 8300000, guid: bc9cf925508013b4daeb0d21ed30b762, type: 3}
+    chance: 10
+    volume: 0.2
 --- !u!1 &1251637820
 GameObject:
   m_ObjectHideFlags: 0

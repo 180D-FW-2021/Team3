@@ -16,9 +16,12 @@ public class CameraControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		var planePos = GameObject.Find("Plane");
-		Vector3 moveCamTo = planePos.transform.position - planePos.transform.forward * 20.0f + Vector3.up * 10.0f;
-		Camera.main.transform.position = Camera.main.transform.position*bias +  moveCamTo*(1.0f-bias);
-		Camera.main.transform.LookAt(planePos.transform.position + planePos.transform.forward * 25.0f);
+		if (!Gameplay.isPaused)
+		{
+			var planePos = GameObject.Find("Plane");
+			Vector3 moveCamTo = planePos.transform.position - planePos.transform.forward * 20.0f + Vector3.up * 10.0f;
+			Camera.main.transform.position = Camera.main.transform.position*bias +  moveCamTo*(1.0f-bias);
+			Camera.main.transform.LookAt(planePos.transform.position + planePos.transform.forward * 25.0f);
+		}
 	}
 }

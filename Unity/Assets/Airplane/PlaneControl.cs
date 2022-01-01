@@ -27,6 +27,7 @@ public class PlaneControl : MonoBehaviour
 	public IMUReader IMUReaderInstance;
 
 	public AudioSource audio;
+	public GameObject pauseScreen;
 
 	//The game object's Transform  
 	private Transform goTransform;
@@ -61,6 +62,7 @@ public class PlaneControl : MonoBehaviour
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
 		IMUReaderInstance = this.GetComponent<IMUReader>();
 		audio = GetComponent<AudioSource>();
+		Gameplay.pauseGame();
 		//await Task.Run(() => ReadIMU());
 	}
 
@@ -74,6 +76,27 @@ public class PlaneControl : MonoBehaviour
 		imuControl = IMUReaderInstance.imuControl;
 		imuDataReceived = IMUReaderInstance.imuDataReceived;
 
+		if (Input.GetKeyDown("k"))
+		{
+			Gameplay.keyboardMode = true;
+		}
+
+		if (imuDataReceived == 1 || Gameplay.keyboardMode)
+		{
+			GameObject controllerConnectScreen = GameObject.Find("ControllerConnectScreen");
+			if (controllerConnectScreen)
+			{
+				Gameplay.gameStarted = true;
+				Gameplay.resumeGame();
+				controllerConnectScreen.SetActive(false);
+			}
+		 	//GameObject.Find("ControllerConnectScreen").SetActive(false);
+		}
+		else
+		{
+			Gameplay.pauseGame();
+		}
+
 		if (boost != 0) 
 		{
 			boostFrames++;
@@ -84,9 +107,19 @@ public class PlaneControl : MonoBehaviour
 			boost = 0;
 		}
 
-		if (Gameplay.isPaused)
+
+		if (Gameplay.isPaused && Gameplay.gameStarted)
 		{
+			pauseScreen.SetActive(true);
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				Gameplay.resumeGame();
+				pauseScreen.SetActive(false);
+			}
 			return;
+		}
+		else {
+		 	pauseScreen.SetActive(false);
 		}
 
 		// Gesture Controls
@@ -163,6 +196,21 @@ public class PlaneControl : MonoBehaviour
 		}
 		else if (Gameplay.keyboardMode)
 		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				if (!Gameplay.isPaused)
+				{
+					Gameplay.pauseGame();
+				}
+			}
+			if (Input.GetKeyDown("space"))
+			{
+				boost = 10f;
+			}
+			if (boostFrames > 0)
+			{
+				goTransform.Translate(boost * Vector3.forward);
+			}
 			goTransform.Translate(airSpeed * Vector3.forward);
 			goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal"));
 			goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));

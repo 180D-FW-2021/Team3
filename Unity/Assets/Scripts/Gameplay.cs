@@ -8,7 +8,8 @@ public static class Gameplay
 	[SerializeField] static GameObject MainMenuContainer;
 	[SerializeField] static GameObject OptionsMenu;
 	public static bool isPaused = false;
-	public static bool keyboardMode = true;
+	public static bool keyboardMode = false;
+	public static bool gameStarted = false;
 	public static string scene = "Main Scene";
 
 	public static void startGame() // not used
@@ -29,7 +30,7 @@ public static class Gameplay
 
 	public static void resumeGame()
 	{
-		if (isPaused)
+		if (isPaused && gameStarted)
 		{
 			Debug.Log("Game Resume");
 			Time.timeScale = 1f;

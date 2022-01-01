@@ -14,7 +14,8 @@ public class ObjectCollision : MonoBehaviour
 	public CountdownTimer TimerInstance;
 	public Color originalColor;
 	public float damage = 100f;
-
+	public Vector3 spawnLocation;
+	public int timePenalty;
 
 	void Start()
 	{
@@ -56,6 +57,12 @@ public class ObjectCollision : MonoBehaviour
 				ShooterInstance.shotsHit += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
+			case "BalloonGold":
+				ShooterInstance.score += 15;
+				ShooterInstance.shotsHit += 1;
+				TimerInstance.timeLeft += 15;
+				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
+				break;
 			case "Default.007":
 				ShooterInstance.score += 9;
 				ShooterInstance.shotsHit += 1;
@@ -69,10 +76,10 @@ public class ObjectCollision : MonoBehaviour
 	// Terrain Collision
 	private void OnCollisionEnter(Collision collision)
 	{
-		PlaneInstance.transform.position = new Vector3(0f, 100f, 0f);
+		PlaneInstance.transform.position = spawnLocation;
 		PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-		TimerInstance.timeLeft -= 20;
+		TimerInstance.timeLeft -= timePenalty;
 		StartCoroutine(ChangeColor());
 	}
 

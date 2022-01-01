@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -26,6 +27,9 @@ public class SpawnBalloons : MonoBehaviour {
 
     public static Vector3 wind;
 
+    public int goldBalloonCount;
+    private GameObject[] goldBalloons;
+
     void Start() {
         wind = new Vector3(Random.Range(-.3f, .3f), Random.Range(-.1f, .1f), Random.Range(-.3f, .3f));
 
@@ -43,6 +47,22 @@ public class SpawnBalloons : MonoBehaviour {
         }
         for (int balloonNum = 0; balloonNum < num10Point; balloonNum++) {
             Instantiate(BalloonPreFab10, new Vector3(Random.Range(-spawnRange + xOffset,spawnRange + xOffset),Random.Range(yMin,yMax),Random.Range(-spawnRange + zOffset, spawnRange + zOffset)), Quaternion.identity);
+        }
+
+        //implemented fisher yates shuffle
+        goldBalloons = GameObject.FindGameObjectsWithTag("BalloonGold");
+        int numBalloons = goldBalloons.Length;
+        System.Random randomGenerator = new System.Random();
+        for (int balloonIndex = 0; balloonIndex < numBalloons; balloonIndex++)
+        {
+            int randomIndex = balloonIndex + randomGenerator.Next(numBalloons - balloonIndex);
+            GameObject goldBalloonTemp = goldBalloons[randomIndex];
+            goldBalloons[randomIndex] = goldBalloons[balloonIndex];
+            goldBalloons[balloonIndex] = goldBalloonTemp;
+        }
+        for (int balloonIter = 0; balloonIter < goldBalloons.Length - goldBalloonCount; balloonIter++)
+        {
+            goldBalloons[balloonIter].SetActive(false);
         }
     }
 }

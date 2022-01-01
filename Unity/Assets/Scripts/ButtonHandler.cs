@@ -90,4 +90,9 @@ public class ButtonHandler : MonoBehaviour
 	{
 		SceneManager.LoadScene("Menu Scene");
 	}
+
+	public void resumeGame()
+	{
+		Gameplay.resumeGame();
+	}
 }

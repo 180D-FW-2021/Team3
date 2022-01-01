@@ -8,6 +8,7 @@ public class Target : MonoBehaviour
     public float deltaHeight = .5f;
     public int isBobbing;
     public int isWindAffected;
+    public int isShootable;
     public MeshRenderer rend;
 
     public void TakeDamage(float amount) 
@@ -53,13 +54,13 @@ public class Target : MonoBehaviour
             case "Balloon1(Clone)":
                 return 0f;
             case "Balloon2(Clone)":
-                return .1f;
-            case "Balloon3(Clone)":
                 return .3f;
-            case "Balloon5(Clone)":
+            case "Balloon3(Clone)":
                 return .5f;
-            case "Balloon10(Clone)":
+            case "Balloon5(Clone)":
                 return 1f;
+            case "Balloon10(Clone)":
+                return 2f;
             default:
                 return 0f;
         }
@@ -67,8 +68,11 @@ public class Target : MonoBehaviour
 
     public void Update() 
     {
-        index += Time.deltaTime;
-        float y = deltaHeight * Mathf.Sin(index) * isBobbing;
-        transform.localPosition = this.transform.localPosition + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier() * isWindAffected;
+        if (!Gameplay.isPaused)
+        {
+            index += Time.deltaTime;
+            float y = deltaHeight * Mathf.Sin(index) * isBobbing;
+            transform.localPosition = this.transform.localPosition + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier() * isWindAffected;
+        }
     }
 }
