@@ -76,16 +76,35 @@ public class ObjectCollision : MonoBehaviour
 	// Terrain Collision
 	private void OnCollisionEnter(Collision collision)
 	{
+		modifyTrailRenderer("Plane/LeftWingTrail", 0);
+		modifyTrailRenderer("Plane/RightWingTrail", 0);
 		PlaneInstance.transform.position = spawnLocation;
+		StartCoroutine(EnableTrail());
 		PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		TimerInstance.timeLeft -= timePenalty;
 		StartCoroutine(ChangeColor());
 	}
 
+	private void modifyTrailRenderer(string trailName, int trailTime)
+	{
+		GameObject wingTrail = GameObject.Find(trailName);
+		if (wingTrail)
+		{
+			wingTrail.GetComponent<TrailRenderer>().time = trailTime;
+		}
+	}
+
+	private IEnumerator EnableTrail()
+	{
+		yield return null;
+		yield return null;
+		modifyTrailRenderer("Plane/LeftWingTrail", 8);
+		modifyTrailRenderer("Plane/RightWingTrail", 8);
+	}
+
 	private IEnumerator ChangeColor()
 	{
-		Debug.Log(originalColor);
 		TimerObject.GetComponent<Text>().color = Color.red;
 		yield return new WaitForSeconds(0.5f);
 		TimerObject.GetComponent<Text>().color = originalColor;

@@ -4277,8 +4277,11 @@ MonoBehaviour:
     chance: 7
     volume: 0.5
   - song: {fileID: 8300000, guid: bc9cf925508013b4daeb0d21ed30b762, type: 3}
-    chance: 10
+    chance: 7
     volume: 0.2
+  - song: {fileID: 8300000, guid: 6206baf805ce973469f154d533dbb979, type: 3}
+    chance: 3
+    volume: 0.3
 --- !u!1 &1251637820
 GameObject:
   m_ObjectHideFlags: 0
