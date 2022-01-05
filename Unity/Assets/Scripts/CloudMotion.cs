@@ -19,6 +19,9 @@ public class CloudMotion : MonoBehaviour
             rotatedToWind = true;
             this.transform.Rotate(new Vector3(0,Mathf.Atan(SpawnBalloons.wind.x / SpawnBalloons.wind.z) * 180 / Mathf.PI + 180,0));
         }
-        transform.localPosition = this.transform.localPosition + SpawnBalloons.wind * 1.5f;
+        if (!Gameplay.isPaused)
+        {
+            transform.localPosition = this.transform.localPosition + SpawnBalloons.wind * 1.5f;
+        }
     }
 }
