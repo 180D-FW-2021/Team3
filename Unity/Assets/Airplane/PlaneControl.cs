@@ -37,6 +37,8 @@ public class PlaneControl : MonoBehaviour
 	//this variable stores the vertical axis values  
 	private float vertAxis = 0.0f;
 	private float acceleration = 0f;
+	private float lastShot = 0f;
+	public float shotCooldown = 350f;
 
 	public float roll;
 	public float pitch;
@@ -124,6 +126,11 @@ public class PlaneControl : MonoBehaviour
 		 	pauseScreen.SetActive(false);
 		}
 
+		if (Input.GetButtonDown("Fire1") && !Gameplay.isPaused)
+	 	{
+	 		TakeShot();
+	 	}
+
 		// Gesture Controls
 		increment = 0.0f;
 		if (getText() == "thumbs up")
@@ -140,7 +147,11 @@ public class PlaneControl : MonoBehaviour
 		}
 		else if (getText() == "shoot")
 		{
-			Shooter.instance.Shoot();
+			if (!Gameplay.isPaused)
+			{
+				TakeShot();
+				//Shooter.instance.Shoot();
+			}
 			setText("");
 		}
 		else
@@ -283,6 +294,16 @@ public class PlaneControl : MonoBehaviour
 		if (!isTxStarted) // First data arrived so tx started
 		{
 			isTxStarted = true;
+		}
+	}
+
+	private void TakeShot()
+	{
+		float currentTime = Time.time * 1000;
+		if (currentTime - lastShot > shotCooldown)
+		{
+			Shooter.instance.Shoot();
+			lastShot = currentTime;
 		}
 	}
 
