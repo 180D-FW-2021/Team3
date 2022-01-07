@@ -24,6 +24,7 @@ Stones and Buried Treasure: https://assetstore.unity.com/packages/3d/environment
 Raft On The Desert: https://assetstore.unity.com/packages/3d/environments/free-low-poly-raft-on-the-desert-141948
 Simple Skull: https://sketchfab.com/3d-models/simple-skull-cba160e50086468cba3b44e04f5a5c8b
 Polygonal Low-Poly Particle Pack: https://assetstore.unity.com/packages/vfx/particles/polygonal-s-low-poly-particle-pack-118355
+Low Poly Camping: https://sketchfab.com/3d-models/low-poly-camping-c205ff73008e4197bf0ce1ff214b28f6
 Sound Effects: https://www.epidemicsound.com/sound-effects/
 
 Low Poly Terrain: Custom
