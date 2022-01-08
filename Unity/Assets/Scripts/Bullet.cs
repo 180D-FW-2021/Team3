@@ -42,7 +42,10 @@ public class Bullet : MonoBehaviour
 				Target target = hits[0].transform.GetComponent<Target>();
 				if (target != null)
 				{
-					target.TakeDamage(damage);
+					if (target.isShootable == 1)
+					{
+						target.TakeDamage(damage);
+					}
 					Debug.Log(target.transform.name);
 					switch (hits[0].transform.name)
 					{
@@ -71,9 +74,23 @@ public class Bullet : MonoBehaviour
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
+						case "BalloonGold":
+							ShooterInstance.shotsHit += 1;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
+						case "Default.007":
+							ShooterInstance.score += 9;
+							ShooterInstance.shotsHit += 1;
+							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							break;
 						default:
 							break;
 					}
+					Destroy(gameObject);
+				}
+				else if (hits[0].transform.name != "Plane"){
+					Debug.Log(hits[0].transform.name);
+					Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 					Destroy(gameObject);
 				}
 			}

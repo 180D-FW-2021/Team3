@@ -25,6 +25,7 @@ public class IMUReader : MonoBehaviour
 	public CountdownTimer TimerInstance;
 
     public PlaneControl PlaneControlInstance;
+    public GameObject ControllerConnectScreen;
 
     // Start is called before the first frame update
     void Start()

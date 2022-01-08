@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Google.Cloud.Speech.V1;
 using Grpc.Core;
+
 public class TranscriptionEvent : UnityEvent<string> { }
 
 [RequireComponent(typeof(AudioSource))]
@@ -64,6 +66,12 @@ public class StreamingRecognizer : MonoBehaviour
 	private const float MicInitializationTimeout = 1;
 	private const int StreamingLimit = 290000; // almost 5 minutes
 
+	public GameObject buttonObject;
+	public ButtonHandler buttonHandler;
+
+	public GameObject mapSelectObject;
+	public Slider mapSelector;
+
 	public void StartListening()
 	{
 		if (!_initialized)
@@ -72,6 +80,12 @@ public class StreamingRecognizer : MonoBehaviour
 		}
 
 		StartCoroutine(nameof(RequestMicrophoneAuthorizationAndStartListening));
+	}
+
+	public void Start()
+	{
+		buttonHandler = buttonObject.GetComponent<ButtonHandler>();
+		mapSelector = mapSelectObject.GetComponent<Slider>();
 	}
 
 	public async void StopListening()
@@ -286,7 +300,8 @@ public class StreamingRecognizer : MonoBehaviour
 
 				if (transcript.ToLower().Contains("start"))
 				{
-				 	Gameplay.startGame();
+				 	//Gameplay.startGame();
+					buttonHandler.startGame();
 				}
 				if (transcript.Contains("pause"))
 				{
@@ -299,6 +314,23 @@ public class StreamingRecognizer : MonoBehaviour
 				else if (transcript.Contains("keyboard mode"))
 				{
 					Gameplay.enableKeyboard();
+					GameObject.Find("ControllerConnectScreen").SetActive(false);
+				}
+				else if (transcript.Contains("change map"))
+				{
+					mapSelector.value = Mathf.Abs(mapSelector.value - 1);
+				}
+				else if (transcript.Contains("main menu"))
+				{
+					Gameplay.restartGame();
+				}
+				else if (transcript.Contains("leaderboard"))
+				{
+					Application.OpenURL("https://aeroplay.online");
+				}
+				else if (transcript.Contains("setting"))
+				{
+					Gameplay.loadSettings();
 				}
 				else if (transcript.ToLower().Contains("quit"))
 				{

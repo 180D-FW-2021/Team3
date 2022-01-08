@@ -40,13 +40,9 @@ public class Shooter : MonoBehaviour
 		layerMask = ~layerMask;
 	}
 
-	// Update is called once per frame
+	//Update is called once per frame
 	void Update()
 	{
-		if (Input.GetButtonDown("Fire1"))
-		{
-			Shoot();
-		}
 		displayScore.text = score.ToString() + " Points";
 	}
 
@@ -54,6 +50,8 @@ public class Shooter : MonoBehaviour
 	{
 		this.shotsTaken++;
 		var bulletInstance = (GameObject)Instantiate(bullet, transform.position, transform.rotation);
+		AudioSource audio = GetComponent<AudioSource>();
+		audio.Play();
 		Destroy(bulletInstance, 5f);
 	}
 

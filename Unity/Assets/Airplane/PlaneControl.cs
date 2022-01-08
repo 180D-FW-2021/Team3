@@ -26,6 +26,9 @@ public class PlaneControl : MonoBehaviour
 
 	public IMUReader IMUReaderInstance;
 
+	public AudioSource audio;
+	public GameObject pauseScreen;
+
 	//The game object's Transform  
 	private Transform goTransform;
 
@@ -34,6 +37,8 @@ public class PlaneControl : MonoBehaviour
 	//this variable stores the vertical axis values  
 	private float vertAxis = 0.0f;
 	private float acceleration = 0f;
+	private float lastShot = 0f;
+	public float shotCooldown = 350f;
 
 	public float roll;
 	public float pitch;
@@ -58,6 +63,10 @@ public class PlaneControl : MonoBehaviour
 		goTransform = this.GetComponent<Transform>();
 		TimerInstance = TimerObject.GetComponent<CountdownTimer>();
 		IMUReaderInstance = this.GetComponent<IMUReader>();
+		audio = GetComponent<AudioSource>();
+		Gameplay.keyboardMode = false;
+		Gameplay.gameStarted = false;
+		Gameplay.pauseGame();
 		//await Task.Run(() => ReadIMU());
 	}
 
@@ -71,6 +80,27 @@ public class PlaneControl : MonoBehaviour
 		imuControl = IMUReaderInstance.imuControl;
 		imuDataReceived = IMUReaderInstance.imuDataReceived;
 
+		if (Input.GetKeyDown("k"))
+		{
+			Gameplay.keyboardMode = true;
+		}
+
+		if (imuDataReceived == 1 || Gameplay.keyboardMode)
+		{
+			GameObject controllerConnectScreen = GameObject.Find("ControllerConnectScreen");
+			if (controllerConnectScreen)
+			{
+				Gameplay.gameStarted = true;
+				Gameplay.resumeGame();
+				controllerConnectScreen.SetActive(false);
+			}
+		 	//GameObject.Find("ControllerConnectScreen").SetActive(false);
+		}
+		else
+		{
+			Gameplay.pauseGame();
+		}
+
 		if (boost != 0) 
 		{
 			boostFrames++;
@@ -81,10 +111,25 @@ public class PlaneControl : MonoBehaviour
 			boost = 0;
 		}
 
-		if (Gameplay.isPaused)
+
+		if (Gameplay.isPaused && Gameplay.gameStarted)
 		{
+			pauseScreen.SetActive(true);
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				Gameplay.resumeGame();
+				pauseScreen.SetActive(false);
+			}
 			return;
 		}
+		else {
+		 	pauseScreen.SetActive(false);
+		}
+
+		if (Input.GetButtonDown("Fire1") && !Gameplay.isPaused)
+	 	{
+	 		TakeShot();
+	 	}
 
 		// Gesture Controls
 		increment = 0.0f;
@@ -102,7 +147,11 @@ public class PlaneControl : MonoBehaviour
 		}
 		else if (getText() == "shoot")
 		{
-			Shooter.instance.Shoot();
+			if (!Gameplay.isPaused)
+			{
+				TakeShot();
+				//Shooter.instance.Shoot();
+			}
 			setText("");
 		}
 		else
@@ -146,6 +195,8 @@ public class PlaneControl : MonoBehaviour
 		airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
+		audio.volume = throttle / 1f * .03f;
+
 		if (imuDataReceived == 1)
 		{
 			goTransform.Translate(airSpeed * Vector3.forward);
@@ -158,6 +209,21 @@ public class PlaneControl : MonoBehaviour
 		}
 		else if (Gameplay.keyboardMode)
 		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				if (!Gameplay.isPaused)
+				{
+					Gameplay.pauseGame();
+				}
+			}
+			if (Input.GetKeyDown("space"))
+			{
+				boost = 10f;
+			}
+			if (boostFrames > 0)
+			{
+				goTransform.Translate(boost * Vector3.forward);
+			}
 			goTransform.Translate(airSpeed * Vector3.forward);
 			goTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal"));
 			goTransform.Rotate(Vector3.right * Input.GetAxis("Vertical"));
@@ -228,6 +294,16 @@ public class PlaneControl : MonoBehaviour
 		if (!isTxStarted) // First data arrived so tx started
 		{
 			isTxStarted = true;
+		}
+	}
+
+	private void TakeShot()
+	{
+		float currentTime = Time.time * 1000;
+		if (currentTime - lastShot > shotCooldown)
+		{
+			Shooter.instance.Shoot();
+			lastShot = currentTime;
 		}
 	}
 
