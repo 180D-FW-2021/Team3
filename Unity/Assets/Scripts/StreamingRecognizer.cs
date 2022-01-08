@@ -328,6 +328,10 @@ public class StreamingRecognizer : MonoBehaviour
 				{
 					Application.OpenURL("https://aeroplay.online");
 				}
+				else if (transcript.Contains("setting"))
+				{
+					Gameplay.loadSettings();
+				}
 				else if (transcript.ToLower().Contains("quit"))
 				{
 					Gameplay.quitGame();

@@ -56,7 +56,7 @@ public class Jukebox : MonoBehaviour
     public void PlayChosenSong() //load a song into the jukebox and play it
     {
         jukebox.clip = chosenSong.song;
-        jukebox.volume = chosenSong.volume;
+        jukebox.volume = chosenSong.volume * Gameplay.musicVolume / 100f;
         jukebox.Play();
     }
 }

@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LowPolyScene.unity
     guid: 68c5d22130a642b4d8dddb2e31da66cf
+  - enabled: 1
+    path: Assets/Scenes/Settings Menu.unity
+    guid: 5b694d7920c69433a8c72f1a612cf94e
   m_configObjects: {}

@@ -12,6 +12,9 @@ public static class Gameplay
 	public static bool gameStarted = false;
 	public static string scene = "Main Scene";
 
+	public static int musicVolume = 100;
+	public static bool retroCameraEnabled = false;
+
 	public static void startGame() // not used
 	{
 		scene = ButtonHandler.sceneName;
@@ -49,17 +52,42 @@ public static class Gameplay
 		SceneManager.LoadSceneAsync("Menu Scene");
 	}
 
-	public static void loadOptions()
+	public static void loadSettings()
 	{
-		Scene currentScene = SceneManager.GetActiveScene();
-		if (currentScene.name == "Menu Scene")
+		if (getCurrentScene() == "Menu Scene")
 		{
-			// TBD load objects
+			SceneManager.LoadSceneAsync("Settings Menu");
 		}
 	}
 
 	public static void enableKeyboard()
 	{
 		keyboardMode = true;
+	}
+
+	public static string getCurrentScene()
+	{
+		return SceneManager.GetActiveScene().name;
+	}
+
+	public static void incrementMusicVolume()
+	{
+		if (musicVolume < 200)
+		{
+			musicVolume += 10;
+		}
+	}
+
+	public static void decrementMusicVolume()
+	{
+		if (musicVolume > 0)
+		{
+			musicVolume -= 10;
+		}
+	}
+
+	public static void toggleRetroCamera()
+	{
+		retroCameraEnabled = !retroCameraEnabled;
 	}
 }

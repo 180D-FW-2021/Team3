@@ -86,6 +86,11 @@ public class ButtonHandler : MonoBehaviour
 		//UnityEditor.EditorApplication.isPlaying = false;
 	}
 
+	public void goToSettings()
+	{
+		Gameplay.loadSettings();
+	}
+
 	public void goToMainMenu()
 	{
 		SceneManager.LoadScene("Menu Scene");
