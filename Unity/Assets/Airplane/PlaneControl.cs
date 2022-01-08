@@ -65,13 +65,16 @@ public class PlaneControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		//print(goTransform.childCount);
+		GameObject miniMapArrow = goTransform.GetChild(4).gameObject;
+		miniMapArrow.transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
 		roll = IMUReaderInstance.roll;
 		pitch = IMUReaderInstance.pitch;
 		boostCount = IMUReaderInstance.boostCount;
 		imuControl = IMUReaderInstance.imuControl;
 		imuDataReceived = IMUReaderInstance.imuDataReceived;
 
-		if (boost != 0) 
+		if (boost != 0)
 		{
 			boostFrames++;
 		}
@@ -185,8 +188,6 @@ public class PlaneControl : MonoBehaviour
 
 		// Initialize (seen in comments window)
 		print("UDP Comms Initialised");
-
-
 	}
 
 	// Receive data, update packets received
