@@ -1,7 +1,9 @@
 # Aeroplay :airplane:
 A fun household game where you use a 3D printed plane + Gesture + Voice controls to fly a virtual plane!
 
-Checkout the online leaderboard [here](https://www.aeroplay.online/)! 
+Checkout the live online leaderboard [here](https://www.aeroplay.online/)! <br>
+
+Watch a demo video of the game [here](https://www.youtube.com/watch?v=9XCapfStW8s)!
 
 ## Tech Stack Used
 - [Unity](https://unity.com/products/unity-student) for game development
@@ -17,7 +19,7 @@ git clone https://github.com/180D-FW-2021/Team3.git
 ```
 
 
-# Setup
+# Development Setup
 ## Unity (Game Development Environment)
 
 1. Download and Installl Unity Hub, get the [student version]((https://unity.com/products/unity-student)) if possible
@@ -27,6 +29,13 @@ In Unity ->
 4. Drag the `Menu Scene` under the Assets/Scenes folder in the Project tab into the Hierarchy
 
 ## IMU Plane Control
+1. ssh into Raspberry Pi
+Linux/Mac:
+```
+ssh pi@raspberrypi.local
+```
+Windows:
+
 1. Go to the Controls Directory
 ```
 cd Controls
