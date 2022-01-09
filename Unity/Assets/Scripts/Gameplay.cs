@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class Gameplay 
+public static class Gameplay
 {
 	[SerializeField] static GameObject MainMenuContainer;
 	[SerializeField] static GameObject OptionsMenu;
