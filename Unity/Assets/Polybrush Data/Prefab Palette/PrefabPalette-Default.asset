@@ -529,23 +529,6 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: Cypress_Tree_02
-  - gameObject: {fileID: 108507113624723981, guid: eebb56c82efbd8d4bb0eb6bd925a0e9d,
-      type: 3}
-    settings:
-      m_Strength: 1
-      m_RotationRangeMin: {x: 0, y: 360, z: 0}
-      m_RotationRangeMax: {x: 0, y: 360, z: 0}
-      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
-      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 1.7, y: 2.2}
-      m_UniformBool: 1
-      m_XRotationBool: 0
-      m_YRotationBool: 1
-      m_ZRotationBool: 0
-      m_XScaleBool: 0
-      m_YScaleBool: 0
-      m_ZScaleBool: 0
-    name: Stump_01
   - gameObject: {fileID: 5807474958079078156, guid: ba4e1f1bd86f2234e99bfdd384aa02b5,
       type: 3}
     settings:
@@ -698,23 +681,6 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: EM_Tree2b_PRE
-  - gameObject: {fileID: 1457318384898378, guid: ed6e5b1d2f26395489aaa939b5842132,
-      type: 3}
-    settings:
-      m_Strength: 1
-      m_RotationRangeMin: {x: 0, y: 0, z: 0}
-      m_RotationRangeMax: {x: 0, y: 360, z: 0}
-      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
-      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 1.7, y: 2.5}
-      m_UniformBool: 1
-      m_XRotationBool: 0
-      m_YRotationBool: 1
-      m_ZRotationBool: 0
-      m_XScaleBool: 0
-      m_YScaleBool: 0
-      m_ZScaleBool: 0
-    name: EM_Tree9a_PRE
   - gameObject: {fileID: 108756, guid: 2d521608fcf07c346b5e2ed4049aa717, type: 3}
     settings:
       m_Strength: 100

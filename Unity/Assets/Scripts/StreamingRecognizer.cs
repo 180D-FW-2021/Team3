@@ -314,7 +314,6 @@ public class StreamingRecognizer : MonoBehaviour
 				else if (transcript.Contains("keyboard mode"))
 				{
 					Gameplay.enableKeyboard();
-					GameObject.Find("ControllerConnectScreen").SetActive(false);
 				}
 				else if (transcript.Contains("change map"))
 				{
