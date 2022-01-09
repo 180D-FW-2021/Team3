@@ -74,6 +74,9 @@ public class PlaneControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		GameObject miniMapArrow = goTransform.GetChild(6).gameObject;
+		miniMapArrow.transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
+
 		roll = IMUReaderInstance.roll;
 		pitch = IMUReaderInstance.pitch;
 		boostCount = IMUReaderInstance.boostCount;
@@ -94,14 +97,14 @@ public class PlaneControl : MonoBehaviour
 				Gameplay.resumeGame();
 				controllerConnectScreen.SetActive(false);
 			}
-		 	//GameObject.Find("ControllerConnectScreen").SetActive(false);
+			//GameObject.Find("ControllerConnectScreen").SetActive(false);
 		}
 		else
 		{
 			Gameplay.pauseGame();
 		}
 
-		if (boost != 0) 
+		if (boost != 0)
 		{
 			boostFrames++;
 		}
@@ -122,14 +125,15 @@ public class PlaneControl : MonoBehaviour
 			}
 			return;
 		}
-		else {
-		 	pauseScreen.SetActive(false);
+		else
+		{
+			pauseScreen.SetActive(false);
 		}
 
 		if (Input.GetButtonDown("Fire1") && !Gameplay.isPaused)
-	 	{
-	 		TakeShot();
-	 	}
+		{
+			TakeShot();
+		}
 
 		// Gesture Controls
 		increment = 0.0f;
