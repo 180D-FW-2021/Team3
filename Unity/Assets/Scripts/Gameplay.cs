@@ -13,7 +13,10 @@ public static class Gameplay
 	public static string scene = "Main Scene";
 
 	public static int musicVolume = 100;
+	public static int engineVolume = 100;
+	public static bool minimapEnabled = true;
 	public static bool retroCameraEnabled = false;
+
 
 	public static void startGame() // not used
 	{
@@ -86,8 +89,77 @@ public static class Gameplay
 		}
 	}
 
-	public static void toggleRetroCamera()
+	public static void adjustScale(string scaleType, bool increase)
 	{
-		retroCameraEnabled = !retroCameraEnabled;
+		switch (scaleType)
+		{
+			case "music":
+				if (increase && musicVolume < 200)
+				{
+					musicVolume += 10;
+				}
+				if (!increase && musicVolume > 0)
+				{
+					musicVolume -= 10;
+				}
+				break;
+			case "engine":
+				if (increase && engineVolume < 200)
+				{
+					engineVolume += 10;
+				}
+				if (!increase && engineVolume > 0)
+				{
+					engineVolume -= 10;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	public static void setScale(string scaleType, int value)
+	{
+		switch (scaleType)
+		{
+			case "music":
+				musicVolume = value;
+				break;
+			case "engine":
+				engineVolume = value;
+				break;
+			default:
+				break;
+		}
+	}
+
+	public static void toggle(string toggleType)
+	{
+		switch (toggleType)
+		{
+			case "minimap":
+				minimapEnabled = !minimapEnabled;
+				break;
+			case "retroCamera":
+				retroCameraEnabled = !retroCameraEnabled;
+				break;
+			default:
+				break;
+		}
+	}
+
+	public static void setToggle(string toggleType, bool value)
+	{
+		switch (toggleType)
+		{
+			case "minimap":
+				minimapEnabled = value;
+				break;
+			case "retroCamera":
+				retroCameraEnabled = value;
+				break;
+			default:
+				break;
+		}
 	}
 }

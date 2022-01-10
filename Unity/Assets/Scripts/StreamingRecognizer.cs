@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Google.Cloud.Speech.V1;
@@ -66,11 +67,15 @@ public class StreamingRecognizer : MonoBehaviour
 	private const float MicInitializationTimeout = 1;
 	private const int StreamingLimit = 290000; // almost 5 minutes
 
+	private string scene;
+
 	public GameObject buttonObject;
 	public ButtonHandler buttonHandler;
 
 	public GameObject mapSelectObject;
 	public Slider mapSelector;
+
+	public GameObject settingsHandler;
 
 	public void StartListening()
 	{
@@ -84,6 +89,7 @@ public class StreamingRecognizer : MonoBehaviour
 
 	public void Start()
 	{
+		scene = SceneManager.GetActiveScene().name;
 		buttonHandler = buttonObject.GetComponent<ButtonHandler>();
 		mapSelector = mapSelectObject.GetComponent<Slider>();
 	}
@@ -298,43 +304,95 @@ public class StreamingRecognizer : MonoBehaviour
 					Debug.Log(transcript);
 				}
 
-				if (transcript.ToLower().Contains("start"))
+				switch (scene)
 				{
-				 	//Gameplay.startGame();
-					buttonHandler.startGame();
+					case "Settings Menu":
+						settingsSpeechOptions(transcript.ToLower());
+						break;
+					default:
+						if (transcript.ToLower().Contains("start"))
+						{
+							//Gameplay.startGame();
+							buttonHandler.startGame();
+						}
+						if (transcript.Contains("pause"))
+						{
+							Gameplay.pauseGame();
+						}
+						else if (transcript.Contains("resume"))
+						{
+							Gameplay.resumeGame();
+						}
+						else if (transcript.Contains("keyboard mode"))
+						{
+							Gameplay.enableKeyboard();
+						}
+						else if (transcript.Contains("change map"))
+						{
+							mapSelector.value = Mathf.Abs(mapSelector.value - 1);
+						}
+						else if (transcript.Contains("main menu"))
+						{
+							Gameplay.restartGame();
+						}
+						else if (transcript.Contains("leaderboard"))
+						{
+							Application.OpenURL("https://aeroplay.online");
+						}
+						else if (transcript.Contains("setting"))
+						{
+							Gameplay.loadSettings();
+						}
+						else if (transcript.ToLower().Contains("quit"))
+						{
+							Gameplay.quitGame();
+						}
+						break;
 				}
-				if (transcript.Contains("pause"))
-				{
-					Gameplay.pauseGame();
-				}
-				else if (transcript.Contains("resume"))
-				{
-					Gameplay.resumeGame();
-				}
-				else if (transcript.Contains("keyboard mode"))
-				{
-					Gameplay.enableKeyboard();
-				}
-				else if (transcript.Contains("change map"))
-				{
-					mapSelector.value = Mathf.Abs(mapSelector.value - 1);
-				}
-				else if (transcript.Contains("main menu"))
-				{
-					Gameplay.restartGame();
-				}
-				else if (transcript.Contains("leaderboard"))
-				{
-					Application.OpenURL("https://aeroplay.online");
-				}
-				else if (transcript.Contains("setting"))
-				{
-					Gameplay.loadSettings();
-				}
-				else if (transcript.ToLower().Contains("quit"))
-				{
-					Gameplay.quitGame();
-				}
+
+				// if (transcript.ToLower().Contains("music volume down"))
+				// {
+				// 	settingsHandler.GetComponent<SettingsHandler>().decreaseMusicVolume();
+				// }
+
+				// if (transcript.ToLower().Contains("start"))
+				// {
+				//  	//Gameplay.startGame();
+				// 	buttonHandler.startGame();
+				// }
+				// if (transcript.Contains("pause"))
+				// {
+				// 	Gameplay.pauseGame();
+				// }
+				// else if (transcript.Contains("resume"))
+				// {
+				// 	Gameplay.resumeGame();
+				// }
+				// else if (transcript.Contains("keyboard mode"))
+				// {
+				// 	Gameplay.enableKeyboard();
+				// }
+				// else if (transcript.Contains("change map"))
+				// {
+				// 	mapSelector.value = Mathf.Abs(mapSelector.value - 1);
+				// }
+				// else if (transcript.Contains("main menu"))
+				// {
+				// 	Gameplay.restartGame();
+				// }
+				// else if (transcript.Contains("leaderboard"))
+				// {
+				// 	Application.OpenURL("https://aeroplay.online");
+				// }
+				// else if (transcript.Contains("setting"))
+				// {
+				// 	Gameplay.loadSettings();
+				// }
+				// else if (transcript.ToLower().Contains("quit"))
+				// {
+				// 	Gameplay.quitGame();
+				// }
+
 				// else if (transcript.ToLower().Contains("restart"))
 				// {
 				// 	Gameplay.restartGame();
@@ -486,6 +544,96 @@ public class StreamingRecognizer : MonoBehaviour
 				}
 				StartListening();
 			}
+		}
+	}
+
+	public void settingsSpeechOptions(string words)
+	{
+		SettingsHandler commandHandler = settingsHandler.GetComponent<SettingsHandler>();
+		if (words.Contains("music volume down"))
+		{
+			commandHandler.decreaseMusicVolume();
+		}
+		else if (words.Contains("music volume up"))
+		{
+			commandHandler.increaseMusicVolume();
+		}
+		else if (words.Contains("music volume off") || words.Contains("music volume mute"))
+		{
+			commandHandler.setMusicVolume(0);
+		}
+		else if (words.Contains("music volume low"))
+		{
+			commandHandler.setMusicVolume(50);
+		}
+		else if (words.Contains("music volume normal") || words.Contains("music volume default") || words.Contains("music volume medium"))
+		{
+			commandHandler.setMusicVolume(100);
+		}
+		else if (words.Contains("music volume high") || words.Contains("music volume loud"))
+		{
+			commandHandler. setMusicVolume(200);
+		}
+
+		else if (words.Contains("engine volume down"))
+		{
+			commandHandler.decreaseEngineVolume();
+		}
+		else if (words.Contains("engine volume up"))
+		{
+			commandHandler.increaseEngineVolume();
+		}
+		else if (words.Contains("engine volume off") || words.Contains("engine volume mute"))
+		{
+			commandHandler.setEngineVolume(0);
+		}
+		else if (words.Contains("engine volume low"))
+		{
+			commandHandler.setEngineVolume(50);
+		}
+		else if (words.Contains("engine volume normal") || words.Contains("engine volume default") || words.Contains("engine volume medium"))
+		{
+			commandHandler.setEngineVolume(100);
+		}
+		else if (words.Contains("engine volume high") || words.Contains("engine volume loud"))
+		{
+			commandHandler.setEngineVolume(200);
+		}
+
+		else if (words.Contains("toggle minimap"))
+		{
+			commandHandler.toggleMinimap();
+		}
+		else if (words.Contains("minimap on"))
+		{
+			commandHandler.setMinimap(true);
+		}
+		else if (words.Contains("minimap off"))
+		{
+			commandHandler.setMinimap(false);
+		}
+
+		else if (words.Contains("toggle retro camera"))
+		{
+			commandHandler.toggleRetroCamera();
+		}
+		else if (words.Contains("retro camera on"))
+		{
+			commandHandler.setRetroCamera(true);
+		}
+		else if (words.Contains("retro camera off"))
+		{
+			commandHandler.setRetroCamera(false);
+		}
+
+		else if (words.Contains("default settings") || words.Contains("restore default") || words.Contains("restore settings"))
+		{
+			commandHandler.setDefault();
+		}
+
+		else if (words.Contains("main menu"))
+		{
+			commandHandler.goToMainMenu();
 		}
 	}
 }

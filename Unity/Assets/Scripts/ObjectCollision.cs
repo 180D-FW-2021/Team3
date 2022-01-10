@@ -17,6 +17,8 @@ public class ObjectCollision : MonoBehaviour
 	public Vector3 spawnLocation;
 	public int timePenalty;
 
+	private float lastTerrainCollision = 0f;
+
 	void Start()
 	{
 		ShooterInstance = ShooterObject.GetComponent<Shooter>();
@@ -76,14 +78,18 @@ public class ObjectCollision : MonoBehaviour
 	// Terrain Collision
 	private void OnCollisionEnter(Collision collision)
 	{
-		modifyTrailRenderer("Plane/LeftWingTrail", 0);
-		modifyTrailRenderer("Plane/RightWingTrail", 0);
-		PlaneInstance.transform.position = spawnLocation;
-		StartCoroutine(EnableTrail());
-		PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-		PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-		TimerInstance.timeLeft -= timePenalty;
-		StartCoroutine(ChangeColor());
+		if (Time.time - lastTerrainCollision > .1)
+		{
+			lastTerrainCollision = Time.time;
+			modifyTrailRenderer("Plane/LeftWingTrail", 0);
+			modifyTrailRenderer("Plane/RightWingTrail", 0);
+			PlaneInstance.transform.position = spawnLocation;
+			StartCoroutine(EnableTrail());
+			PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+			TimerInstance.timeLeft -= timePenalty;
+			StartCoroutine(ChangeColor());
+		}
 	}
 
 	private void modifyTrailRenderer(string trailName, int trailTime)

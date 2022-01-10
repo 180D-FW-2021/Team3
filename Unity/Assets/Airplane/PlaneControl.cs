@@ -74,8 +74,8 @@ public class PlaneControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		GameObject miniMapArrow = goTransform.GetChild(6).gameObject;
-		miniMapArrow.transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
+		// GameObject miniMapArrow = goTransform.GetChild(6).gameObject;
+		// miniMapArrow.transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
 
 		roll = IMUReaderInstance.roll;
 		pitch = IMUReaderInstance.pitch;
@@ -199,7 +199,7 @@ public class PlaneControl : MonoBehaviour
 		airSpeed -= goTransform.forward.y * Time.deltaTime * 1f;
 		airSpeed = Mathf.Clamp(airSpeed, 0.08f, 2.5f);
 
-		audio.volume = throttle / 1f * .03f;
+		audio.volume = throttle / 1f * .1f * Gameplay.engineVolume / 100;
 
 		if (imuDataReceived == 1)
 		{
