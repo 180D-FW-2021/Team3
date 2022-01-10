@@ -10,7 +10,7 @@ public static class Gameplay
 	public static bool isPaused = false;
 	public static bool keyboardMode = false;
 	public static bool gameStarted = false;
-	public static string scene = "Main Scene";
+	public static string scene = "LowPolyScene";
 
 	public static int musicVolume = 100;
 	public static int engineVolume = 100;

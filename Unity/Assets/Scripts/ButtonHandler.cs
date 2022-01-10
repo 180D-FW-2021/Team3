@@ -17,6 +17,7 @@ public class ButtonHandler : MonoBehaviour
 	public void Start()
 	{
 		sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
+		sceneToggle.value = GetSceneIndex(Gameplay.scene);
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
 	}
 
@@ -33,13 +34,29 @@ public class ButtonHandler : MonoBehaviour
 		}
 	}
 
+	public float GetSceneIndex(string name)
+	{
+		switch(name)
+		{
+			case "Main Scene":
+				return 0f;
+			case "LowPolyScene":
+				return 1f;
+			default:
+				return 0f;
+		}
+	}
+
 	public void startGame()
 	{
 		sceneName = GetSceneName(sceneToggle.value);
 		Gameplay.scene = sceneName;
 		StartCoroutine(loadScene(sceneName));
-		//Gameplay.startGame();
-		//SceneManager.LoadSceneAsync("Main Scene");
+	}
+
+	public void restartGame()
+	{
+		StartCoroutine(loadScene(Gameplay.scene));
 	}
 
 	IEnumerator loadScene(string scene)
@@ -50,7 +67,7 @@ public class ButtonHandler : MonoBehaviour
 		while (!operation.isDone)
 		{
 			float progress = Mathf.Clamp01(operation.progress / .9f);
-			planeLocation.anchoredPosition = new Vector2(progress * 1808 - 1308, planeLocation.anchoredPosition.y);
+			planeLocation.anchoredPosition = new Vector2(progress * 1200 - 700, planeLocation.anchoredPosition.y);
 			if (progress > 0 && progress <= .25)
 			{
 				loadingText.text = "Refueling...";
@@ -83,7 +100,6 @@ public class ButtonHandler : MonoBehaviour
 	public void quitGame()
 	{
 		Application.Quit();
-		//UnityEditor.EditorApplication.isPlaying = false;
 	}
 
 	public void goToSettings()
@@ -96,8 +112,39 @@ public class ButtonHandler : MonoBehaviour
 		SceneManager.LoadScene("Menu Scene");
 	}
 
+	public void toggleMap()
+	{
+		sceneToggle.value = Mathf.Abs(sceneToggle.value - 1);
+	}
+
+	public void setMap(string mapName)
+	{
+		switch (mapName)
+		{
+			case "realistic":
+				sceneToggle.value = 0;
+				break;
+			case "lowPoly":
+				sceneToggle.value = 1;
+				break;
+			default:
+				sceneToggle.value = 1;
+				break;
+		}
+	}
+
+	public void pauseGame()
+	{
+		Gameplay.pauseGame();
+	}
+
 	public void resumeGame()
 	{
 		Gameplay.resumeGame();
+	}
+
+	public void enableKeyboard()
+	{
+		Gameplay.enableKeyboard();
 	}
 }

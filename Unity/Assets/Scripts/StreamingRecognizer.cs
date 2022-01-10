@@ -69,12 +69,10 @@ public class StreamingRecognizer : MonoBehaviour
 
 	private string scene;
 
-	public GameObject buttonObject;
-	public ButtonHandler buttonHandler;
+	// public GameObject mapSelectObject;
+	// private Slider mapSelector;
 
-	public GameObject mapSelectObject;
-	public Slider mapSelector;
-
+	public GameObject buttonHandler;
 	public GameObject settingsHandler;
 
 	public void StartListening()
@@ -90,8 +88,7 @@ public class StreamingRecognizer : MonoBehaviour
 	public void Start()
 	{
 		scene = SceneManager.GetActiveScene().name;
-		buttonHandler = buttonObject.GetComponent<ButtonHandler>();
-		mapSelector = mapSelectObject.GetComponent<Slider>();
+		//mapSelector = mapSelectObject.GetComponent<Slider>();
 	}
 
 	public async void StopListening()
@@ -309,45 +306,51 @@ public class StreamingRecognizer : MonoBehaviour
 					case "Settings Menu":
 						settingsSpeechOptions(transcript.ToLower());
 						break;
-					default:
-						if (transcript.ToLower().Contains("start"))
-						{
-							//Gameplay.startGame();
-							buttonHandler.startGame();
-						}
-						if (transcript.Contains("pause"))
-						{
-							Gameplay.pauseGame();
-						}
-						else if (transcript.Contains("resume"))
-						{
-							Gameplay.resumeGame();
-						}
-						else if (transcript.Contains("keyboard mode"))
-						{
-							Gameplay.enableKeyboard();
-						}
-						else if (transcript.Contains("change map"))
-						{
-							mapSelector.value = Mathf.Abs(mapSelector.value - 1);
-						}
-						else if (transcript.Contains("main menu"))
-						{
-							Gameplay.restartGame();
-						}
-						else if (transcript.Contains("leaderboard"))
-						{
-							Application.OpenURL("https://aeroplay.online");
-						}
-						else if (transcript.Contains("setting"))
-						{
-							Gameplay.loadSettings();
-						}
-						else if (transcript.ToLower().Contains("quit"))
-						{
-							Gameplay.quitGame();
-						}
+					case "Menu Scene":
+						menuSpeechOptions(transcript.ToLower());
 						break;
+					case "End Scene":
+						endSpeechOptions(transcript.ToLower());
+						break;
+					case "Main Scene":
+					case "LowPolyScene":
+						gameSpeechOptions(transcript.ToLower());
+						break;
+					default:
+						break;
+						// if (transcript.Contains("pause"))
+						// {
+						// 	Gameplay.pauseGame();
+						// }
+						// else if (transcript.Contains("resume"))
+						// {
+						// 	Gameplay.resumeGame();
+						// }
+						// else if (transcript.Contains("keyboard mode"))
+						// {
+						// 	Gameplay.enableKeyboard();
+						// }
+						// // else if (transcript.Contains("change map"))
+						// // {
+						// // 	mapSelector.value = Mathf.Abs(mapSelector.value - 1);
+						// // }
+						// else if (transcript.Contains("main menu"))
+						// {
+						// 	Gameplay.restartGame();
+						// }
+						// else if (transcript.Contains("leaderboard"))
+						// {
+						// 	Application.OpenURL("https://aeroplay.online");
+						// }
+						// else if (transcript.Contains("setting"))
+						// {
+						// 	Gameplay.loadSettings();
+						// }
+						// else if (transcript.ToLower().Contains("quit"))
+						// {
+						// 	Gameplay.quitGame();
+						// }
+						// break;
 				}
 
 				// if (transcript.ToLower().Contains("music volume down"))
@@ -634,6 +637,85 @@ public class StreamingRecognizer : MonoBehaviour
 		else if (words.Contains("main menu"))
 		{
 			commandHandler.goToMainMenu();
+		}
+	}
+
+	public void menuSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("start") || words.Contains("begin") || words.Contains("play"))
+		{
+			commandHandler.startGame();
+		}
+		else if (words.Contains("leaderboard"))
+		{
+			commandHandler.openLeaderboard();
+		}
+		else if (words.Contains("setting") || words.Contains("option"))
+		{
+			commandHandler.goToSettings();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
+		}
+		else if (words.Contains("change map") || words.Contains("switch map"))
+		{
+			commandHandler.toggleMap();
+		}
+		else if (words.Contains("realistic"))
+		{
+			commandHandler.setMap("realistic");
+		}
+		else if (words.Contains("low poly"))
+		{
+			commandHandler.setMap("lowPoly");
+		}
+	}
+
+	public void endSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("start"))
+		{
+			commandHandler.restartGame();
+		}
+		else if (words.Contains("leaderboard"))
+		{
+			commandHandler.openLeaderboard();
+		}
+		else if (words.Contains("main menu"))
+		{
+			commandHandler.goToMainMenu();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
+		}
+	}
+
+	public void gameSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("keyboard"))
+		{
+			commandHandler.enableKeyboard();
+		}
+		else if (words.Contains("pause") || words.Contains("stop"))
+		{
+			commandHandler.pauseGame();
+		}
+		else if (words.Contains("resume") || words.Contains("continue"))
+		{
+			commandHandler.resumeGame();
+		}
+		else if (words.Contains("main menu"))
+		{
+			commandHandler.goToMainMenu();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
 		}
 	}
 }
