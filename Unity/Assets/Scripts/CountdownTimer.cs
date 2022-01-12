@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour
 {
-	public float timeLeft = 180;
+	public float timeLeft = Gameplay.gameTime;
 	private bool updated = false;
 	[SerializeField] Text displayTimer;
 

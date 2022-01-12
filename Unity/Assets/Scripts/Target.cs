@@ -52,15 +52,34 @@ public class Target : MonoBehaviour
         switch(this.name)
         {
             case "Balloon1(Clone)":
-                return 0f;
+                return Gameplay.balloon1WindMultiplier;
             case "Balloon2(Clone)":
-                return .3f;
+                return Gameplay.balloon2WindMultiplier;
             case "Balloon3(Clone)":
-                return .5f;
+                return Gameplay.balloon3WindMultiplier;
             case "Balloon5(Clone)":
-                return 1f;
+                return Gameplay.balloon5WindMultiplier;
             case "Balloon10(Clone)":
-                return 2f;
+                return Gameplay.balloon10WindMultiplier;
+            default:
+                return 0f;
+        }
+    }
+
+    public float GetBobbingModifier()
+    {
+        switch(this.name)
+        {
+            case "Balloon1(Clone)":
+                return Gameplay.balloon1BobbingMultiplier;
+            case "Balloon2(Clone)":
+                return Gameplay.balloon2BobbingMultiplier;
+            case "Balloon3(Clone)":
+                return Gameplay.balloon3BobbingMultiplier;
+            case "Balloon5(Clone)":
+                return Gameplay.balloon5BobbingMultiplier;
+            case "Balloon10(Clone)":
+                return Gameplay.balloon10BobbingMultiplier;
             default:
                 return 0f;
         }
@@ -71,8 +90,8 @@ public class Target : MonoBehaviour
         if (!Gameplay.isPaused)
         {
             index += Time.deltaTime;
-            float y = deltaHeight * Mathf.Sin(index) * isBobbing;
-            transform.localPosition = this.transform.localPosition + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier() * isWindAffected;
+            float y = deltaHeight * Mathf.Sin(index) * isBobbing * GetBobbingModifier();
+            transform.localPosition = this.transform.localPosition + new Vector3(0,y,0) + SpawnBalloons.wind * GetWindModifier() * Gameplay.balloonMovementSpeed * isWindAffected * Time.deltaTime;
         }
     }
 }

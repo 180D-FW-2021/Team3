@@ -521,25 +521,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9b81f70d87b428fb325d442a440a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTxStarted: 0
-  IP: 192.168.1.86
-  rxPort: 8000
-  txPort: 8001
-  TimerObject: {fileID: 1647500450}
-  TimerInstance: {fileID: 0}
-  IMUReaderInstance: {fileID: 0}
-  audio: {fileID: 0}
+  timerObject: {fileID: 1647500450}
+  engineAudio: {fileID: 0}
   pauseScreen: {fileID: 1232488690}
-  shotCooldown: 350
+  controllerConnectScreen: {fileID: 1434283797}
   roll: 0
   pitch: 0
-  throttle: 1
-  boost: 1
-  boostFrames: 0
-  airSpeed: 1
   boostCount: 0
   imuControl: 0
   imuDataReceived: 0
+  throttle: 1
+  airSpeed: 1
+  boost: 1
+  airSpeedFromBoost: 0
+  throttleBounds:
+    minThrottle: 0
+    maxThrottle: 0
+  accelerationBounds:
+    acceleration: 0
+    deceleration: 0
+  speedBounds:
+    minSpeed: 0
+    maxSpeed: 0
 --- !u!54 &116129726
 Rigidbody:
   m_ObjectHideFlags: 0

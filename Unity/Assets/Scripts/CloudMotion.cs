@@ -21,7 +21,7 @@ public class CloudMotion : MonoBehaviour
         }
         if (!Gameplay.isPaused)
         {
-            transform.localPosition = this.transform.localPosition + SpawnBalloons.wind * 1.5f;
+            transform.localPosition = this.transform.localPosition + SpawnBalloons.wind * Gameplay.cloudMovementSpeed * Time.deltaTime;
         }
     }
 }
