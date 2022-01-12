@@ -1403,7 +1403,7 @@ MonoBehaviour:
     defaultState: 1
   dirtIntensity:
     overrideState: 1
-    value: 1
+    value: 1.7
 --- !u!114 &3725331102598134507
 MonoBehaviour:
   m_ObjectHideFlags: 3

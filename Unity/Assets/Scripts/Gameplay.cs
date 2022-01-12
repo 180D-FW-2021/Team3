@@ -17,6 +17,39 @@ public static class Gameplay
 	public static bool minimapEnabled = true;
 	public static bool retroCameraEnabled = false;
 
+	public static float gameTime = 180f;
+	
+	public static float minThrottle = 0f;
+	public static float maxThrottle = 2f;
+	public static float acceleration = .004f;
+	public static float deceleration = .001f;
+	public static float minSpeed = .08f;
+	public static float maxSpeed = 2f;
+
+	public static float engineVolumeNormalizerValue = .1f;
+	public static float hgrThrottleIncrement = .1f;
+	public static float keyboardThrottleIncrement = .01f; 
+	public static float gravityInfluenceMultiplier = .015f;
+	public static float imuCentripetalMultiplier = .011f;
+	public static float imuTurnMultiplier = .022f;
+	public static float shotCooldown = 350f;
+	public static float boostDuration = 1000f;
+	public static float boostSpeed = 8f;
+
+	public static float cloudMovementSpeed = 35f;
+	public static float balloonMovementSpeed = 50f;
+
+	public static float balloon1BobbingMultiplier = .3f;
+	public static float balloon2BobbingMultiplier = .5f;
+	public static float balloon3BobbingMultiplier = .7f;
+	public static float balloon5BobbingMultiplier = .85f;
+	public static float balloon10BobbingMultiplier = 1f;
+
+	public static float balloon1WindMultiplier = 0f;
+	public static float balloon2WindMultiplier = .125f;
+	public static float balloon3WindMultiplier = .25f;
+	public static float balloon5WindMultiplier = .5f;
+	public static float balloon10WindMultiplier = 1f;
 
 	public static void startGame() // not used
 	{
