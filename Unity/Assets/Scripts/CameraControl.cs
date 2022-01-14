@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] float bias = 0.95f; 
+    [SerializeField] float bias = 0.971f; 
 	PlaneControl planeControl;
 
 	// Start is called before the first frame update
