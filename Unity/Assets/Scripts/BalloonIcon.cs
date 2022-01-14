@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class BalloonIcon : MonoBehaviour
 {
-    public int iconHeight;
-
     void Start()
     {
-        this.transform.position = new Vector3(this.transform.position.x, iconHeight, this.transform.position.z);
+        this.transform.position = new Vector3(this.transform.position.x, Gameplay.balloonIconHeight, this.transform.position.z);
     }
 }

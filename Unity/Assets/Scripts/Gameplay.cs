@@ -23,7 +23,7 @@ public static class Gameplay
 	public static float maxThrottle = 2f;
 	public static float acceleration = .004f;
 	public static float deceleration = .001f;
-	public static float minSpeed = .08f;
+	public static float minSpeed = .16f;
 	public static float maxSpeed = 2f;
 
 	public static float engineVolumeNormalizerValue = .1f;
@@ -50,6 +50,8 @@ public static class Gameplay
 	public static float balloon3WindMultiplier = .25f;
 	public static float balloon5WindMultiplier = .5f;
 	public static float balloon10WindMultiplier = 1f;
+
+	public static float balloonIconHeight = 750f;
 
 	public static void startGame() // not used
 	{

@@ -125,7 +125,7 @@ public class PlaneControl : MonoBehaviour
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// functions that transition state
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	private void StateTransition()
+	private bool StateTransition()
 	{
 		if (UserGainedControl())
 		{
@@ -139,16 +139,17 @@ public class PlaneControl : MonoBehaviour
 		if (UserPausedGame())
 		{
 			PauseGame();
-			return;
+			return false;
 		}
 		else if (PausedBeforeGameStarted())
 		{
 			HidePauseScreen();
-			return;
+			return false;
 		}
 		else
 		{
 			HidePauseScreen();
+			return true;
 		}
 	}
 	private void StartGame()
@@ -353,7 +354,10 @@ public class PlaneControl : MonoBehaviour
 		SetEngineVolume();
 		CheckForKeyboardMode();
 
-		StateTransition();
+		if (!StateTransition())
+		{
+			return;
+		}
 
 		CheckForShot();
 		ReadGestures();
