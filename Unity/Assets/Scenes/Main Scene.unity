@@ -759,7 +759,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0c351d0ef22d24c4fb71a47fba1f74d2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6735,7 +6735,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8569553dd9c147c7bad7de52f25682f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 0.971
+  offset: {x: 0, y: 5, z: -20}
+  cameraSmoothTime: 0.125
+  cameraRotationSpeed: 25
+  cameraTiltBias: 50
 --- !u!81 &2107393475
 AudioListener:
   m_ObjectHideFlags: 0

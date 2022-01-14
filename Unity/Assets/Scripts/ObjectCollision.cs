@@ -37,37 +37,44 @@ public class ObjectCollision : MonoBehaviour
 			case "Balloon1(Clone)":
 				ShooterInstance.score += 1;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon2(Clone)":
 				ShooterInstance.score += 2;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon3(Clone)":
 				ShooterInstance.score += 3;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon5(Clone)":
 				ShooterInstance.score += 5;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon10(Clone)":
 				ShooterInstance.score += 10;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "BalloonGold":
 				ShooterInstance.score += 15;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				TimerInstance.timeLeft += 15;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
-			case "Default.007":
+			case "Heart":
 				ShooterInstance.score += 9;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			default:
