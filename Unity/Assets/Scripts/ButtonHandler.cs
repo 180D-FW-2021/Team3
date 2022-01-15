@@ -11,14 +11,40 @@ public class ButtonHandler : MonoBehaviour
 	public GameObject loadingScreen;
 	public Image loadingPlane;
 	public Text loadingText;
+	public Text tipText;
 	private RectTransform planeLocation;
+	private AudioSource[] audioSources; // 0:default, 1:start
+	private string[] tipList;
 
 	// Start is called before the first frame update
 	public void Start()
 	{
+		audioSources = gameObject.GetComponents<AudioSource>();
 		sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
 		sceneToggle.value = GetSceneIndex(Gameplay.scene);
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
+	}
+
+	public string GetTip(string scene)
+	{
+		switch(scene)
+		{
+			case "Main Scene":
+				tipList = new string[Gameplay.generalTips.Length + Gameplay.realisticTips.Length];
+				Gameplay.generalTips.CopyTo(tipList, 0);
+				Gameplay.realisticTips.CopyTo(tipList, Gameplay.generalTips.Length);
+				break;
+			case "LowPolyScene":
+				tipList = new string[Gameplay.generalTips.Length + Gameplay.lowPolyTips.Length];
+				Gameplay.generalTips.CopyTo(tipList, 0);
+				Gameplay.lowPolyTips.CopyTo(tipList, Gameplay.generalTips.Length);
+				break;
+			default:
+				tipList = new string[Gameplay.generalTips.Length];
+				tipList = Gameplay.generalTips;
+				break;
+		}
+		return tipList[Random.Range(0, tipList.Length)];
 	}
 
 	public string GetSceneName(float index)
@@ -49,6 +75,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public void startGame()
 	{
+		audioSources[1].Play();
 		sceneName = GetSceneName(sceneToggle.value);
 		Gameplay.scene = sceneName;
 		StartCoroutine(loadScene(sceneName));
@@ -56,6 +83,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public void restartGame()
 	{
+		audioSources[1].Play();
 		StartCoroutine(loadScene(Gameplay.scene));
 	}
 
@@ -63,12 +91,13 @@ public class ButtonHandler : MonoBehaviour
 	{
 		AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
 		loadingScreen.SetActive(true);
+		tipText.text = GetTip(scene);
 
 		while (!operation.isDone)
 		{
 			float progress = Mathf.Clamp01(operation.progress / .9f);
 			planeLocation.anchoredPosition = new Vector2(progress * 1200 - 700, planeLocation.anchoredPosition.y);
-			if (progress > 0 && progress <= .25)
+			if (progress >= 0 && progress <= .25)
 			{
 				loadingText.text = "Refueling...";
 			}
@@ -94,31 +123,37 @@ public class ButtonHandler : MonoBehaviour
 
 	public void openLeaderboard()
 	{
+		audioSources[0].Play();
 		Application.OpenURL("https://aeroplay.online");
 	}
 
 	public void quitGame()
 	{
+		audioSources[0].Play();
 		Application.Quit();
 	}
 
 	public void goToSettings()
 	{
+		audioSources[0].Play();
 		Gameplay.loadSettings();
 	}
 
 	public void goToMainMenu()
 	{
+		audioSources[0].Play();
 		SceneManager.LoadScene("Menu Scene");
 	}
 
 	public void toggleMap()
 	{
+		audioSources[0].Play();
 		sceneToggle.value = Mathf.Abs(sceneToggle.value - 1);
 	}
 
 	public void setMap(string mapName)
 	{
+		audioSources[0].Play();
 		switch (mapName)
 		{
 			case "realistic":
@@ -140,6 +175,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public void resumeGame()
 	{
+		audioSources[0].Play();
 		Gameplay.resumeGame();
 	}
 

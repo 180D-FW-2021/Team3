@@ -16,6 +16,8 @@ public class SettingsHandler : MonoBehaviour
     public GameObject retroCameraObject;
     private Text retroCameraValue;
     
+    private AudioSource[] audioSources; // 0:default, 1:up/set, 2:down, 3:reset
+
     public void Start()
     {
         musicVolumeValue = musicVolumeObject.GetComponent<Text>();
@@ -26,6 +28,7 @@ public class SettingsHandler : MonoBehaviour
         minimapValue.text = getMinimapStatus();
         retroCameraValue = retroCameraObject.GetComponent<Text>();
         retroCameraValue.text = getRetroCameraStatus();
+        audioSources = gameObject.GetComponents<AudioSource>();
     }
 
     public string getMusicVolumePercentage()
@@ -52,24 +55,28 @@ public class SettingsHandler : MonoBehaviour
 
     public void increaseMusicVolume()
     {
+        audioSources[1].Play();
         Gameplay.adjustScale("music", true);
         musicVolumeValue.text = getMusicVolumePercentage();
     }
 
     public void decreaseMusicVolume()
     {
+        audioSources[2].Play();
         Gameplay.adjustScale("music", false);
         musicVolumeValue.text = getMusicVolumePercentage();
     }
 
     public void setMusicVolume(int volume)
     {
+        audioSources[1].Play();
         Gameplay.setScale("music", volume);
         musicVolumeValue.text = getMusicVolumePercentage();
     }
 
     public void increaseEngineVolume()
     {
+        audioSources[1].Play();
         Gameplay.adjustScale("engine", true);
         engineVolumeValue.text = getEngineVolumePercentage();
 
@@ -77,50 +84,62 @@ public class SettingsHandler : MonoBehaviour
 
     public void decreaseEngineVolume()
     {
+        audioSources[2].Play();
         Gameplay.adjustScale("engine", false);
         engineVolumeValue.text = getEngineVolumePercentage();
     }
 
     public void setEngineVolume(int volume)
     {
+        audioSources[1].Play();
         Gameplay.setScale("engine", volume);
         engineVolumeValue.text = getEngineVolumePercentage();
     }
 
     public void toggleMinimap()
     {
+        audioSources[1].Play();
         Gameplay.toggle("minimap");
         minimapValue.text = getMinimapStatus();
     }
 
     public void setMinimap(bool value)
     {
+        audioSources[1].Play();
         Gameplay.setToggle("minimap", value);
         minimapValue.text = getMinimapStatus();
     }
 
     public void toggleRetroCamera()
     {
+        audioSources[1].Play();
         Gameplay.toggle("retroCamera");
         retroCameraValue.text = getRetroCameraStatus();
     }
 
     public void setRetroCamera(bool value)
     {
+        audioSources[1].Play();
         Gameplay.setToggle("retroCamera", value);
         retroCameraValue.text = getRetroCameraStatus();
     }
 
     public void setDefault()
     {
-        setMusicVolume(100);
-        setEngineVolume(100);
-        setMinimap(true);
-        setRetroCamera(false);
+        audioSources[3].Play();
+        Gameplay.setScale("music", 100);
+        musicVolumeValue.text = getMusicVolumePercentage();
+        Gameplay.setScale("engine", 100);
+        engineVolumeValue.text = getEngineVolumePercentage();
+        Gameplay.setToggle("minimap", true);
+        minimapValue.text = getMinimapStatus();
+        Gameplay.setToggle("retroCamera", false);
+        retroCameraValue.text = getRetroCameraStatus();
     }
 
     public void goToMainMenu()
 	{
+        audioSources[0].Play();
 		SceneManager.LoadSceneAsync("Menu Scene");
 	}
 }

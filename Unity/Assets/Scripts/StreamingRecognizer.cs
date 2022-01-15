@@ -444,70 +444,70 @@ public class StreamingRecognizer : MonoBehaviour
 	public void settingsSpeechOptions(string words)
 	{
 		SettingsHandler commandHandler = settingsHandler.GetComponent<SettingsHandler>();
-		if (words.Contains("music volume down"))
+		if (words.Contains("music volume down") || words.Contains("decrease music volume"))
 		{
 			commandHandler.decreaseMusicVolume();
 		}
-		else if (words.Contains("music volume up"))
+		else if (words.Contains("music volume up") || words.Contains("increase music volume"))
 		{
 			commandHandler.increaseMusicVolume();
 		}
-		else if (words.Contains("music volume off") || words.Contains("music volume mute"))
+		else if (words.Contains("music volume off") || words.Contains("music volume mute") || words.Contains("mute music volume") || words.Contains("no music volume"))
 		{
 			commandHandler.setMusicVolume(0);
 		}
-		else if (words.Contains("music volume low"))
+		else if (words.Contains("music volume low") || words.Contains("music volume quiet") || words.Contains("low music volume") || words.Contains("quiet music volume"))
 		{
 			commandHandler.setMusicVolume(50);
 		}
-		else if (words.Contains("music volume normal") || words.Contains("music volume default") || words.Contains("music volume medium"))
+		else if (words.Contains("music volume normal") || words.Contains("music volume default") || words.Contains("music volume medium") || words.Contains("normal music volume") || words.Contains("default music volume") || words.Contains("medium music volume"))
 		{
 			commandHandler.setMusicVolume(100);
 		}
-		else if (words.Contains("music volume high") || words.Contains("music volume loud"))
+		else if (words.Contains("music volume high") || words.Contains("music volume loud") || words.Contains("high music volume") || words.Contains("loud music volume"))
 		{
 			commandHandler. setMusicVolume(200);
 		}
 
-		else if (words.Contains("engine volume down"))
+		else if (words.Contains("engine volume down") || words.Contains("decrease engine volume"))
 		{
 			commandHandler.decreaseEngineVolume();
 		}
-		else if (words.Contains("engine volume up"))
+		else if (words.Contains("engine volume up") || words.Contains("increase engine volume"))
 		{
 			commandHandler.increaseEngineVolume();
 		}
-		else if (words.Contains("engine volume off") || words.Contains("engine volume mute"))
+		else if (words.Contains("engine volume off") || words.Contains("engine volume mute") || words.Contains("mute engine volume") || words.Contains("no engine volume"))
 		{
 			commandHandler.setEngineVolume(0);
 		}
-		else if (words.Contains("engine volume low"))
+		else if (words.Contains("engine volume low") || words.Contains("engine volume quiet") || words.Contains("low engine volume") || words.Contains("quiet engine volume"))
 		{
 			commandHandler.setEngineVolume(50);
 		}
-		else if (words.Contains("engine volume normal") || words.Contains("engine volume default") || words.Contains("engine volume medium"))
+		else if (words.Contains("engine volume normal") || words.Contains("engine volume default") || words.Contains("engine volume medium") || words.Contains("normal engine volume") || words.Contains("default engine volume") || words.Contains("medium engine volume"))
 		{
 			commandHandler.setEngineVolume(100);
 		}
-		else if (words.Contains("engine volume high") || words.Contains("engine volume loud"))
+		else if (words.Contains("engine volume high") || words.Contains("engine volume loud") || words.Contains("high engine volume") || words.Contains("loud engine volume"))
 		{
 			commandHandler.setEngineVolume(200);
 		}
 
-		else if (words.Contains("toggle minimap"))
+		else if (words.Contains("toggle minimap") || words.Contains("minimap toggle") || words.Contains("toggle mini map") || words.Contains("mini map toggle"))
 		{
 			commandHandler.toggleMinimap();
 		}
-		else if (words.Contains("minimap on"))
+		else if (words.Contains("minimap on") || words.Contains("mini map on"))
 		{
 			commandHandler.setMinimap(true);
 		}
-		else if (words.Contains("minimap off"))
+		else if (words.Contains("minimap off") || words.Contains("mini map off"))
 		{
 			commandHandler.setMinimap(false);
 		}
 
-		else if (words.Contains("toggle retro camera"))
+		else if (words.Contains("toggle retro camera") || words.Contains("retro camera toggle"))
 		{
 			commandHandler.toggleRetroCamera();
 		}
@@ -525,7 +525,7 @@ public class StreamingRecognizer : MonoBehaviour
 			commandHandler.setDefault();
 		}
 
-		else if (words.Contains("main menu"))
+		else if (words.Contains("main menu") || words.Contains("back"))
 		{
 			commandHandler.goToMainMenu();
 		}

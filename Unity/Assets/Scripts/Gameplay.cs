@@ -53,6 +53,10 @@ public static class Gameplay
 
 	public static float balloonIconHeight = 750f;
 
+	public static string[] generalTips = {"Tip: Blue Balloons Are Worth 10 Points!", "Tip: Smaller Balloons Move Much Faster!", "Tip: Smaller Balloons Are Worth More Points!", "Tip: Boosts Ignore Drag! (WOW)", "Tip: Gotta Go Fast!", "Tip: Throttle Down To Gain Control!", "Tip: figure it out yourself lol", "Tip: Watch The Time!", "Tip: Remember To Breathe!", "Tip: You Can Collide With Balloons For Points!", "Tip: Avoid Terrain Collisions!", "Tip: Drink Plenty Of Water!", "Tip: Remember To Compensate For Wind!", "Tip: Some Balloons Are Rarer Than Others!", "Tip: Boost To Get To Higher Altitudes!", "Tip: Check The Online Leaderboards!"};
+	public static string[] realisticTips = {"Tip: Balloon Locations Are Shown On The Minimap!"};
+	public static string[] lowPolyTips = {"Tip: Gold Balloons Give Time And Points!", "Tip: Gold Balloons Cannot Be Shot Down!", "Tip: Gold Balloons Are Shown On The Minimap!", "Tip: Heart Of The Mountain", "Tip: Try The Retro Camera!"};
+
 	public static void startGame() // not used
 	{
 		scene = ButtonHandler.sceneName;
