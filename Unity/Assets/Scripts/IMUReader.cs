@@ -68,12 +68,19 @@ public class IMUReader : MonoBehaviour
                                 if (!String.IsNullOrEmpty(Reading))
                                 {
                                     String[] IMUValues = Reading.Split(',');
-                                    roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
-                                    pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
-                                    if (IMUValues[2][0] == '1')
+                                    try
                                     {
-                                        this.boostCount++;
-                                        PlaneControlInstance.boost = 10f;
+                                        roll = -1 * float.Parse(IMUValues[0]) / 4; //* 60;
+                                        pitch = -1 * float.Parse(IMUValues[1]) / 4; //* 60;
+                                        if (IMUValues[2][0] == '1')
+                                        {
+                                            this.boostCount++;
+                                            PlaneControlInstance.boost = 10f;
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Debug.Log(IMUValues);
                                     }
                                 }
                             }

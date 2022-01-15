@@ -298,9 +298,9 @@ public class PlaneControl : MonoBehaviour
 	{
 		if (ControllerConnected())
 		{
-			planeTransform.Translate((airSpeed + airSpeedFromBoost) * Vector3.forward);
+			planeTransform.Translate((airSpeed + airSpeedFromBoost) * Vector3.forward * Time.deltaTime * 100f);
 			planeTransform.Translate((airSpeed + airSpeedFromBoost) * Vector3.right * pitch * Gameplay.imuCentripetalMultiplier);
-			transform.rotation = Quaternion.Euler(-1 * roll, planeTransform.eulerAngles.y + pitch * Gameplay.imuTurnMultiplier, -1 * pitch);
+			transform.rotation = Quaternion.Euler(Gameplay.imuTiltMultiplier * roll, planeTransform.eulerAngles.y + pitch * Gameplay.imuTurnMultiplier, Gameplay.imuTiltMultiplier * pitch);
 		}
 		else if (Gameplay.keyboardMode)
 		{

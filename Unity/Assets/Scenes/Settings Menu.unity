@@ -1177,7 +1177,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 72ea7fb6df9a5474a8aa6ea268070dbb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1945,8 +1945,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 374783634}
-        m_MethodName: Play
+      - m_Target: {fileID: 374783630}
+        m_MethodName: setDefault
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2408,8 +2408,8 @@ MonoBehaviour:
     chance: 9
     volume: 0.3
   - song: {fileID: 8300000, guid: e8077ab8f61974a8686b12a1c2ab95f0, type: 3}
-    chance: 12
-    volume: 0.6
+    chance: 15
+    volume: 0.5
   - song: {fileID: 8300000, guid: c5f4d4801df124690b9003f5b43a92a0, type: 3}
     chance: 3
     volume: 0.2

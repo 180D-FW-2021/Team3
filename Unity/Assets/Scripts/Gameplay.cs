@@ -30,8 +30,9 @@ public static class Gameplay
 	public static float hgrThrottleIncrement = .1f;
 	public static float keyboardThrottleIncrement = .01f; 
 	public static float gravityInfluenceMultiplier = .015f;
-	public static float imuCentripetalMultiplier = .011f;
-	public static float imuTurnMultiplier = .022f;
+	public static float imuCentripetalMultiplier = .005F;
+	public static float imuTurnMultiplier = .02F;
+	public static float imuTiltMultiplier = -.75f;
 	public static float shotCooldown = 350f;
 	public static float boostDuration = 1000f;
 	public static float boostSpeed = 8f;
@@ -57,7 +58,7 @@ public static class Gameplay
 	public static string[] realisticTips = {"Tip: Balloon Locations Are Shown On The Minimap!"};
 	public static string[] lowPolyTips = {"Tip: Gold Balloons Give Time And Points!", "Tip: Gold Balloons Cannot Be Shot Down!", "Tip: Gold Balloons Are Shown On The Minimap!", "Tip: Heart Of The Mountain", "Tip: Try The Retro Camera!"};
 
-	public static void startGame() // not used
+	public static void startGame()
 	{
 		scene = ButtonHandler.sceneName;
 		SceneManager.LoadSceneAsync(scene);
@@ -86,7 +87,6 @@ public static class Gameplay
 	public static void quitGame()
 	{
 		Application.Quit();
-		//UnityEditor.EditorApplication.isPlaying = false;
 	}
 
 	public static void restartGame()
