@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,8 +21,15 @@ public class ButtonHandler : MonoBehaviour
 	public void Start()
 	{
 		audioSources = gameObject.GetComponents<AudioSource>();
-		sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
-		sceneToggle.value = GetSceneIndex(Gameplay.scene);
+		try
+		{
+			sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
+			sceneToggle.value = GetSceneIndex(Gameplay.scene);
+		}
+		catch (Exception e)
+		{
+			Debug.Log(e);
+		}
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
 	}
 
@@ -44,7 +52,7 @@ public class ButtonHandler : MonoBehaviour
 				tipList = Gameplay.generalTips;
 				break;
 		}
-		return tipList[Random.Range(0, tipList.Length)];
+		return tipList[UnityEngine.Random.Range(0, tipList.Length)];
 	}
 
 	public string GetSceneName(float index)
@@ -89,6 +97,7 @@ public class ButtonHandler : MonoBehaviour
 
 	IEnumerator loadScene(string scene)
 	{
+		yield return new WaitForSeconds(2);
 		AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
 		loadingScreen.SetActive(true);
 		tipText.text = GetTip(scene);

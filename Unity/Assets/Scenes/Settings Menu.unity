@@ -2399,20 +2399,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music:
   - song: {fileID: 8300000, guid: cedea1d6cd76b9d4e9dc1cb3da7e40ea, type: 3}
-    chance: 3
+    chance: 2
     volume: 0.15
   - song: {fileID: 8300000, guid: dfbb110a077c4e84aa9c3997ddbba5e3, type: 3}
-    chance: 6
-    volume: 0.25
+    chance: 5
+    volume: 0.2
   - song: {fileID: 8300000, guid: 759a5d80b0e4c9a48a95cc37c36cc514, type: 3}
-    chance: 9
-    volume: 0.3
-  - song: {fileID: 8300000, guid: e8077ab8f61974a8686b12a1c2ab95f0, type: 3}
-    chance: 15
-    volume: 0.5
+    chance: 5
+    volume: 0.25
+  - song: {fileID: 8300000, guid: 90b930e5ce5044c7aa77a004e44acaa3, type: 3}
+    chance: 20
+    volume: 0.125
   - song: {fileID: 8300000, guid: c5f4d4801df124690b9003f5b43a92a0, type: 3}
     chance: 3
-    volume: 0.2
+    volume: 0.125
 --- !u!1 &1286909516
 GameObject:
   m_ObjectHideFlags: 0
