@@ -11,6 +11,15 @@ import numpy as np
 import mediapipe as mp
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+import os
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 # initialize mediapipe
 mpHands = mp.solutions.hands
@@ -18,13 +27,11 @@ hands = mpHands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 mpDraw = mp.solutions.drawing_utils
 
 # Load the gesture recognizer model
-model = load_model('mp_hand_gesture')
+model = load_model(resource_path('mp_hand_gesture'))
 
 # Load class names
-f = open('gesture.names', 'r')
-classNames = f.read().split('\n')
-f.close()
-print(classNames)
+classNames = ['', '', 'thumbs up', 'thumbs down', '', 'shoot', '', 'shoot', '', '']
+#print(classNames)
 
 
 # Initialize the webcam
