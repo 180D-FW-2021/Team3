@@ -17,6 +17,8 @@ public class ObjectCollision : MonoBehaviour
 	public Vector3 spawnLocation;
 	public int timePenalty;
 
+	private float lastTerrainCollision = 0f;
+
 	void Start()
 	{
 		ShooterInstance = ShooterObject.GetComponent<Shooter>();
@@ -35,37 +37,44 @@ public class ObjectCollision : MonoBehaviour
 			case "Balloon1(Clone)":
 				ShooterInstance.score += 1;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon2(Clone)":
 				ShooterInstance.score += 2;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon3(Clone)":
 				ShooterInstance.score += 3;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon5(Clone)":
 				ShooterInstance.score += 5;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "Balloon10(Clone)":
 				ShooterInstance.score += 10;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			case "BalloonGold":
 				ShooterInstance.score += 15;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				TimerInstance.timeLeft += 15;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
-			case "Default.007":
+			case "Heart":
 				ShooterInstance.score += 9;
 				ShooterInstance.shotsHit += 1;
+				ShooterInstance.shotsTaken += 1;
 				Instantiate(hitParticleSystem, collision.transform.position, Quaternion.LookRotation(collision.transform.forward));
 				break;
 			default:
@@ -76,14 +85,18 @@ public class ObjectCollision : MonoBehaviour
 	// Terrain Collision
 	private void OnCollisionEnter(Collision collision)
 	{
-		modifyTrailRenderer("Plane/LeftWingTrail", 0);
-		modifyTrailRenderer("Plane/RightWingTrail", 0);
-		PlaneInstance.transform.position = spawnLocation;
-		StartCoroutine(EnableTrail());
-		PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-		PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-		TimerInstance.timeLeft -= timePenalty;
-		StartCoroutine(ChangeColor());
+		if (Time.time - lastTerrainCollision > .1)
+		{
+			lastTerrainCollision = Time.time;
+			modifyTrailRenderer("Plane/LeftWingTrail", 0);
+			modifyTrailRenderer("Plane/RightWingTrail", 0);
+			PlaneInstance.transform.position = spawnLocation;
+			StartCoroutine(EnableTrail());
+			PlaneObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			PlaneObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+			TimerInstance.timeLeft -= timePenalty;
+			StartCoroutine(ChangeColor());
+		}
 	}
 
 	private void modifyTrailRenderer(string trailName, int trailTime)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,13 +12,47 @@ public class ButtonHandler : MonoBehaviour
 	public GameObject loadingScreen;
 	public Image loadingPlane;
 	public Text loadingText;
+	public Text tipText;
 	private RectTransform planeLocation;
+	private AudioSource[] audioSources; // 0:default, 1:start
+	private string[] tipList;
 
 	// Start is called before the first frame update
 	public void Start()
 	{
-		sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
+		audioSources = gameObject.GetComponents<AudioSource>();
+		try
+		{
+			sceneToggle = GameObject.Find("SceneSelector").GetComponent<Slider>();
+			sceneToggle.value = GetSceneIndex(Gameplay.scene);
+		}
+		catch (Exception e)
+		{
+			Debug.Log(e);
+		}
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
+	}
+
+	public string GetTip(string scene)
+	{
+		switch(scene)
+		{
+			case "Main Scene":
+				tipList = new string[Gameplay.generalTips.Length + Gameplay.realisticTips.Length];
+				Gameplay.generalTips.CopyTo(tipList, 0);
+				Gameplay.realisticTips.CopyTo(tipList, Gameplay.generalTips.Length);
+				break;
+			case "LowPolyScene":
+				tipList = new string[Gameplay.generalTips.Length + Gameplay.lowPolyTips.Length];
+				Gameplay.generalTips.CopyTo(tipList, 0);
+				Gameplay.lowPolyTips.CopyTo(tipList, Gameplay.generalTips.Length);
+				break;
+			default:
+				tipList = new string[Gameplay.generalTips.Length];
+				tipList = Gameplay.generalTips;
+				break;
+		}
+		return tipList[UnityEngine.Random.Range(0, tipList.Length)];
 	}
 
 	public string GetSceneName(float index)
@@ -33,25 +68,45 @@ public class ButtonHandler : MonoBehaviour
 		}
 	}
 
+	public float GetSceneIndex(string name)
+	{
+		switch(name)
+		{
+			case "Main Scene":
+				return 0f;
+			case "LowPolyScene":
+				return 1f;
+			default:
+				return 0f;
+		}
+	}
+
 	public void startGame()
 	{
+		audioSources[1].Play();
 		sceneName = GetSceneName(sceneToggle.value);
 		Gameplay.scene = sceneName;
 		StartCoroutine(loadScene(sceneName));
-		//Gameplay.startGame();
-		//SceneManager.LoadSceneAsync("Main Scene");
+	}
+
+	public void restartGame()
+	{
+		audioSources[1].Play();
+		StartCoroutine(loadScene(Gameplay.scene));
 	}
 
 	IEnumerator loadScene(string scene)
 	{
+		yield return new WaitForSeconds(2);
 		AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
 		loadingScreen.SetActive(true);
+		tipText.text = GetTip(scene);
 
 		while (!operation.isDone)
 		{
 			float progress = Mathf.Clamp01(operation.progress / .9f);
-			planeLocation.anchoredPosition = new Vector2(progress * 1808 - 1308, planeLocation.anchoredPosition.y);
-			if (progress > 0 && progress <= .25)
+			planeLocation.anchoredPosition = new Vector2(progress * 1200 - 700, planeLocation.anchoredPosition.y);
+			if (progress >= 0 && progress <= .25)
 			{
 				loadingText.text = "Refueling...";
 			}
@@ -77,27 +132,65 @@ public class ButtonHandler : MonoBehaviour
 
 	public void openLeaderboard()
 	{
+		audioSources[0].Play();
 		Application.OpenURL("https://aeroplay.online");
 	}
 
 	public void quitGame()
 	{
+		audioSources[0].Play();
 		Application.Quit();
-		//UnityEditor.EditorApplication.isPlaying = false;
 	}
 
 	public void goToSettings()
 	{
+		audioSources[0].Play();
 		Gameplay.loadSettings();
 	}
 
 	public void goToMainMenu()
 	{
+		audioSources[0].Play();
+		Gameplay.resumeGame();
 		SceneManager.LoadScene("Menu Scene");
+	}
+
+	public void toggleMap()
+	{
+		audioSources[0].Play();
+		sceneToggle.value = Mathf.Abs(sceneToggle.value - 1);
+	}
+
+	public void setMap(string mapName)
+	{
+		audioSources[0].Play();
+		switch (mapName)
+		{
+			case "realistic":
+				sceneToggle.value = 0;
+				break;
+			case "lowPoly":
+				sceneToggle.value = 1;
+				break;
+			default:
+				sceneToggle.value = 1;
+				break;
+		}
+	}
+
+	public void pauseGame()
+	{
+		Gameplay.pauseGame();
 	}
 
 	public void resumeGame()
 	{
+		audioSources[0].Play();
 		Gameplay.resumeGame();
+	}
+
+	public void enableKeyboard()
+	{
+		Gameplay.enableKeyboard();
 	}
 }

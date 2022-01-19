@@ -52,11 +52,11 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 15
   tint:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 10
   colorFilter:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -1403,7 +1403,7 @@ MonoBehaviour:
     defaultState: 1
   dirtIntensity:
     overrideState: 1
-    value: 1
+    value: 1.7
 --- !u!114 &3725331102598134507
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1431,10 +1431,10 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.22
+    value: 0.25
   smoothness:
     overrideState: 1
-    value: 0.508
+    value: 0.5
   roundness:
     overrideState: 1
     value: 1
@@ -1466,7 +1466,7 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 270
+    value: 275
   sampleCount:
     overrideState: 1
     value: 25

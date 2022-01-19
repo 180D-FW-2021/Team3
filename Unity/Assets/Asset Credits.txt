@@ -25,7 +25,14 @@ Raft On The Desert: https://assetstore.unity.com/packages/3d/environments/free-l
 Simple Skull: https://sketchfab.com/3d-models/simple-skull-cba160e50086468cba3b44e04f5a5c8b
 Polygonal Low-Poly Particle Pack: https://assetstore.unity.com/packages/vfx/particles/polygonal-s-low-poly-particle-pack-118355
 Low Poly Camping: https://sketchfab.com/3d-models/low-poly-camping-c205ff73008e4197bf0ce1ff214b28f6
+Low Poly Yacht: https://sketchfab.com/3d-models/low-poly-boat-1e71ba6166ed49fdbaa508c1e593a386
+Low Poly Trawler: https://sketchfab.com/3d-models/trawler-421f3239115c44539686fcb62835f115
+Low Poly Tugboat: https://sketchfab.com/3d-models/cartoon-lowpoly-tugboat-illustration-643b1c7643344802865726158832623d
+Low Poly Boat: https://sketchfab.com/3d-models/l-p-shark-cage-diving-scene-5bf4fcbbc6ea40b69c734f54180fa38c
+Low Poly Hot Air Balloon and Zeppelin: https://sketchfab.com/3d-models/hot-air-balloon-and-zeppelin-ca87ad9f8f5142f1829cf5d148f9d179#download
+
 Sound Effects: https://www.epidemicsound.com/sound-effects/
+Button Effects: Nintendo Wii
 
 Low Poly Terrain: Custom
 Low Poly Rail Bridge: Custom

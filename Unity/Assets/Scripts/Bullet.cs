@@ -46,7 +46,6 @@ public class Bullet : MonoBehaviour
 					{
 						target.TakeDamage(damage);
 					}
-					Debug.Log(target.transform.name);
 					switch (hits[0].transform.name)
 					{
 						case "Balloon1(Clone)":
@@ -78,7 +77,7 @@ public class Bullet : MonoBehaviour
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 							break;
-						case "Default.007":
+						case "Heart":
 							ShooterInstance.score += 9;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
@@ -89,7 +88,6 @@ public class Bullet : MonoBehaviour
 					Destroy(gameObject);
 				}
 				else if (hits[0].transform.name != "Plane"){
-					Debug.Log(hits[0].transform.name);
 					Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
 					Destroy(gameObject);
 				}

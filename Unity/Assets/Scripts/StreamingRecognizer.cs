@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Google.Cloud.Speech.V1;
@@ -66,11 +67,13 @@ public class StreamingRecognizer : MonoBehaviour
 	private const float MicInitializationTimeout = 1;
 	private const int StreamingLimit = 290000; // almost 5 minutes
 
-	public GameObject buttonObject;
-	public ButtonHandler buttonHandler;
+	private string scene;
 
-	public GameObject mapSelectObject;
-	public Slider mapSelector;
+	// public GameObject mapSelectObject;
+	// private Slider mapSelector;
+
+	public GameObject buttonHandler;
+	public GameObject settingsHandler;
 
 	public void StartListening()
 	{
@@ -84,8 +87,8 @@ public class StreamingRecognizer : MonoBehaviour
 
 	public void Start()
 	{
-		buttonHandler = buttonObject.GetComponent<ButtonHandler>();
-		mapSelector = mapSelectObject.GetComponent<Slider>();
+		scene = SceneManager.GetActiveScene().name;
+		//mapSelector = mapSelectObject.GetComponent<Slider>();
 	}
 
 	public async void StopListening()
@@ -298,75 +301,24 @@ public class StreamingRecognizer : MonoBehaviour
 					Debug.Log(transcript);
 				}
 
-				if (transcript.ToLower().Contains("start"))
+				switch (scene)
 				{
-				 	//Gameplay.startGame();
-					buttonHandler.startGame();
+					case "Settings Menu":
+						settingsSpeechOptions(transcript.ToLower());
+						break;
+					case "Menu Scene":
+						menuSpeechOptions(transcript.ToLower());
+						break;
+					case "End Scene":
+						endSpeechOptions(transcript.ToLower());
+						break;
+					case "Main Scene":
+					case "LowPolyScene":
+						gameSpeechOptions(transcript.ToLower());
+						break;
+					default:
+						break;
 				}
-				if (transcript.Contains("pause"))
-				{
-					Gameplay.pauseGame();
-				}
-				else if (transcript.Contains("resume"))
-				{
-					Gameplay.resumeGame();
-				}
-				else if (transcript.Contains("keyboard mode"))
-				{
-					Gameplay.enableKeyboard();
-				}
-				else if (transcript.Contains("change map"))
-				{
-					mapSelector.value = Mathf.Abs(mapSelector.value - 1);
-				}
-				else if (transcript.Contains("main menu"))
-				{
-					Gameplay.restartGame();
-				}
-				else if (transcript.Contains("leaderboard"))
-				{
-					Application.OpenURL("https://aeroplay.online");
-				}
-				else if (transcript.Contains("setting"))
-				{
-					Gameplay.loadSettings();
-				}
-				else if (transcript.ToLower().Contains("quit"))
-				{
-					Gameplay.quitGame();
-				}
-				// else if (transcript.ToLower().Contains("restart"))
-				// {
-				// 	Gameplay.restartGame();
-				// }
-
-
-				// switch (transcript.ToLower())
-				// {
-				// 	case "start":
-				// 		Gameplay.startGame();
-				// 		break;
-				// 	case "pause":
-				// 		Gameplay.pauseGame();
-				// 		break;
-				// 	case "play":
-				// 	case "resume":
-				// 		Gameplay.resumeGame();
-				// 		break;
-				// 	case "quit":
-				// 		Gameplay.quitGame();
-				// 		break;
-				// 	case "restart":
-				// 		Gameplay.restartGame();
-				// 		break;
-				// 	case "options":
-				// 		Gameplay.loadOptions();
-				// 		break;
-				// 	case "keyboard mode":
-				// 		Gameplay.enableKeyboard();
-				// 		break;
-				// }
-
 				_isFinalEndTime = _resultEndTime;
 				onFinalResult.Invoke(transcript);
 			}
@@ -486,6 +438,196 @@ public class StreamingRecognizer : MonoBehaviour
 				}
 				StartListening();
 			}
+		}
+	}
+
+	public void settingsSpeechOptions(string words)
+	{
+		SettingsHandler commandHandler = settingsHandler.GetComponent<SettingsHandler>();
+		if (words.Contains("music volume down") || words.Contains("decrease music volume"))
+		{
+			commandHandler.decreaseMusicVolume();
+		}
+		else if (words.Contains("music volume up") || words.Contains("increase music volume"))
+		{
+			commandHandler.increaseMusicVolume();
+		}
+		else if (words.Contains("music volume off") || words.Contains("music volume mute") || words.Contains("mute music volume") || words.Contains("no music volume"))
+		{
+			commandHandler.setMusicVolume(0);
+		}
+		else if (words.Contains("music volume low") || words.Contains("music volume quiet") || words.Contains("low music volume") || words.Contains("quiet music volume"))
+		{
+			commandHandler.setMusicVolume(50);
+		}
+		else if (words.Contains("music volume normal") || words.Contains("music volume default") || words.Contains("music volume medium") || words.Contains("normal music volume") || words.Contains("default music volume") || words.Contains("medium music volume"))
+		{
+			commandHandler.setMusicVolume(100);
+		}
+		else if (words.Contains("music volume high") || words.Contains("music volume loud") || words.Contains("high music volume") || words.Contains("loud music volume"))
+		{
+			commandHandler. setMusicVolume(200);
+		}
+
+		else if (words.Contains("engine volume down") || words.Contains("decrease engine volume"))
+		{
+			commandHandler.decreaseEngineVolume();
+		}
+		else if (words.Contains("engine volume up") || words.Contains("increase engine volume"))
+		{
+			commandHandler.increaseEngineVolume();
+		}
+		else if (words.Contains("engine volume off") || words.Contains("engine volume mute") || words.Contains("mute engine volume") || words.Contains("no engine volume"))
+		{
+			commandHandler.setEngineVolume(0);
+		}
+		else if (words.Contains("engine volume low") || words.Contains("engine volume quiet") || words.Contains("low engine volume") || words.Contains("quiet engine volume"))
+		{
+			commandHandler.setEngineVolume(50);
+		}
+		else if (words.Contains("engine volume normal") || words.Contains("engine volume default") || words.Contains("engine volume medium") || words.Contains("normal engine volume") || words.Contains("default engine volume") || words.Contains("medium engine volume"))
+		{
+			commandHandler.setEngineVolume(100);
+		}
+		else if (words.Contains("engine volume high") || words.Contains("engine volume loud") || words.Contains("high engine volume") || words.Contains("loud engine volume"))
+		{
+			commandHandler.setEngineVolume(200);
+		}
+
+		else if (words.Contains("toggle minimap") || words.Contains("minimap toggle") || words.Contains("toggle mini map") || words.Contains("mini map toggle"))
+		{
+			commandHandler.toggleMinimap();
+		}
+		else if (words.Contains("minimap on") || words.Contains("mini map on"))
+		{
+			commandHandler.setMinimap(true);
+		}
+		else if (words.Contains("minimap off") || words.Contains("mini map off"))
+		{
+			commandHandler.setMinimap(false);
+		}
+
+		else if (words.Contains("toggle retro camera") || words.Contains("retro camera toggle"))
+		{
+			commandHandler.toggleRetroCamera();
+		}
+		else if (words.Contains("retro camera on"))
+		{
+			commandHandler.setRetroCamera(true);
+		}
+		else if (words.Contains("retro camera off"))
+		{
+			commandHandler.setRetroCamera(false);
+		}
+
+		else if (words.Contains("change time") || words.Contains("time up") || words.Contains("day up") || words.Contains("increase time") || words.Contains("day increase"))
+		{
+			commandHandler.increaseTimeOfDay();
+		}
+		else if (words.Contains("time down") || words.Contains("day down") || words.Contains("decrease time") || words.Contains("day decrease"))
+		{
+			commandHandler.decreaseTimeOfDay();
+		}
+		else if (words.Contains("sunset"))
+		{
+			commandHandler.setTimeOfDay("sunset");
+		}
+		else if (words.Contains("dusk"))
+		{
+			commandHandler.setTimeOfDay("dusk");
+		}
+		else if (words.Contains("dawn"))
+		{
+			commandHandler.setTimeOfDay("dawn");
+		}
+
+		else if (words.Contains("default settings") || words.Contains("restore default") || words.Contains("restore settings"))
+		{
+			commandHandler.setDefault();
+		}
+
+		else if (words.Contains("main menu") || words.Contains("back"))
+		{
+			commandHandler.goToMainMenu();
+		}
+	}
+
+	public void menuSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("start") || words.Contains("begin") || words.Contains("play"))
+		{
+			commandHandler.startGame();
+		}
+		else if (words.Contains("leaderboard"))
+		{
+			commandHandler.openLeaderboard();
+		}
+		else if (words.Contains("setting") || words.Contains("option"))
+		{
+			commandHandler.goToSettings();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
+		}
+		else if (words.Contains("change map") || words.Contains("switch map"))
+		{
+			commandHandler.toggleMap();
+		}
+		else if (words.Contains("realistic"))
+		{
+			commandHandler.setMap("realistic");
+		}
+		else if (words.Contains("low poly"))
+		{
+			commandHandler.setMap("lowPoly");
+		}
+	}
+
+	public void endSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("start"))
+		{
+			commandHandler.restartGame();
+		}
+		else if (words.Contains("leaderboard"))
+		{
+			commandHandler.openLeaderboard();
+		}
+		else if (words.Contains("main menu"))
+		{
+			commandHandler.goToMainMenu();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
+		}
+	}
+
+	public void gameSpeechOptions(string words)
+	{
+		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
+		if (words.Contains("keyboard"))
+		{
+			commandHandler.enableKeyboard();
+		}
+		else if (words.Contains("pause") || words.Contains("stop"))
+		{
+			commandHandler.pauseGame();
+		}
+		else if (words.Contains("resume") || words.Contains("continue"))
+		{
+			commandHandler.resumeGame();
+		}
+		else if (words.Contains("main menu"))
+		{
+			commandHandler.goToMainMenu();
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
 		}
 	}
 }

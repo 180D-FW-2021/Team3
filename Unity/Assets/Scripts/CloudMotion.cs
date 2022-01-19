@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CloudMotion : MonoBehaviour
 {
-    private bool rotatedToWind;
-    // Start is called before the first frame update
+    private bool rotatedToWind = false;
+    private float cloudMovementSpeed;
+    private Vector3 heightNormalizer;
+    
     void Start()
     {
-        rotatedToWind = false;
+        cloudMovementSpeed = Gameplay.cloudMovementSpeed;
+        heightNormalizer = new Vector3(0f, .1f, 0f);
     }
 
     // Update is called once per frame
@@ -21,7 +24,7 @@ public class CloudMotion : MonoBehaviour
         }
         if (!Gameplay.isPaused)
         {
-            transform.localPosition = this.transform.localPosition + SpawnBalloons.wind * 1.5f;
+            transform.localPosition = this.transform.localPosition + Vector3.Scale(SpawnBalloons.wind, heightNormalizer) * cloudMovementSpeed * Time.deltaTime;
         }
     }
 }
