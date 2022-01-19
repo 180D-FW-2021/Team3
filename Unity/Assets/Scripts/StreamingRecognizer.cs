@@ -520,6 +520,27 @@ public class StreamingRecognizer : MonoBehaviour
 			commandHandler.setRetroCamera(false);
 		}
 
+		else if (words.Contains("change time") || words.Contains("time up") || words.Contains("day up") || words.Contains("increase time") || words.Contains("day increase"))
+		{
+			commandHandler.increaseTimeOfDay();
+		}
+		else if (words.Contains("time down") || words.Contains("day down") || words.Contains("decrease time") || words.Contains("day decrease"))
+		{
+			commandHandler.decreaseTimeOfDay();
+		}
+		else if (words.Contains("sunset"))
+		{
+			commandHandler.setTimeOfDay("sunset");
+		}
+		else if (words.Contains("dusk"))
+		{
+			commandHandler.setTimeOfDay("dusk");
+		}
+		else if (words.Contains("dawn"))
+		{
+			commandHandler.setTimeOfDay("dawn");
+		}
+
 		else if (words.Contains("default settings") || words.Contains("restore default") || words.Contains("restore settings"))
 		{
 			commandHandler.setDefault();

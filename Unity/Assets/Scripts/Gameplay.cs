@@ -11,6 +11,7 @@ public static class Gameplay
 	public static bool keyboardMode = false;
 	public static bool gameStarted = false;
 	public static string scene = "LowPolyScene";
+	public static string daytime = "sunset";
 
 	public static int musicVolume = 100;
 	public static int engineVolume = 100;
@@ -200,6 +201,56 @@ public static class Gameplay
 				break;
 			default:
 				break;
+		}
+	}
+
+	public static void adjustTimeOfDay(bool increase) // maybe change this to use enum
+	{
+		int currentTimeOfDayIndex = getIndexFromTimeOfDay(daytime);
+		string newDaytime = increase ? getTimeOfDayFromIndex(currentTimeOfDayIndex + 1) : getTimeOfDayFromIndex(currentTimeOfDayIndex - 1);
+		daytime = newDaytime;
+	}
+
+	public static void setTimeOfDay(string timeOfDay)
+	{
+		daytime = timeOfDay;
+	}
+
+	private static int getIndexFromTimeOfDay(string timeOfDay)
+	{
+		switch (timeOfDay)
+		{
+			case "dawn":
+				return 0;
+			case "day":
+				return 1;
+			case "sunset":
+				return 2;
+			case "dusk":
+				return 3;
+			default:
+				return 2;
+		}
+	}
+
+	private static string getTimeOfDayFromIndex(int index)
+	{
+		switch (index)
+		{
+			case -1:
+				return "dusk";
+			case 0:
+				return "dawn";
+			case 1:
+				return "day";
+			case 2:
+				return "sunset";
+			case 3:
+				return "dusk";
+			case 4:
+				return "dawn";
+			default:
+				return "sunset";
 		}
 	}
 }

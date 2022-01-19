@@ -151,6 +151,7 @@ public class ButtonHandler : MonoBehaviour
 	public void goToMainMenu()
 	{
 		audioSources[0].Play();
+		Gameplay.resumeGame();
 		SceneManager.LoadScene("Menu Scene");
 	}
 

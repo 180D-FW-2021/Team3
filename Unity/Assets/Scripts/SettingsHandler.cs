@@ -15,6 +15,8 @@ public class SettingsHandler : MonoBehaviour
 
     public GameObject retroCameraObject;
     private Text retroCameraValue;
+    public GameObject timeOfDayObject;
+    private Text timeOfDayValue;
     
     private AudioSource[] audioSources; // 0:default, 1:up/set, 2:down, 3:reset
 
@@ -28,6 +30,8 @@ public class SettingsHandler : MonoBehaviour
         minimapValue.text = getMinimapStatus();
         retroCameraValue = retroCameraObject.GetComponent<Text>();
         retroCameraValue.text = getRetroCameraStatus();
+        timeOfDayValue = timeOfDayObject.GetComponent<Text>();
+        timeOfDayValue.text = getTimeOfDayStatus();
         audioSources = gameObject.GetComponents<AudioSource>();
     }
 
@@ -51,6 +55,20 @@ public class SettingsHandler : MonoBehaviour
     {
         string retroCameraStatus = Gameplay.retroCameraEnabled ? "On" : "Off";
         return retroCameraStatus;
+    }
+
+    public string getTimeOfDayStatus()
+    {
+        string timeOfDayStatus = char.ToUpper(Gameplay.daytime[0]) + Gameplay.daytime.Substring(1);
+        if (Gameplay.daytime == "sunset")
+        {
+            timeOfDayValue.fontSize = 40;
+        }
+        else
+        {
+            timeOfDayValue.fontSize = 50;
+        }
+        return timeOfDayStatus;
     }
 
     public void increaseMusicVolume()
@@ -124,6 +142,27 @@ public class SettingsHandler : MonoBehaviour
         retroCameraValue.text = getRetroCameraStatus();
     }
 
+    public void increaseTimeOfDay()
+    {
+        audioSources[1].Play();
+        Gameplay.adjustTimeOfDay(true);
+        timeOfDayValue.text = getTimeOfDayStatus();
+    }
+
+    public void decreaseTimeOfDay()
+    {
+        audioSources[2].Play();
+        Gameplay.adjustTimeOfDay(false);
+        timeOfDayValue.text = getTimeOfDayStatus();
+    }
+    
+    public void setTimeOfDay(string timeOfDay)
+    {
+        audioSources[1].Play();
+        Gameplay.setTimeOfDay(timeOfDay);
+        timeOfDayValue.text = getTimeOfDayStatus();
+    }
+
     public void setDefault()
     {
         audioSources[3].Play();
@@ -135,6 +174,8 @@ public class SettingsHandler : MonoBehaviour
         minimapValue.text = getMinimapStatus();
         Gameplay.setToggle("retroCamera", false);
         retroCameraValue.text = getRetroCameraStatus();
+        Gameplay.setTimeOfDay("sunset");
+        timeOfDayValue.text = getTimeOfDayStatus();
     }
 
     public void goToMainMenu()
