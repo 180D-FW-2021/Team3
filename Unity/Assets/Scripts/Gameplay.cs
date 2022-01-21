@@ -11,7 +11,7 @@ public static class Gameplay
 	public static bool keyboardMode = false;
 	public static bool gameStarted = false;
 	public static string scene = "LowPolyScene";
-	public static string daytime = "sunset";
+	public static string daytime = "dawn";
 
 	public static int musicVolume = 100;
 	public static int engineVolume = 100;
