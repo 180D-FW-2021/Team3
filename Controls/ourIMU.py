@@ -90,12 +90,12 @@ lastBoost = 0
 boostDetectStart = 0
 boostSensitivityDuration = 300 #time in ms
 accYBuf = []
-accYBufSize = 7
+accYBufSize = 16
 boost = 0
 
 # Define constants and thresholds
 gyroThreshold = 80
-boostThreshold = -.15
+boostThreshold = .25
 boostCooldown = 10000 #time in ms
 
 def kalmanFilterY ( accAngle, gyroRate, DT):
@@ -178,21 +178,18 @@ def updateBuffer(bufferArray, bufferArraySize, newValue):
         bufferArray.pop(0)
     return bufferArray
 
-def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBuffer, currentTime):
+def setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accBuffer, bufferArraySize, currentTime):
     global boostDetectStart
     global lastBoost
     global boost
-    #print(lastBoost)
-    foundBoost = 0
-    if all(value < boostThreshold for value in accBuffer) and boostDetectStart == 0:
-        boostDetectStart = currentTime
-    if not all(value < boostThreshold for value in accBuffer) and boostDetectStart != 0:
-        if currentTime - boostDetectStart <= boostSensitivityDuration and boost == 0:
-            lastBoost = currentTime
-            boost = 1
-            foundBoost = 1
-        boostDetectStart = 0
-    if currentTime - lastBoost <= boostCooldown and foundBoost == 0:
+    foundBoost = False
+    if (len(accBuffer) == bufferArraySize and boost == 0): #use buffer size 16
+        if accBuffer[int(bufferArraySize / 2) - 1] < 0 and accBuffer[int(bufferArraySize / 2)] > 0:           
+            if (sum(accBuffer[1:6]) / 6) < -1 * boostThreshold and (sum(accBuffer[9:14]) / 6) > boostThreshold:
+                lastBoost = currentTime
+                boost = 1
+                foundBoost = True
+    if currentTime - lastBoost <= boostCooldown and foundBoost == False:
         boost = -1
     elif boost != 1:
         boost = 0
@@ -471,7 +468,7 @@ while True:
     accYBuf = updateBuffer(accYBuf, accYBufSize, accYnorm)
 
     # Perform the boost detection algorithm
-    setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accYBuf, currentTime)
+    setBoostValue(boostThreshold, boostSensitivityDuration, boostCooldown, accYBuf, accYBufSize, currentTime)
 
     # Output Data
     outputString = getOutputString(roll, pitch, accXnorm, accYnorm, accZnorm, boost)
@@ -479,7 +476,7 @@ while True:
     directionFromRP = getDirectionFromRollPitch(roll,pitch, gyroThreshold)
 
     output = outputString + " " + directionFromRP + ";"
-    print(output)
+    print(str(accXnorm) + "," + str(accYnorm) + "," + str(accZnorm) + "," + output)
     client.send(output.encode())
 
 if __name__ == "__main__":
