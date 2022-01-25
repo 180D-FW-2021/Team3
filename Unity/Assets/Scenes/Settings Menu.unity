@@ -905,6 +905,12 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: c5f4d4801df124690b9003f5b43a92a0, type: 3}
     chance: 3
     volume: 0.125
+  - song: {fileID: 8300000, guid: d8314eacfad7543e797282725fc64188, type: 3}
+    chance: 3
+    volume: 0.1
+  - song: {fileID: 8300000, guid: 565d4f7549156475b9bb7375e5823476, type: 3}
+    chance: 12
+    volume: 0.2
 --- !u!82 &344757808
 AudioSource:
   m_ObjectHideFlags: 0

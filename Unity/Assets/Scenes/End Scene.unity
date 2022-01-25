@@ -949,7 +949,7 @@ MonoBehaviour:
     chance: 0
     volume: 0.25
   - song: {fileID: 8300000, guid: 68621b682f1a67b43ace4dba7a45dbcd, type: 3}
-    chance: 4
+    chance: 0
     volume: 0.25
   - song: {fileID: 8300000, guid: deeb2c76e24a86949857274eef4f9451, type: 3}
     chance: 0
@@ -960,8 +960,11 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: 5ad92d67d004a3748a5aac7754dc1d65, type: 3}
     chance: 12
     volume: 0.5
-  - song: {fileID: 8300000, guid: 8210691bbdec841fd8b2d31adfe4ec1b, type: 3}
+  - song: {fileID: 8300000, guid: 0c9aabd129a3840bca084920fe892f90, type: 3}
     chance: 8
+    volume: 0.3
+  - song: {fileID: 8300000, guid: 70207a022572d45e4a762be46d80eb8b, type: 3}
+    chance: 6
     volume: 0.4
 --- !u!82 &332139501
 AudioSource:
