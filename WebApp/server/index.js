@@ -46,6 +46,10 @@ app.post("/api/insert", (req, res) => {
     })
 });
 
+app.get("/MacOS", (req, res) => {
+    res.redirect("https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download");
+});
+
 app.listen(process.env.PORT || PORT, () => {
     console.log(`running on port ${PORT}`);
 });

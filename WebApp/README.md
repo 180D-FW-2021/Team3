@@ -40,7 +40,9 @@ the `game_id` must be unique for each game and is used as a primary key; we can 
 ### Frontend
 The frontend for this web application is hosted by Netlify with a custom domain name and is built using React. This will allow us to display a page, respond to user input, send requests to the backend, and return and process results to display to the user.
 
-There are currently two different modes for the web application. Global mode shows the games and statistics for the entire player base, and player mode which only shows the games and statistics for a given player. We chose to include two modes because we want players to be able to compete with not only with other players' scores, but their own scores as well.
+There are currently two different modes for the web application. Global mode shows the games and statistics for the entire player base, and player mode which only shows the games and statistics for a given player. We chose to include two modes because we want players to be able to compete with not only with other players' scores, but their own scores as well. Additonally, the game has multiple maps with different playstyles so we have a separate leaderboard for each map.
+
+Users are also able to download the game from the frontend application via a button located on the main page. We use the website as a means to distribute the game because downloading is intuitive for many internet users.
 
 In `App.js`, we will be using the `useState` and `useEffect` React hooks to get the user's inputs and respond to user actions. `useState` can be used to store information like the user's search query or the current list of game entries, and `useEffect` can be used to detect changes in the page from user inputs. When a user presses a button, the `useEffect` hook is triggered, sending a request (with user input if relevant) to the backend application. The reason why we have the user press a button to send input instead of it automatically sending input on change is because the free database option we are using has a limited number of questions and querying on every update would quickly fill the quota. We will get a response from the backend application in the form of a JSON string which we can parse. We can simply use a loop to parse the JSON objects to display the information or in the case of the global/player statistics, we can create a function `getGlobalStats` that processes the data further.
 
@@ -52,4 +54,5 @@ With the introduction of multiple maps, we want to be able to keep track of the 
 ### Note:
 The frontend and backend need to be hosted from their own standalone Git repositories so the files here are simply copies of the core application code. There is a lot more structure and more code involved that is required to deploy and run the services, but those files are unchanged. We have chosen not to copy all of those files here because items like node modules are notoriously bulky and would make `git clone` substantially more time consuming while adding nothing of value.
 
-[frontend repo:](https://github.com/Ericzklm/Aeroplay-Web_Client)
+Frontend repo: [https://github.com/Ericzklm/Aeroplay-Web_Client](https://github.com/Ericzklm/Aeroplay-Web_Client)
+Backend repo: [https://git.heroku.com/aeroplay.git](https://git.heroku.com/aeroplay.git) (permissions needed to clone)

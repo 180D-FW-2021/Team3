@@ -80,10 +80,21 @@ function App() {
     global = false;
   }
 
+  const openWindow = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  }
+
   return (
     <div className="App">
       <div className="aeroplayHeader">
         <h1 onClick={updateScores}>Aeroplay</h1>
+      </div>
+      <div className="download">
+        <button onClick={() => openWindow('https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download')}>
+          <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
+          Download for MacOS
+        </button>
       </div>
       <div className="searchPlayer">
         <label>Search Player:</label>
@@ -99,7 +110,8 @@ function App() {
             <option value="Low-Poly">Low-Poly</option>
           </select>
         </div>
-      </div> 
+      </div>
+      
       <div className="dataSection">
         <div className="globalData">
           {global ? <h3>Global Statistics</h3> : <h3>Player Statistics</h3>}

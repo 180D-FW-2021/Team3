@@ -19,6 +19,31 @@ body {
   margin: 30px;
 }
 
+.download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.download button {
+  margin-left: 12px;
+  height: 31px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.download img {
+  max-width: auto;
+  max-height: 60%;
+  margin-right: 4px;
+}
+
 .searchPlayer {
   display: flex;
   justify-content: center;
