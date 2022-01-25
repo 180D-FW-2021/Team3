@@ -11,7 +11,7 @@ public static class Gameplay
 	public static bool keyboardMode = false;
 	public static bool gameStarted = false;
 	public static string scene = "LowPolyScene";
-	public static string daytime = "sunset";
+	public static string daytime = "day";
 
 	public static int musicVolume = 100;
 	public static int engineVolume = 100;
@@ -58,7 +58,7 @@ public static class Gameplay
 
 	public static string[] generalTips = {"Tip: Blue Balloons Are Worth 10 Points!", "Tip: Smaller Balloons Move Much Faster!", "Tip: Smaller Balloons Are Worth More Points!", "Tip: Boosts Ignore Drag! (WOW)", "Tip: Gotta Go Fast!", "Tip: Throttle Down To Gain Control!", "Tip: figure it out yourself lol", "Tip: Watch The Time!", "Tip: Remember To Breathe!", "Tip: You Can Collide With Balloons For Points!", "Tip: Avoid Terrain Collisions!", "Tip: Drink Plenty Of Water!", "Tip: Remember To Compensate For Wind!", "Tip: Some Balloons Are Rarer Than Others!", "Tip: Boost To Get To Higher Altitudes!", "Tip: Check The Online Leaderboards!", "Tip: Accelerate More By Pitching Downwards!", "Tip: Pitching Upwards Reduces Speed!", "Tip: Managing Throttle Is Key To Controlling Speed!"};
 	public static string[] realisticTips = {"Tip: Balloon Locations Are Shown On The Minimap!"};
-	public static string[] lowPolyTips = {"Tip: Gold Balloons Give Time And Points!", "Tip: Gold Balloons Cannot Be Shot Down!", "Tip: Gold Balloons Are Shown On The Minimap!", "Tip: Heart Of The Mountain", "Tip: Try The Retro Camera!", "Tip: Watch Out For Moving Obstacles!", "Tip: Some Gold Balloons Require A Specific Attack Angle!", "Tip: Look For The Beacons!"};
+	public static string[] lowPolyTips = {"Tip: Gold Balloons Give Time And Points!", "Tip: Gold Balloons Cannot Be Shot Down!", "Tip: Gold Balloons Are Shown On The Minimap!", "Tip: Heart Of The Mountain", "Tip: Try The Retro Camera!", "Tip: Watch Out For Moving Obstacles!", "Tip: Some Gold Balloons Require A Specific Attack Angle!", "Tip: Look For The Beacons!", "Tip: Wind Turbines Point Against The Wind Direction!"};
 
 	public static void startGame()
 	{
