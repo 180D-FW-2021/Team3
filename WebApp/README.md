@@ -51,3 +51,5 @@ With the introduction of multiple maps, we want to be able to keep track of the 
 
 ### Note:
 The frontend and backend need to be hosted from their own standalone Git repositories so the files here are simply copies of the core application code. There is a lot more structure and more code involved that is required to deploy and run the services, but those files are unchanged. We have chosen not to copy all of those files here because items like node modules are notoriously bulky and would make `git clone` substantially more time consuming while adding nothing of value.
+
+[frontend repo:](https://github.com/Ericzklm/Aeroplay-Web_Client)
