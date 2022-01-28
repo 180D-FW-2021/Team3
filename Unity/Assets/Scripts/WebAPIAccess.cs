@@ -7,7 +7,7 @@ public static class WebAPIAccess
 {
 	// Start is called before the first frame update
 
-	public static IEnumerator Upload(string username, int score, int balloons_popped, float shot_accuracy, int boosts_used, string game_map)
+	public static IEnumerator Upload(string username, int score, int balloons_popped, float shot_accuracy, int boosts_used, string game_map, string control)
 	{
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
@@ -16,6 +16,7 @@ public static class WebAPIAccess
 		form.AddField("shot_accuracy", shot_accuracy.ToString());
 		form.AddField("boosts_used", boosts_used);
 		form.AddField("game_map", game_map);
+		form.AddField("control", control);
 
 		using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/insert", form))
 		{

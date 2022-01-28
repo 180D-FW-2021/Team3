@@ -604,7 +604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -450}
+  m_AnchoredPosition: {x: 0, y: -440}
   m_SizeDelta: {x: 800, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &240693050
@@ -890,27 +890,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - song: {fileID: 8300000, guid: cedea1d6cd76b9d4e9dc1cb3da7e40ea, type: 3}
-    chance: 2
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.15
   - song: {fileID: 8300000, guid: dfbb110a077c4e84aa9c3997ddbba5e3, type: 3}
     chance: 5
     volume: 0.2
-  - song: {fileID: 8300000, guid: 759a5d80b0e4c9a48a95cc37c36cc514, type: 3}
-    chance: 5
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.25
   - song: {fileID: 8300000, guid: 90b930e5ce5044c7aa77a004e44acaa3, type: 3}
     chance: 20
     volume: 0.125
   - song: {fileID: 8300000, guid: c5f4d4801df124690b9003f5b43a92a0, type: 3}
-    chance: 3
+    chance: 5
     volume: 0.125
-  - song: {fileID: 8300000, guid: d8314eacfad7543e797282725fc64188, type: 3}
-    chance: 3
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.1
   - song: {fileID: 8300000, guid: 565d4f7549156475b9bb7375e5823476, type: 3}
     chance: 12
     volume: 0.2
+  originalVolume: 0
 --- !u!82 &344757808
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1119,6 +1120,7 @@ MonoBehaviour:
   minimapObject: {fileID: 1435872251}
   retroCameraObject: {fileID: 2139305217}
   timeOfDayObject: {fileID: 317050494}
+  jukeboxObject: {fileID: 344757806}
 --- !u!82 &374783631
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3577,7 +3579,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Time Of Day
+  m_Text: Time
 --- !u!222 &1539513380
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -37,6 +37,7 @@ public static class Gameplay
 	public static float shotCooldown = 350f;
 	public static float boostDuration = 1000f;
 	public static float boostSpeed = 8f;
+	public static float boostCooldown = 10000f;
 
 	public static float cloudMovementSpeed = 35f;
 	public static float balloonMovementSpeed = 50f;

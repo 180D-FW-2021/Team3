@@ -102,6 +102,26 @@ body {
   border: 1px solid black;
 }
 
+.controlSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-left: 20px;
+  background-color: #c1cccc;
+  padding: 6px 20px;
+  border-radius: 8px;
+}
+
+.controlSelect select {
+  padding: 6px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 17px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
 .dataSection {
   display: flex;
   justify-content: center;

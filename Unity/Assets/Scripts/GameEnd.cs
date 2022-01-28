@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
-
 public class GameEnd : MonoBehaviour
 {
 	bool isGameOver = false;
@@ -12,6 +9,7 @@ public class GameEnd : MonoBehaviour
 	public float shot_accuracy;
 	public int boosts_used;
 	public string game_map;
+	public string control;
 
 	public void EndGame()
 	{
@@ -30,6 +28,7 @@ public class GameEnd : MonoBehaviour
 		shot_accuracy = PlayerPrefs.GetFloat("shot_accuracy");
 		boosts_used = PlayerPrefs.GetInt("boosts_used");
 		game_map = sceneNameToMapName(Gameplay.scene);
+		control = getControlMethod(Gameplay.keyboardMode);
 	}
 
 	private string sceneNameToMapName(string sceneName)
@@ -45,9 +44,18 @@ public class GameEnd : MonoBehaviour
 		}
 	}
 
+	private string getControlMethod(bool keyboardMode) {
+		if (keyboardMode) {
+			return "keyboard";
+		}
+		else {
+			return "plane";
+		}
+	}
+
 	public void ReadUsername(string input)
 	{
-		StartCoroutine(WebAPIAccess.Upload(input, score, balloons_popped, shot_accuracy, boosts_used, game_map));
+		StartCoroutine(WebAPIAccess.Upload(input, score, balloons_popped, shot_accuracy, boosts_used, game_map, control));
 		SceneManager.LoadScene("Menu Scene");
 	}
 }

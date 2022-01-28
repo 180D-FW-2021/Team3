@@ -18,7 +18,9 @@ public class PlaneControl : MonoBehaviour
 	public GameObject timerObject;
 	private CountdownTimer timerInstance;
 	public AudioSource engineAudio;
+	public GameObject pauseScreenWrapper;
 	public GameObject pauseScreen;
+	private ButtonHandler buttonHandler;
 	public GameObject controllerConnectScreen;
 
 	// the plane transform object that we will be controlling
@@ -40,6 +42,7 @@ public class PlaneControl : MonoBehaviour
 	public float airSpeedFromBoost = 0f;
 	private float boostStartTime = 0f;
 	private bool inBoost = false;
+	private float lastBoost;
 
 	public ThrottleBounds throttleBounds;
 	public AccelerationBounds accelerationBounds;
@@ -66,6 +69,7 @@ public class PlaneControl : MonoBehaviour
 		accelerationBounds.deceleration = Gameplay.deceleration;
 		speedBounds.minSpeed = Gameplay.minSpeed;
 		speedBounds.maxSpeed = Gameplay.maxSpeed;
+		lastBoost = -1 * Gameplay.boostCooldown;
 	}
 	private void InitializeComponents()
 	{
@@ -74,6 +78,7 @@ public class PlaneControl : MonoBehaviour
 		imuReaderInstance = this.GetComponent<IMUReader>();
 		hgReaderInstance = this.GetComponent<HGReader>();
 		engineAudio = gameObject.GetComponent<AudioSource>();
+		buttonHandler = pauseScreenWrapper.GetComponent<ButtonHandler>();
 	}
 	private void SetStartingState()
 	{
@@ -156,6 +161,7 @@ public class PlaneControl : MonoBehaviour
 	{
 		if (controllerConnectScreen.active)
 		{
+			buttonHandler.controllerConnected();
 			Gameplay.gameStarted = true;
 			SetGameResumedState();
 			controllerConnectScreen.SetActive(false);
@@ -308,12 +314,18 @@ public class PlaneControl : MonoBehaviour
 			{
 				if (!Gameplay.isPaused)
 				{
-					Gameplay.pauseGame();
+					buttonHandler.pauseGame();
+					//Gameplay.pauseGame();
 				}
 			}
 			if (Input.GetKeyDown("space"))
 			{
-				boost = 10f;
+				float currentTime = Time.time * 1000;
+				if (currentTime - lastBoost > Gameplay.boostCooldown) {
+					boost = 10f;
+					imuReaderInstance.boostCount++;
+					lastBoost = currentTime;
+				}
 			}
 			planeTransform.Translate((airSpeed + airSpeedFromBoost) * Vector3.forward * Time.deltaTime * 100f);
 			planeTransform.Rotate(Vector3.up * Input.GetAxis("Horizontal"));

@@ -520,11 +520,11 @@ public class StreamingRecognizer : MonoBehaviour
 			commandHandler.setRetroCamera(false);
 		}
 
-		else if (words.Contains("change time") || words.Contains("time up") || words.Contains("day up") || words.Contains("increase time") || words.Contains("day increase"))
+		else if (words.Contains("change time") || words.Contains("time up") || words.Contains("increase time"))
 		{
 			commandHandler.increaseTimeOfDay();
 		}
-		else if (words.Contains("time down") || words.Contains("day down") || words.Contains("decrease time") || words.Contains("day decrease"))
+		else if (words.Contains("time down") || words.Contains("decrease time"))
 		{
 			commandHandler.decreaseTimeOfDay();
 		}
@@ -539,6 +539,10 @@ public class StreamingRecognizer : MonoBehaviour
 		else if (words.Contains("dawn"))
 		{
 			commandHandler.setTimeOfDay("dawn");
+		}
+		else if (words.Contains("day"))
+		{
+			commandHandler.setTimeOfDay("day");
 		}
 
 		else if (words.Contains("default settings") || words.Contains("restore default") || words.Contains("restore settings"))

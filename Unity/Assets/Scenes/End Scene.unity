@@ -592,9 +592,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0d7072cd8d7a64144ba10957f2dc6491, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7eeb230b7a96f46b6b467ad4899d09b3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -945,13 +945,13 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: 4f73d1f7ca4cd91458bc1eaa8bb6f5ce, type: 3}
     chance: 4
     volume: 0.25
-  - song: {fileID: 8300000, guid: 4c4463ef09f54da45b1dc0a92a0fcaa3, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.25
-  - song: {fileID: 8300000, guid: 68621b682f1a67b43ace4dba7a45dbcd, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.25
-  - song: {fileID: 8300000, guid: deeb2c76e24a86949857274eef4f9451, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.6
   - song: {fileID: 8300000, guid: 0376b31aceabb314daa677b16c20709c, type: 3}
@@ -961,11 +961,12 @@ MonoBehaviour:
     chance: 12
     volume: 0.5
   - song: {fileID: 8300000, guid: 0c9aabd129a3840bca084920fe892f90, type: 3}
-    chance: 8
+    chance: 6
     volume: 0.3
   - song: {fileID: 8300000, guid: 70207a022572d45e4a762be46d80eb8b, type: 3}
-    chance: 6
+    chance: 4
     volume: 0.4
+  originalVolume: 0
 --- !u!82 &332139501
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1738,6 +1739,7 @@ MonoBehaviour:
   shot_accuracy: 0
   boosts_used: 0
   game_map: 
+  control: 
 --- !u!4 &897463515
 Transform:
   m_ObjectHideFlags: 0
