@@ -912,9 +912,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0d7072cd8d7a64144ba10957f2dc6491, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7eeb230b7a96f46b6b467ad4899d09b3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2543,8 +2543,8 @@ RectTransform:
   m_Father: {fileID: 1057376617}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2619,24 +2619,25 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: adfb87658482f8844bd54d046b7e6fb7, type: 3}
     chance: 16
     volume: 0.25
-  - song: {fileID: 8300000, guid: a2d01ae12b6051849b83aa4a65f6c561, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.25
-  - song: {fileID: 8300000, guid: 725d105dac86fd14b910870f6cd93315, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.5
-  - song: {fileID: 8300000, guid: bc9cf925508013b4daeb0d21ed30b762, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.2
-  - song: {fileID: 8300000, guid: 6206baf805ce973469f154d533dbb979, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.3
-  - song: {fileID: 8300000, guid: c1e5a86eaf753d447b4aab35266d3c61, type: 3}
+  - song: {fileID: 0}
     chance: 4
     volume: 0.15
   - song: {fileID: 8300000, guid: 4e50db4e84cda4b5f94de4d037b55a2a, type: 3}
     chance: 8
     volume: 0.2
+  originalVolume: 0
 --- !u!82 &1159069627
 AudioSource:
   m_ObjectHideFlags: 0

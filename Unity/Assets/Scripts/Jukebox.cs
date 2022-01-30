@@ -11,12 +11,14 @@ public class Jukebox : MonoBehaviour
     private System.Random randomGenerator;
     private AudioSource jukebox;
     private Song chosenSong;
+    public float originalVolume;
 
     void Start()
     {
         randomGenerator = new System.Random(); 
         jukebox = GetJukebox();
         chosenSong = GetChosenSong();
+        originalVolume = chosenSong.volume;
         PlayChosenSong();
     }
 

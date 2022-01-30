@@ -49,12 +49,27 @@ function getMapEntries(entries, selectMap) {
   return filtered;
 }
 
+function getControlEntries(entries, selectControl) {
+  let filtered = [];
+  if (entries) {
+    for (let item in entries) {
+      if (entries[item]) {
+        if (entries[item].control == selectControl) {
+          filtered.push(entries[item]);
+        }
+      }
+    }
+  }
+  return filtered;
+}
+
 function App() {
   let globalMode = true;
   const [gameDataList, setGameDataList] = useState([]);
   const [userSearch, setuserSearch] = useState("");
   const [userData, setUserData] = useState([]);
-  const [mapSelect, setMapSelect] = useState("Realistic");
+  const [mapSelect, setMapSelect] = useState("Low-Poly");
+  const [controlSelect, setControlSelect] = useState("plane");
 
   useEffect(() => {
     Axios.get("https://aeroplay.herokuapp.com/api/get").then((response) => {
@@ -80,10 +95,25 @@ function App() {
     global = false;
   }
 
+  const openWindow = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  }
+
   return (
     <div className="App">
       <div className="aeroplayHeader">
-        <h1 onClick={updateScores}>Aeroplay</h1>
+        <h1 onClick={() => openWindow('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}>Aeroplay</h1>
+      </div>
+      <div className="download">
+        <button onClick={() => openWindow('https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download')}>
+          <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
+          Download for MacOS
+        </button>
+        <button onClick={() => openWindow('')}>
+          <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
+          Download for Windows
+        </button>
       </div>
       <div className="searchPlayer">
         <label>Search Player:</label>
@@ -95,15 +125,23 @@ function App() {
         <div className="mapSelect">
           <label>Map:</label>
           <select id="map_select" onChange={(selected) => setMapSelect(selected.target.value)}>
-            <option value="Realistic">Realistic</option>
             <option value="Low-Poly">Low-Poly</option>
+            <option value="Realistic">Realistic</option>
           </select>
         </div>
-      </div> 
+        <div className="controlSelect">
+          <label>Controller:</label>
+          <select id="control_select" onChange={(selected) => setControlSelect(selected.target.value)}>
+            <option value="plane">Plane</option>
+            <option value="keyboard">Keyboard</option>
+          </select>
+        </div>
+      </div>
+      
       <div className="dataSection">
         <div className="globalData">
           {global ? <h3>Global Statistics</h3> : <h3>Player Statistics</h3>}
-          {getGlobalStats(global ? getMapEntries(gameDataList, mapSelect) : getMapEntries(userData, mapSelect)).map((value) => {
+          {getGlobalStats(global ? getControlEntries(getMapEntries(gameDataList, mapSelect), controlSelect) : getControlEntries(getMapEntries(userData, mapSelect), controlSelect)).map((value) => {
             return (
               <table>
                 <tr>
@@ -123,7 +161,7 @@ function App() {
                 <th>Boosts Used</th>
             </tr>
           {global ? 
-            getMapEntries(gameDataList, mapSelect).slice(0,15).map((value) => {
+            getControlEntries(getMapEntries(gameDataList, mapSelect), controlSelect).slice(0,15).map((value) => {
               return (
               <tr>
                 <td>{value.username}</td>
@@ -134,7 +172,7 @@ function App() {
               </tr>
               )
             }) : 
-            getMapEntries(userData, mapSelect).slice(0,15).map((value) => {
+            getControlEntries(getMapEntries(userData, mapSelect), controlSelect).slice(0,15).map((value) => {
               return (
                 <tr>
                   <td>{value.username}</td>

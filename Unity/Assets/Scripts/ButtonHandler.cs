@@ -14,7 +14,7 @@ public class ButtonHandler : MonoBehaviour
 	public Text loadingText;
 	public Text tipText;
 	private RectTransform planeLocation;
-	private AudioSource[] audioSources; // 0:default, 1:start
+	private AudioSource[] audioSources; // 0:default, 1:start/pause, 2:controller
 	private string[] tipList;
 
 	// Start is called before the first frame update
@@ -97,7 +97,7 @@ public class ButtonHandler : MonoBehaviour
 
 	IEnumerator loadScene(string scene)
 	{
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(1);
 		AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
 		loadingScreen.SetActive(true);
 		tipText.text = GetTip(scene);
@@ -180,6 +180,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public void pauseGame()
 	{
+		audioSources[1].Play();
 		Gameplay.pauseGame();
 	}
 
@@ -192,5 +193,9 @@ public class ButtonHandler : MonoBehaviour
 	public void enableKeyboard()
 	{
 		Gameplay.enableKeyboard();
+	}
+	
+	public void controllerConnected() {
+		audioSources[2].Play();
 	}
 }

@@ -19,6 +19,9 @@ public class SettingsHandler : MonoBehaviour
     private Text timeOfDayValue;
     
     private AudioSource[] audioSources; // 0:default, 1:up/set, 2:down, 3:reset
+    public GameObject jukeboxObject;
+    private AudioSource jukeboxPlayer;
+    private Jukebox jukebox;
 
     public void Start()
     {
@@ -33,6 +36,13 @@ public class SettingsHandler : MonoBehaviour
         timeOfDayValue = timeOfDayObject.GetComponent<Text>();
         timeOfDayValue.text = getTimeOfDayStatus();
         audioSources = gameObject.GetComponents<AudioSource>();
+        jukeboxPlayer = jukeboxObject.GetComponent<AudioSource>();
+        jukebox = jukeboxObject.GetComponent<Jukebox>();
+    }
+
+    public void Update()
+    {
+        jukeboxPlayer.volume = jukebox.originalVolume * Gameplay.musicVolume / 100f;
     }
 
     public string getMusicVolumePercentage()

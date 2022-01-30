@@ -40,10 +40,15 @@ app.post("/api/insert", (req, res) => {
     const shot_accuracy = req.body.shot_accuracy;
     const boosts_used = req.body.boosts_used;
     const game_map = req.body.game_map;
-    const sql_insert_user = "INSERT INTO game_data VALUES (NULL,?,?,?,?,?,?)";
-    db.query(sql_insert_user, [username, score, balloons_popped, shot_accuracy, boosts_used, game_map], (err,result) => {
+    const control = req.body.control;
+    const sql_insert_user = "INSERT INTO game_data VALUES (NULL,?,?,?,?,?,?,?)";
+    db.query(sql_insert_user, [username, score, balloons_popped, shot_accuracy, boosts_used, game_map, control], (err,result) => {
         res.send(result);
     })
+});
+
+app.get("/MacOS", (req, res) => {
+    res.redirect("https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download");
 });
 
 app.listen(process.env.PORT || PORT, () => {

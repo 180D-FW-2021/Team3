@@ -19,6 +19,31 @@ body {
   margin: 30px;
 }
 
+.download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.download button {
+  margin-left: 12px;
+  height: 31px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.download img {
+  max-width: auto;
+  max-height: 60%;
+  margin-right: 4px;
+}
+
 .searchPlayer {
   display: flex;
   justify-content: center;
@@ -69,6 +94,26 @@ body {
 }
 
 .mapSelect select {
+  padding: 6px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 17px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.controlSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-left: 20px;
+  background-color: #c1cccc;
+  padding: 6px 20px;
+  border-radius: 8px;
+}
+
+.controlSelect select {
   padding: 6px;
   height: 0%;
   margin-left: 10px;
