@@ -121,6 +121,8 @@ public class PlaneControl : MonoBehaviour
 	{
 		return (imuDataReceived == 1);
 	}
+	//make it send data before doing controller connected
+	//keep sending data until the imuDataReceived is 1 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// functions that transition state
