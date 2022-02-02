@@ -3,7 +3,9 @@ A fun household game where you use a 3D printed plane + Gesture + Voice controls
 
 Checkout the live online leaderboard [here](https://www.aeroplay.online/)! <br>
 
-Watch a demo video of the game [here](https://www.youtube.com/watch?v=9XCapfStW8s)!
+Watch a v2.0 demo video of the game [here](https://www.youtube.com/watch?v=2cv6WaeUb7c)! [Winter, 2022 Feb] <br>
+
+Watch a v1.0 demo video of the game [here](https://www.youtube.com/watch?v=9XCapfStW8s)! [Fall, 2021 Dec]
 
 ## Tech Stack Used
 - [Unity](https://unity.com/products/unity-student) for game development
