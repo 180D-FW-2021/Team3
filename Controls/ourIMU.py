@@ -25,6 +25,9 @@ import datetime
 import os
 import socket
 import unittest
+import random
+
+from paho.qtt import client as mqtt_client
 
 
 RAD_TO_DEG = 57.29578
@@ -36,10 +39,58 @@ ACC_LPF_FACTOR = 0.4    # Low pass filter constant for accelerometer
 ACC_MEDIANTABLESIZE = 9         # Median filter table size for accelerometer. Higher = smoother but a longer delay
 MAG_MEDIANTABLESIZE = 9         # Median filter table size for magnetometer. Higher = smoother but a longer delay
 
+broker = 'broker.emqx.io'
+port = 1777
+topic = "t3/ipAddress"
+client_id = f'python-mqtt-{random.randint(0, 100)}'
+ipReceived = 0;
+brokerCon = 0;
+
+# 0. define callbacks - functions that run when events happen.
+def connect_mqtt() -> mqtt_client:
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+            brokerCon = 1;
+        else:
+            print("Failed to connect, return code %d\n", rc)
+            brokerCon = 0;
+
+    # create mqtt client
+    mclient = mqtt_client.Client(client_id)
+    mclient.on_connect = on_connect
+    mclient.connect(broker, port)
+    return mclient
+
+
+ # Subscribing in on_connect() means that if we lose the connection and
+  # reconnect then subscriptions will be renewed.
+def subscribe(client: mqtt_client):
+    # The default message callback.
+    # (you can create separate callbacks per subscribed topic)
+    def on_message(client, userdata, msg):
+        #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        ipReceived = true
+        ipAddress = msg.payload.decode()
+
+
+    mclient.subscribe(topic)
+    mclient.on_message = on_message
+
+
+#def run():
+#    client = connect_mqtt()
+#    subscribe(client)
+#    client.loop_forever()
+while (brokerCon == 0 and ipReceived == 0)
+    client = connect_mqtt()
+    subscribe(client)
+
+
 
 ################# Initialize Client #####################
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ipAddress = sys.argv[1]
+#ipAddress = sys.argv[1]
 client.connect((ipAddress, 8081))
 
 ################# Compass Calibration values ############
