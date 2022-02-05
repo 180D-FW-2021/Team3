@@ -1,11 +1,15 @@
 # Aeroplay :airplane:
 A fun household game where you use a 3D printed plane + Gesture + Voice controls to fly a virtual plane!
 
-Checkout the live online leaderboard [here](https://www.aeroplay.online/)! <br>
+Please visit the [User Guide](https://docs.google.com/document/d/1YpPP1kQf3QHHyk7c0A6Lcdp2TIKk9Tfp9LNCFGn9VaA/edit?usp=sharing) for the game! (Readme below is slightly outdated)
 
 Watch a v2.0 demo video of the game [here](https://www.youtube.com/watch?v=2cv6WaeUb7c)! [Winter, 2022 Feb] <br>
 
 Watch a v1.0 demo video of the game [here](https://www.youtube.com/watch?v=9XCapfStW8s)! [Fall, 2021 Dec]
+
+Checkout the live online leaderboard [here](https://www.aeroplay.online/)! <br>
+
+
 
 ## Tech Stack Used
 - [Unity](https://unity.com/products/unity-student) for game development
