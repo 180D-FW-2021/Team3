@@ -47,6 +47,24 @@ app.post("/api/insert", (req, res) => {
     })
 });
 
+app.post("/api/player/data", (req, res) => {
+    const username = req.body.username;
+    const sql_select_player_data = "SELECT * FROM user_data WHERE username = " + '"' + username + '"';
+    db.query(sql_select_player_data, (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/player/insert", (req, res) => {
+    const username = req.body.username;
+    const hash = req.body.hash;
+    const salt = req.body.salt;
+    const sql_insert_player = "INSERT INTO user_data VALUES (?,?,?)";
+    db.query(sql_insert_player, [username, hash, salt], (err,result) => {
+        res.send(result);
+    });
+});
+
 app.get("/MacOS", (req, res) => {
     res.redirect("https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download");
 });

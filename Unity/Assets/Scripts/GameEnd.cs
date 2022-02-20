@@ -29,6 +29,10 @@ public class GameEnd : MonoBehaviour
 		boosts_used = PlayerPrefs.GetInt("boosts_used");
 		game_map = sceneNameToMapName(Gameplay.scene);
 		control = getControlMethod(Gameplay.keyboardMode);
+		if (SceneManager.GetActiveScene().name == "End Scene")
+		{
+			UploadData();
+		}
 	}
 
 	private string sceneNameToMapName(string sceneName)
@@ -57,5 +61,10 @@ public class GameEnd : MonoBehaviour
 	{
 		StartCoroutine(WebAPIAccess.Upload(input, score, balloons_popped, shot_accuracy, boosts_used, game_map, control));
 		SceneManager.LoadScene("Menu Scene");
+	}
+
+	public void UploadData()
+	{
+		StartCoroutine(WebAPIAccess.Upload(Player.username, score, balloons_popped, shot_accuracy, boosts_used, game_map, control));
 	}
 }
