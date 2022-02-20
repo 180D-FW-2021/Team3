@@ -21,12 +21,22 @@ public class AuthenticationHandler : MonoBehaviour
     public GameObject signupText;
 
     private const string glyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public string formState = "login";
 
-    private string formState = "login";
+    private AudioSource[] audioSources; // 0:default
+
+    public void Start()
+    {
+        audioSources = gameObject.GetComponents<AudioSource>();
+    }
 
     public string GetUsernameFromInput()
     {
         usernameValue = usernameInput.GetComponent<InputField>();
+        if (usernameValue.text == "")
+        {
+            return "guest";
+        }
         return usernameValue.text;
     }
 
@@ -38,6 +48,7 @@ public class AuthenticationHandler : MonoBehaviour
 
     public void GetUserData()
     {
+        audioSources[0].Play();
         usernameErrorMessage.SetActive(false);
         passwordErrorMessage.SetActive(false);
         string username = GetUsernameFromInput();
@@ -46,6 +57,7 @@ public class AuthenticationHandler : MonoBehaviour
 
     public void InsertUserData()
     {
+        audioSources[0].Play();
         usernameTakenMessage.SetActive(false);
         string username = GetUsernameFromInput();
         string password = GetPasswordFromInput();
@@ -67,7 +79,7 @@ public class AuthenticationHandler : MonoBehaviour
             string unhashedPassword = GetPasswordFromInput();
             string saltedPassword = unhashedPassword + userData.salt;
             string hashed = SHA256Hash(saltedPassword);
-            if (userData.hash == hashed) {
+            if (userData.hash == hashed || userData.username == "guest") {
                 //correct password
                 LoginUser(userData.username);
             }
@@ -121,6 +133,7 @@ public class AuthenticationHandler : MonoBehaviour
 
     public void ConvertToSignUpForm()
     {
+        audioSources[0].Play();
         formState = "signup";
         usernameErrorMessage.SetActive(false);
         passwordErrorMessage.SetActive(false);
@@ -132,6 +145,7 @@ public class AuthenticationHandler : MonoBehaviour
 
     public void ConvertToLoginForm()
     {
+        audioSources[0].Play();
         formState = "login";
         usernameTakenMessage.SetActive(false);
         signupButton.SetActive(false);

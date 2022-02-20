@@ -107,6 +107,11 @@ public static class Gameplay
 		}
 	}
 
+	public static void loadAuthentication()
+	{
+		SceneManager.LoadSceneAsync("Authentication");
+	}
+
 	public static void enableKeyboard()
 	{
 		keyboardMode = true;

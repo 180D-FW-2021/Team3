@@ -136,6 +136,12 @@ public class ButtonHandler : MonoBehaviour
 		Application.OpenURL("https://aeroplay.online");
 	}
 
+	public void logout()
+	{
+		audioSources[0].Play();
+		Gameplay.loadAuthentication();
+	}
+
 	public void quitGame()
 	{
 		audioSources[0].Play();
