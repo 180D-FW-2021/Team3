@@ -38,6 +38,7 @@ public class SettingsHandler : MonoBehaviour
         audioSources = gameObject.GetComponents<AudioSource>();
         jukeboxPlayer = jukeboxObject.GetComponent<AudioSource>();
         jukebox = jukeboxObject.GetComponent<Jukebox>();
+        //getPlayerPreferences();
     }
 
     public void Update()
@@ -191,6 +192,26 @@ public class SettingsHandler : MonoBehaviour
     public void goToMainMenu()
 	{
         audioSources[0].Play();
+        savePlayerPreferences();
 		SceneManager.LoadSceneAsync("Menu Scene");
 	}
+
+    public void savePlayerPreferences() {
+        StartCoroutine(WebAPIAccess.UpdatePlayerPreferences(Player.username, Gameplay.musicVolume, Gameplay.engineVolume, Gameplay.minimapEnabled, Gameplay.retroCameraEnabled, Gameplay.daytime));
+    }
 }
+
+// [System.Serializable]
+// public class PreferenceProfile
+// {
+//     public int music_volume;
+//     public int engine_volume;
+//     public int minimap;
+//     public int retro_camera;
+//     public string daytime;
+
+//     public bool intToBool(int value)
+//     {
+//         return (value == 1);
+//     }
+// }

@@ -59,8 +59,21 @@ app.post("/api/player/insert", (req, res) => {
     const username = req.body.username;
     const hash = req.body.hash;
     const salt = req.body.salt;
-    const sql_insert_player = "INSERT INTO user_data VALUES (?,?,?)";
+    const sql_insert_player = "INSERT INTO user_data VALUES (?, ?, ?, 100, 100, 1, 0, \"sunset\")";
     db.query(sql_insert_player, [username, hash, salt], (err,result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/player/settings", (req, res) => {
+    const username = req.body.username;
+    const music_volume = req.body.music_volume;
+    const engine_volume = req.body.engine_volume;
+    const minimap = req.body.minimap;
+    const retro_camera = req.body.retro_camera;
+    const daytime = req.body.daytime;
+    const sql_insert_settings = "UPDATE user_data SET music_volume=?, engine_volume=?, minimap=?, retro_camera=?, daytime=? WHERE username=?";
+    db.query(sql_insert_settings, [music_volume, engine_volume, minimap, retro_camera, daytime, username], (err, result) => {
         res.send(result);
     });
 });

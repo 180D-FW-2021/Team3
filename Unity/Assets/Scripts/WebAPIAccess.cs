@@ -44,7 +44,8 @@ public static class WebAPIAccess
 			{
 				Debug.Log(www.error);
 			}
-			else {
+			else 
+			{
 				if (callback != null)
 				{
 					callback(www.downloadHandler.text);
@@ -67,7 +68,8 @@ public static class WebAPIAccess
 			{
 				Debug.Log(www.error);
 			}
-			else{
+			else
+			{
 				if (callback != null)
 				{
 					InsertStatus insertStatus = new InsertStatus();
@@ -76,6 +78,42 @@ public static class WebAPIAccess
 					callback(insertStatus);
 				}
 			}
+		}
+	}
+
+	public static IEnumerator UpdatePlayerPreferences(string username, int music_volume, int engine_volume, bool minimap, bool retro_camera, string daytime)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("username", username);
+		form.AddField("music_volume", music_volume);
+		form.AddField("engine_volume", engine_volume);
+		form.AddField("minimap", boolToInt(minimap));
+		form.AddField("retro_camera", boolToInt(retro_camera));
+		form.AddField("daytime", daytime);
+
+		using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/player/settings", form))
+		{
+			yield return www.SendWebRequest();
+			if (www.isNetworkError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				Debug.Log(www.downloadHandler.text);
+			}
+		}
+	}
+
+	public static int boolToInt(bool value)
+	{
+		if (value) 
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
 		}
 	}
 }

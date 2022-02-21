@@ -128,6 +128,7 @@ public class AuthenticationHandler : MonoBehaviour
     public void LoginUser(string username)
     {
         Player.username = username;
+        getPlayerPreferences();
         SceneManager.LoadSceneAsync("Menu Scene");
     }
 
@@ -153,6 +154,29 @@ public class AuthenticationHandler : MonoBehaviour
         loginButton.SetActive(true);
         signupText.SetActive(true);
     }
+
+    public void getPlayerPreferences()
+    {
+        StartCoroutine(WebAPIAccess.GetPlayerData(Player.username, setPlayerPreferences));
+    }
+
+    public void setPlayerPreferences(string data)
+    {
+        if (data.Length == 2) //invalid username
+        {
+            Debug.Log("How did we get here?");
+        }
+        else //valid username
+        {
+            string clippedData = data.Substring(1, data.Length - 2); //remove item from array
+            PreferenceProfile userData = JsonUtility.FromJson<PreferenceProfile>(clippedData);
+            Gameplay.setScale("music", userData.music_volume);
+            Gameplay.setScale("engine", userData.engine_volume);
+            Gameplay.setToggle("minimap", userData.intToBool(userData.minimap));
+            Gameplay.setToggle("retroCamera", userData.intToBool(userData.retro_camera));
+            Gameplay.setTimeOfDay(userData.daytime);
+        }
+    }
 }
 
 [System.Serializable]
@@ -168,4 +192,19 @@ public class InsertStatus
 {
     public string dbResponse;
     public string username;
+}
+
+[System.Serializable]
+public class PreferenceProfile
+{
+    public int music_volume;
+    public int engine_volume;
+    public int minimap;
+    public int retro_camera;
+    public string daytime;
+
+    public bool intToBool(int value)
+    {
+        return (value == 1);
+    }
 }
