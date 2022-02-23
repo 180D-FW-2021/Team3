@@ -2253,7 +2253,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 374783627}
         m_MethodName: quitGame
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2899,21 +2899,6 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: adfb87658482f8844bd54d046b7e6fb7, type: 3}
     chance: 16
     volume: 0.25
-  - song: {fileID: 0}
-    chance: 0
-    volume: 0.25
-  - song: {fileID: 0}
-    chance: 0
-    volume: 0.5
-  - song: {fileID: 0}
-    chance: 0
-    volume: 0.2
-  - song: {fileID: 0}
-    chance: 0
-    volume: 0.3
-  - song: {fileID: 0}
-    chance: 4
-    volume: 0.15
   - song: {fileID: 8300000, guid: 4e50db4e84cda4b5f94de4d037b55a2a, type: 3}
     chance: 8
     volume: 0.2

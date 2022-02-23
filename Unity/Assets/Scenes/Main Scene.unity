@@ -3569,8 +3569,13 @@ MonoBehaviour:
   balloons_popped: 0
   shot_accuracy: 0
   boosts_used: 0
+  terrain_collisions: 0
   game_map: 
   control: 
+  yourScore: {fileID: 0}
+  balloonsPopped: {fileID: 0}
+  shotAccuracy: {fileID: 0}
+  boostsUsed: {fileID: 0}
 --- !u!4 &1156437051
 Transform:
   m_ObjectHideFlags: 0
@@ -6013,6 +6018,7 @@ MonoBehaviour:
   _microphoneName: 
   buttonHandler: {fileID: 1332304441}
   settingsHandler: {fileID: 0}
+  authenticationHandler: {fileID: 0}
 --- !u!82 &1807373449
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7115,7 +7121,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1332304444}
-        m_MethodName: quitGame
+        m_MethodName: rageQuit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7495,6 +7501,7 @@ MonoBehaviour:
   shotsTaken: 0
   shotsHit: 0
   score: 0
+  terrainCollisions: 0
   bullet: {fileID: 1126080904}
   displayScore: {fileID: 426269110}
 --- !u!82 &2107393483

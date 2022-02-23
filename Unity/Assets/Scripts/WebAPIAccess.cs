@@ -105,6 +105,27 @@ public static class WebAPIAccess
 		}
 	}
 
+	public static IEnumerator GetAchievements(Action<string> callback = null)
+	{
+		using (UnityWebRequest www = UnityWebRequest.Get("https://aeroplay.herokuapp.com/api/achievements"))
+		{
+			yield return www.SendWebRequest();
+			if (www.isNetworkError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				if (callback != null)
+				{
+					string jsonFormat = "{\"Items\":" + www.downloadHandler.text + "}";
+					Debug.Log(jsonFormat);
+					callback(jsonFormat);
+				}
+			}
+		}
+	}
+
 	public static int boolToInt(bool value)
 	{
 		if (value) 
@@ -114,6 +135,72 @@ public static class WebAPIAccess
 		else
 		{
 			return 0;
+		}
+	}
+
+	public static IEnumerator InsertNewPlayerAchievements(string username)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("username", username);
+
+		using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/achievements/new", form))
+		{
+			yield return www.SendWebRequest();
+			if (www.isNetworkError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				Debug.Log("new achievement profile:" + www.downloadHandler.text);
+			}
+		}
+	}
+
+	public static IEnumerator GetPlayerAchievements(string username, Action<string> callback = null)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("username", username);
+
+		using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/achievements/get", form))
+		{
+			yield return www.SendWebRequest();
+			if (www.isNetworkError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				if (callback != null)
+				{
+					Debug.Log(www.downloadHandler.text);
+					callback(www.downloadHandler.text);
+				}
+			}
+		}
+	}
+
+	public static IEnumerator SetPlayerAchievement(string username, int id, int value, Action<string> callback = null) {
+		WWWForm form = new WWWForm();
+		form.AddField("username", username);
+		form.AddField("id", id);
+		form.AddField("value", value);
+
+		using (UnityWebRequest www = UnityWebRequest.Post("https://aeroplay.herokuapp.com/api/achievements/update", form))
+		{
+			yield return www.SendWebRequest();
+			if (www.isNetworkError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				Debug.Log(www.downloadHandler.text);
+				if (callback != null)
+				{
+					callback(www.downloadHandler.text);
+				}
+			}
 		}
 	}
 }

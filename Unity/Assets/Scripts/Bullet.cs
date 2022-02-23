@@ -52,26 +52,51 @@ public class Bullet : MonoBehaviour
 							ShooterInstance.score += 1;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(3))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 3, 1));
+								Achievements.GetAchievement(3);
+							}
 							break;
 						case "Balloon2(Clone)":
 							ShooterInstance.score += 2;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(4))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 4, 1));
+								Achievements.GetAchievement(4);
+							}
 							break;
 						case "Balloon3(Clone)":
 							ShooterInstance.score += 3;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(5))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 5, 1));
+								Achievements.GetAchievement(5);
+							}
 							break;
 						case "Balloon5(Clone)":
 							ShooterInstance.score += 5;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(6))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 6, 1));
+								Achievements.GetAchievement(6);
+							}
 							break;
 						case "Balloon10(Clone)":
 							ShooterInstance.score += 10;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(7))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 7, 1));
+								Achievements.GetAchievement(7);
+							}
 							break;
 						case "BalloonGold":
 							ShooterInstance.shotsHit += 1;
@@ -81,6 +106,11 @@ public class Bullet : MonoBehaviour
 							ShooterInstance.score += 9;
 							ShooterInstance.shotsHit += 1;
 							Instantiate(hitParticleSystem, hits[0].point, Quaternion.LookRotation(hits[0].normal));
+							if (!Achievements.CheckIfGotten(37))
+							{
+								StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 37, 1));
+								Achievements.GetAchievement(37);
+							}
 							break;
 						default:
 							break;

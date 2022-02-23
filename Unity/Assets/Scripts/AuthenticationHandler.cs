@@ -65,6 +65,7 @@ public class AuthenticationHandler : MonoBehaviour
         string saltedPassword = password + salt;
         string hashedPassword = SHA256Hash(saltedPassword);
         StartCoroutine(WebAPIAccess.InsertPlayerData(username, hashedPassword, salt, AuthenticateNewUser));
+        StartCoroutine(WebAPIAccess.InsertNewPlayerAchievements(username));
     }
 
     public void AuthenticateUser(string data) {
@@ -129,6 +130,7 @@ public class AuthenticationHandler : MonoBehaviour
     {
         Player.username = username;
         getPlayerPreferences();
+        getPlayerAchievements();
         SceneManager.LoadSceneAsync("Menu Scene");
     }
 
@@ -176,6 +178,19 @@ public class AuthenticationHandler : MonoBehaviour
             Gameplay.setToggle("retroCamera", userData.intToBool(userData.retro_camera));
             Gameplay.setTimeOfDay(userData.daytime);
         }
+    }
+
+    public void getPlayerAchievements()
+    {
+        StartCoroutine(WebAPIAccess.GetPlayerAchievements(Player.username, setPlayerAchievements));
+    }
+
+    public void setPlayerAchievements(string data)
+    {
+        string clippedData = data.Substring(1, data.Length - 2); 
+        DBFormat userData = JsonUtility.FromJson<DBFormat>(clippedData);
+        Achievements.SetLocalAchievements(userData);
+        Debug.Log(data);
     }
 }
 

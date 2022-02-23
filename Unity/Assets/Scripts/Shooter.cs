@@ -9,6 +9,7 @@ public class Shooter : MonoBehaviour
 	public int shotsTaken = 0;
 	public int shotsHit = 0;
 	public int score = 0;
+	public int terrainCollisions = 0;
 	public GameObject bullet;
 
 	// Allows access to shoot function 
@@ -31,6 +32,7 @@ public class Shooter : MonoBehaviour
 		PlayerPrefs.SetInt("score", score);
 		PlayerPrefs.SetInt("balloons_popped", shotsHit);
 		PlayerPrefs.SetFloat("shot_accuracy", GetShotAccuracy());
+		PlayerPrefs.SetInt("terrain_collisions", terrainCollisions);
 	}
 
 	// Start is called before the first frame update

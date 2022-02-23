@@ -133,6 +133,11 @@ public class ButtonHandler : MonoBehaviour
 	public void openLeaderboard()
 	{
 		audioSources[0].Play();
+		if (!Achievements.CheckIfGotten(30))
+		{
+			StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 30, 1));
+			Achievements.GetAchievement(30);
+		}
 		Application.OpenURL("https://aeroplay.online");
 	}
 
@@ -142,10 +147,23 @@ public class ButtonHandler : MonoBehaviour
 		Gameplay.loadAuthentication();
 	}
 
-	public void quitGame()
+	public void quitGame(String optional = null)
 	{
 		audioSources[0].Play();
 		Application.Quit();
+	}
+
+	public void rageQuit()
+	{
+		if (!Achievements.CheckIfGotten(38))
+		{
+			StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 38, 1, quitGame));
+			Achievements.GetAchievement(38); //pointless since we're quitting
+		}
+		else
+		{
+			quitGame();
+		}
 	}
 
 	public void goToSettings()

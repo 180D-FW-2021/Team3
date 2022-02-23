@@ -212,9 +212,19 @@ public class PlaneControl : MonoBehaviour
 		{
 			case "thumbs up":
 				throttle += Gameplay.hgrThrottleIncrement;
+				if (!Achievements.CheckIfGotten(11))
+				{
+					StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 11, 1));
+					Achievements.GetAchievement(11);
+				}
 				break;
 			case "thumbs down":
 				throttle -= Gameplay.hgrThrottleIncrement;
+				if (!Achievements.CheckIfGotten(11))
+				{
+					StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 11, 1));
+					Achievements.GetAchievement(11);
+				}
 				break;
 			case "shoot":
 				if (!Gameplay.isPaused)
@@ -234,6 +244,14 @@ public class PlaneControl : MonoBehaviour
 	private void AdjustThrottleByKeyboard()
 	{
 		float verticalAxis = Input.GetAxis("Yaw") * Time.deltaTime;
+		if (verticalAxis != 0)
+		{
+			if (!Achievements.CheckIfGotten(11))
+			{
+				StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 11, 1));
+				Achievements.GetAchievement(11);
+			}
+		}
 		if (verticalAxis > 0)
 		{
 			throttle += Gameplay.keyboardThrottleIncrement;
@@ -274,6 +292,17 @@ public class PlaneControl : MonoBehaviour
 		airSpeed -= planeTransform.forward.y * Gameplay.gravityInfluenceMultiplier;
 		airSpeed = Mathf.Clamp(airSpeed, speedBounds.minSpeed, speedBounds.maxSpeed);
 	}
+	private void CheckAirspeedAchievement()
+	{
+		if (airSpeed == Gameplay.maxSpeed)
+		{
+			if (!Achievements.CheckIfGotten(12))
+			{
+				StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 12, 1));
+				Achievements.GetAchievement(12);
+			}
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// boost detection
@@ -282,6 +311,11 @@ public class PlaneControl : MonoBehaviour
 	{
 		if (boost != 0)
 		{
+			if (!Achievements.CheckIfGotten(10))
+			{
+				StartCoroutine(WebAPIAccess.SetPlayerAchievement(Player.username, 10, 1));
+				Achievements.GetAchievement(10);
+			}
 			airSpeedFromBoost = Gameplay.boostSpeed;
 			boostStartTime = Time.time * 1000;
 			inBoost = true;
@@ -377,6 +411,7 @@ public class PlaneControl : MonoBehaviour
 		ClampThrottleValue();
 
 		SetPlaneAirSpeed();
+		CheckAirspeedAchievement();
 		RegisterBoost();
 		MovePlane();
 	}
