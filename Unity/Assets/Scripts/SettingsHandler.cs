@@ -191,6 +191,11 @@ public class SettingsHandler : MonoBehaviour
     public void goToMainMenu()
 	{
         audioSources[0].Play();
+        savePlayerPreferences();
 		SceneManager.LoadSceneAsync("Menu Scene");
 	}
+
+    public void savePlayerPreferences() {
+        StartCoroutine(WebAPIAccess.UpdatePlayerPreferences(Player.username, Gameplay.musicVolume, Gameplay.engineVolume, Gameplay.minimapEnabled, Gameplay.retroCameraEnabled, Gameplay.daytime));
+    }
 }

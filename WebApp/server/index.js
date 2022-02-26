@@ -47,6 +47,70 @@ app.post("/api/insert", (req, res) => {
     })
 });
 
+app.post("/api/player/data", (req, res) => {
+    const username = req.body.username;
+    const sql_select_player_data = "SELECT * FROM user_data WHERE username = " + '"' + username + '"';
+    db.query(sql_select_player_data, (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/player/insert", (req, res) => {
+    const username = req.body.username;
+    const hash = req.body.hash;
+    const salt = req.body.salt;
+    const sql_insert_player = "INSERT INTO user_data VALUES (?, ?, ?, 100, 100, 1, 0, \"sunset\")";
+    db.query(sql_insert_player, [username, hash, salt], (err,result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/player/settings", (req, res) => {
+    const username = req.body.username;
+    const music_volume = req.body.music_volume;
+    const engine_volume = req.body.engine_volume;
+    const minimap = req.body.minimap;
+    const retro_camera = req.body.retro_camera;
+    const daytime = req.body.daytime;
+    const sql_insert_settings = "UPDATE user_data SET music_volume=?, engine_volume=?, minimap=?, retro_camera=?, daytime=? WHERE username=?";
+    db.query(sql_insert_settings, [music_volume, engine_volume, minimap, retro_camera, daytime, username], (err, result) => {
+        res.send(result);
+    });
+});
+
+app.get("/api/achievements", (req, res) => {
+    const sql_get_achievements = "SELECT * FROM achievements";
+    db.query(sql_get_achievements, (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/achievements/new", (req, res) => {
+    const username = req.body.username;
+    const sql_new_achievement_entry = "INSERT INTO achievement_data (username) VALUES (?)";
+    db.query(sql_new_achievement_entry, [username], (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/achievements/get", (req, res) => {
+    const username = req.body.username;
+    const sql_get_user_achievements = "SELECT * FROM achievement_data WHERE username=?";
+    db.query(sql_get_user_achievements, [username], (err, result) => {
+        res.send(result);
+    });
+});
+
+app.post("/api/achievements/update", (req,res) => {
+    const username = req.body.username;
+    const id = req.body.id;
+    const value = req.body.value;
+    const sql_update_user_achievements = "UPDATE achievement_data SET id" + id + "=" + value + " WHERE username=?";
+    db.query(sql_update_user_achievements, [username], (err, result) => {
+        res.send(result);
+    });
+});
+
 app.get("/MacOS", (req, res) => {
     res.redirect("https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download");
 });

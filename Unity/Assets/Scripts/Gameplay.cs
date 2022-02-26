@@ -11,7 +11,7 @@ public static class Gameplay
 	public static bool keyboardMode = false;
 	public static bool gameStarted = false;
 	public static string scene = "LowPolyScene";
-	public static string daytime = "day";
+	public static string daytime = "sunset";
 
 	public static int musicVolume = 100;
 	public static int engineVolume = 100;
@@ -61,6 +61,8 @@ public static class Gameplay
 	public static string[] realisticTips = {"Tip: Balloon Locations Are Shown On The Minimap!"};
 	public static string[] lowPolyTips = {"Tip: Gold Balloons Give Time And Points!", "Tip: Gold Balloons Cannot Be Shot Down!", "Tip: Gold Balloons Are Shown On The Minimap!", "Tip: Heart Of The Mountain", "Tip: Try The Retro Camera!", "Tip: Watch Out For Moving Obstacles!", "Tip: Some Gold Balloons Require A Specific Attack Angle!", "Tip: Look For The Beacons!", "Tip: Wind Turbines Point Against The Wind Direction!"};
 
+	public static int saltLength = 32;
+
 	public static void startGame()
 	{
 		scene = ButtonHandler.sceneName;
@@ -103,6 +105,11 @@ public static class Gameplay
 		{
 			SceneManager.LoadSceneAsync("Settings Menu");
 		}
+	}
+
+	public static void loadAuthentication()
+	{
+		SceneManager.LoadSceneAsync("Authentication");
 	}
 
 	public static void enableKeyboard()

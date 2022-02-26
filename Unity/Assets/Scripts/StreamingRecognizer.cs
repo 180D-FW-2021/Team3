@@ -74,6 +74,7 @@ public class StreamingRecognizer : MonoBehaviour
 
 	public GameObject buttonHandler;
 	public GameObject settingsHandler;
+	public GameObject authenticationHandler;
 
 	public void StartListening()
 	{
@@ -315,6 +316,9 @@ public class StreamingRecognizer : MonoBehaviour
 					case "Main Scene":
 					case "LowPolyScene":
 						gameSpeechOptions(transcript.ToLower());
+						break;
+					case "Authentication":
+						authenticationSpeechOptions(transcript.ToLower());
 						break;
 					default:
 						break;
@@ -632,6 +636,33 @@ public class StreamingRecognizer : MonoBehaviour
 		else if (words.Contains("quit") || words.Contains("exit"))
 		{
 			commandHandler.quitGame();
+		}
+	}
+
+	public void authenticationSpeechOptions(string words)
+	{
+		AuthenticationHandler commandHandler = authenticationHandler.GetComponent<AuthenticationHandler>();
+		if (words.Contains("login") || words.Contains("log in"))
+		{
+			if (commandHandler.formState == "login")
+			{
+				commandHandler.GetUserData();
+			}
+			else if (commandHandler.formState == "signup")
+			{
+				commandHandler.ConvertToLoginForm();
+			}
+		}
+		else if (words.Contains("sign up"))
+		{
+			if (commandHandler.formState == "login")
+			{
+				commandHandler.ConvertToSignUpForm();
+			}
+			else if (commandHandler.formState == "signup")
+			{
+				commandHandler.InsertUserData();
+			}
 		}
 	}
 }
