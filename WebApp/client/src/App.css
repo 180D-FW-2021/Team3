@@ -9,6 +9,18 @@ body {
   font-family: "Quicksand";
 }
 
+.App hr {
+  border: 1px solid rgb(202, 202, 202);
+  width: 60%;
+  margin-bottom: 40px;
+  margin-top: -10px;
+}
+
+.Player {
+  text-align: center;
+  font-family: "Quicksand";
+}
+
 .aeroplayHeader {
   font-size: 56px;
   font-family: "Pacifico", cursive;
@@ -17,6 +29,40 @@ body {
 
 .aeroplayHeader H1 {
   margin: 30px;
+}
+
+.welcome H1 {
+  position: absolute;
+  top: 0px;
+  right: 60px;
+  font-size: 48px;
+}
+
+.homeButton {
+  position: absolute;
+  display: flex;
+  font-size: 24px;
+}
+
+.homeButton button {
+  margin-left: 12px;
+  height: 50px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 20px;
+  font-family: "Quicksand";
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.homeButton img {
+  max-width: auto;
+  max-height: 60%;
+  margin-left: 10px;
 }
 
 .download {
@@ -150,6 +196,46 @@ body {
 
 .userSearchForm input {
   margin: 10px;
+}
+
+.scores h1 {
+  font-size: 48px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
+
+.scores hr {
+  border: 1px solid rgb(202, 202, 202);
+  width: 40%;
+}
+
+.mapSelectScores {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  width: auto;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.mapSelectScores select {
+  padding: 5px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.playerScoreTable {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.playerScoreTable th {
+  padding: 15px;
 }
 
 table {

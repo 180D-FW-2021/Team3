@@ -1,5 +1,7 @@
+import { useNavigate, Outlet, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import './App.css';
+import Player from "./Player.js";
 import Axios from "axios";
 
 function getGlobalStats(data) {
@@ -67,6 +69,7 @@ function App() {
   let globalMode = true;
   const [gameDataList, setGameDataList] = useState([]);
   const [userSearch, setuserSearch] = useState("");
+  const [usernameSearch, setUsernameSearch] = useState("");
   const [userData, setUserData] = useState([]);
   const [mapSelect, setMapSelect] = useState("Low-Poly");
   const [controlSelect, setControlSelect] = useState("plane");
@@ -100,6 +103,12 @@ function App() {
     if (newWindow) newWindow.opener = null;
   }
 
+
+  const navigate = useNavigate();
+  const toPlayerPage = () => {
+    navigate("/player/" + usernameSearch);
+  }
+
   return (
     <div className="App">
       <div className="aeroplayHeader">
@@ -110,18 +119,19 @@ function App() {
           <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
           Download for MacOS
         </button>
-        <button onClick={() => openWindow('')}>
+        <button onClick={() => openWindow('https://drive.google.com/uc?id=1N4CrwjidAtC3ua01Y6W8nwcnznfyPOtg&export=download')}>
           <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
           Download for Windows
         </button>
       </div>
+      <hr></hr>
       <div className="searchPlayer">
         <label>Search Player:</label>
-        <input type="text" name="userSearch" placeholder="Player Name" onChange={(search) => {
-          setuserSearch(search.target.value)
-        }} onSubmit={submitUser}></input>
-        <button onClick={submitUser}><img src="https://img.icons8.com/ios-glyphs/90/000000/search--v2.png"/></button>
-        <button onClick={updateScores}><img src="https://img.icons8.com/material-rounded/96/000000/globe--v1.png"/></button>
+        
+        <form onSubmit={toPlayerPage}>
+          <input type="text" value={usernameSearch} onChange={(search) => setUsernameSearch(search.target.value)}></input>
+        </form>
+        
         <div className="mapSelect">
           <label>Map:</label>
           <select id="map_select" onChange={(selected) => setMapSelect(selected.target.value)}>
