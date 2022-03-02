@@ -18,6 +18,7 @@ public class ButtonHandler : MonoBehaviour
 	private AudioSource[] audioSources; // 0:default, 1:start/pause, 2:controller
 	private string[] tipList;
 	private static bool handGes = true;
+	Process hgr = new Process();
 
 	// Start is called before the first frame update
 	public void Start()
@@ -36,7 +37,6 @@ public class ButtonHandler : MonoBehaviour
 
 		if(handGes == true)
 		{
-			Process hgr = new Process();
 			hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
 			hgr.Start();
 		}
