@@ -11,7 +11,7 @@ body {
 
 .App hr {
   border: 1px solid rgb(202, 202, 202);
-  width: 60%;
+  width: 1150px;
   margin-bottom: 40px;
   margin-top: -10px;
 }
@@ -19,6 +19,11 @@ body {
 .Player {
   text-align: center;
   font-family: "Quicksand";
+}
+
+.Player hr {
+  border: 1px solid rgb(202, 202, 202);
+  width: 750px;
 }
 
 .aeroplayHeader {
@@ -35,28 +40,27 @@ body {
   position: absolute;
   top: 0px;
   right: 60px;
-  font-size: 48px;
+  font-size: 35px;
 }
 
 .homeButton {
   position: absolute;
   display: flex;
-  font-size: 24px;
 }
 
 .homeButton button {
   margin-left: 12px;
-  height: 50px;
+  height: 35px;
   width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
   border: 1px solid black;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Quicksand";
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .homeButton img {
@@ -204,11 +208,6 @@ body {
   margin-bottom: 0px;
 }
 
-.scores hr {
-  border: 1px solid rgb(202, 202, 202);
-  width: 40%;
-}
-
 .mapSelectScores {
   display: flex;
   justify-content: center;
@@ -238,6 +237,19 @@ body {
   padding: 15px;
 }
 
-table {
+.achievements h1 {
+  font-size: 48px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
 
+.achievementList {
+  display: inline-grid;
+  grid-template-columns: 200px 200px 200px;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.achievementEntry img {
+  height: 200px;
 }

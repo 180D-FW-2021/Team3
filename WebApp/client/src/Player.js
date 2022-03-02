@@ -2,6 +2,28 @@ import React, { useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom"; 
 import Axios from "axios";
 
+function importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+}
+  
+const images = importAll(require.context('./img', false, /\.(png|jpe?g|svg)$/));
+
+function iconGrabber(id, gotten) {
+    if (gotten == 1) {
+        try {
+            return images["id" + id + ".png"].default;
+        }
+        catch (error) {
+            return images["placeholder.png"].default;
+        }
+    }
+    else {
+        return images["locked.png"].default;
+    }
+}
+
 function getMapEntries(entries, selectMap) {
     let filtered = [];
     if (entries) {
@@ -19,6 +41,8 @@ function getMapEntries(entries, selectMap) {
 export default function Player() {
     const [userData, setUserData] = useState([]);
     const [mapSelect, setMapSelect] = useState(["Low-Poly"]);
+    const [achievements, setAchievements] = useState([]);
+    const [achievementProgress, setAchievementProgress] = useState([]);
     const { username } = useParams(); 
 
     const openWindow = (url) => {
@@ -30,6 +54,41 @@ export default function Player() {
         Axios.post("https://aeroplay.herokuapp.com/api/user", {username: username}).then((response) => {
             console.log("User Request For: " + username);
             setUserData(response.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        Axios.get("https://aeroplay.herokuapp.com/api/achievements").then((response) => {
+            console.log("Got Achievements List");
+            setAchievements(response.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        Axios.post("https://aeroplay.herokuapp.com/api/achievements/get", {username: username}).then((response) => {
+            console.log("Got Achievement Progress For: " + username);
+            let progress = [];
+            if (!response.data[0]) {
+                setAchievementProgress(Array(achievements.length).fill(0));
+            }
+            else {
+                for (const [key, value] of Object.entries(response.data[0]))
+                {
+                    if (key == "id25") {
+                        progress.push(value == 3 ? 1 : 0);
+                    }
+                    else if (key == "id26") {
+                        progress.push(value == 5 ? 1 : 0);
+                    }
+                    else if (key == "id27") {
+                        progress.push(value == 10 ? 1 : 0);
+                    }
+                    else {
+                        progress.push(value);
+                    }
+                }
+                setAchievementProgress(progress);
+            }
         });
     }, []);
 
@@ -85,6 +144,28 @@ export default function Player() {
                         )
                     })}
                     </table>
+                </div>
+            </div>
+
+            <div className="achievements">
+                <div>
+                    <div>
+                        <h1>Achievements</h1>
+                    </div>
+                    <hr></hr>
+                </div>
+                <div className="achievementList">
+                    {achievements.map((value) => {
+                        return (
+                            <div className="achievementEntry">
+                                <img src={iconGrabber(value.id, achievementProgress[value.id + 1])} alt="image"></img>
+                                <div className="achievementText">
+                                    <h4>{achievementProgress[value.id + 1] == 1 ? value.name : "???"}</h4>
+                                    <h4>{value.description}</h4>
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>
