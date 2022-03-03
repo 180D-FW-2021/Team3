@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Diagnostics; 
 
 public class ButtonHandler : MonoBehaviour
 {
@@ -17,8 +16,6 @@ public class ButtonHandler : MonoBehaviour
 	private RectTransform planeLocation;
 	private AudioSource[] audioSources; // 0:default, 1:start/pause, 2:controller
 	private string[] tipList;
-	private static bool handGes = true;
-	Process hgr = new Process();
 
 	// Start is called before the first frame update
 	public void Start()
@@ -31,16 +28,9 @@ public class ButtonHandler : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			UnityEngine.Debug.Log(e);
+			Debug.Log(e);
 		}
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
-
-		if(handGes == true)
-		{
-			hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
-			hgr.Start();
-		}
-		handGes = false;
 	}
 
 	public string GetTip(string scene)
