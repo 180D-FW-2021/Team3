@@ -9,6 +9,23 @@ body {
   font-family: "Quicksand";
 }
 
+.App hr {
+  border: 1px solid rgb(202, 202, 202);
+  width: 1150px;
+  margin-bottom: 40px;
+  margin-top: -10px;
+}
+
+.Player {
+  text-align: center;
+  font-family: "Quicksand";
+}
+
+.Player hr {
+  border: 1px solid rgb(202, 202, 202);
+  width: 750px;
+}
+
 .aeroplayHeader {
   font-size: 56px;
   font-family: "Pacifico", cursive;
@@ -17,6 +34,39 @@ body {
 
 .aeroplayHeader H1 {
   margin: 30px;
+}
+
+.welcome H1 {
+  position: absolute;
+  top: 0px;
+  right: 60px;
+  font-size: 35px;
+}
+
+.homeButton {
+  position: absolute;
+  display: flex;
+}
+
+.homeButton button {
+  margin-left: 12px;
+  height: 35px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 16px;
+  font-family: "Quicksand";
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.homeButton img {
+  max-width: auto;
+  max-height: 60%;
+  margin-left: 10px;
 }
 
 .download {
@@ -152,6 +202,54 @@ body {
   margin: 10px;
 }
 
-table {
+.scores h1 {
+  font-size: 48px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
 
+.mapSelectScores {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  width: auto;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.mapSelectScores select {
+  padding: 5px;
+  height: 0%;
+  margin-left: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.playerScoreTable {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.playerScoreTable th {
+  padding: 15px;
+}
+
+.achievements h1 {
+  font-size: 48px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
+
+.achievementList {
+  display: inline-grid;
+  grid-template-columns: 200px 200px 200px;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.achievementEntry img {
+  height: 200px;
 }
