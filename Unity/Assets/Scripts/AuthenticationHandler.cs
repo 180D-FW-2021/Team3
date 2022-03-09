@@ -96,6 +96,7 @@ public class AuthenticationHandler : MonoBehaviour
             usernameTakenMessage.SetActive(true);
         }
         else {
+            Player.newUser = true;
             LoginUser(insertStatus.username);
         }
     }

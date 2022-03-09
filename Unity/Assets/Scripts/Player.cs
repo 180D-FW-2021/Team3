@@ -5,4 +5,5 @@ using UnityEngine;
 public class Player
 {
     public static string username = "guest";
+    public static bool newUser = false;
 }
