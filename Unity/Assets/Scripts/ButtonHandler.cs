@@ -23,6 +23,12 @@ public class ButtonHandler : MonoBehaviour
 	// Start is called before the first frame update
 	public void Start()
 	{
+		if(handGes == true)
+		{
+			hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
+			hgr.Start();
+		}
+		handGes = false;
 		audioSources = gameObject.GetComponents<AudioSource>();
 		try
 		{
@@ -35,12 +41,7 @@ public class ButtonHandler : MonoBehaviour
 		}
 		planeLocation = loadingPlane.GetComponent<RectTransform>();
 
-		if(handGes == true)
-		{
-			hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
-			hgr.Start();
-		}
-		handGes = false;
+
 	}
 
 	public string GetTip(string scene)
