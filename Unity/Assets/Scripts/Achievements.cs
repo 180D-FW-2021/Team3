@@ -75,6 +75,7 @@ public class Achievements
 
     public static void GetAchievement(int id)
     {
+        Gameplay.newAchievements = true;
         achievements[id].gotten = true;
     }
 

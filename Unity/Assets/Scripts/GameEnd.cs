@@ -17,6 +17,7 @@ public class GameEnd : MonoBehaviour
 	public GameObject balloonsPopped;
 	public GameObject shotAccuracy;
 	public GameObject boostsUsed;
+	public GameObject newAchievements;
 
 	public void EndGame()
 	{
@@ -73,6 +74,7 @@ public class GameEnd : MonoBehaviour
 		balloonsPopped.GetComponent<Text>().text = "Balloons Popped: " + balloons_popped.ToString();
 		shotAccuracy.GetComponent<Text>().text = "Shot Accuracy: " + (shot_accuracy * 100).ToString("0.0") + "%";
 		boostsUsed.GetComponent<Text>().text = "Boosts Used: " + boosts_used.ToString();
+		newAchievements.SetActive(true);
 	}
 
 	public void ReadUsername(string input)
