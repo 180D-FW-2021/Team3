@@ -75,6 +75,7 @@ public class StreamingRecognizer : MonoBehaviour
 	public GameObject buttonHandler;
 	public GameObject settingsHandler;
 	public GameObject authenticationHandler;
+	public GameObject speechEnabledIcon;
 
 	public void StartListening()
 	{
@@ -387,6 +388,7 @@ public class StreamingRecognizer : MonoBehaviour
 
 		if (enableDebugLogging)
 		{
+			speechEnabledIcon.SetActive(true);
 			Debug.Log("Ready to transcribe.");
 		}
 
