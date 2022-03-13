@@ -5642,6 +5642,7 @@ MonoBehaviour:
   balloonsPopped: {fileID: 0}
   shotAccuracy: {fileID: 0}
   boostsUsed: {fileID: 0}
+  newAchievements: {fileID: 0}
 --- !u!4 &1156437051
 Transform:
   m_ObjectHideFlags: 0
@@ -9983,9 +9984,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - song: {fileID: 0}
-    chance: 1
-    volume: 1
+  - song: {fileID: 8300000, guid: 321185674accf488ebaa3f3af629268e, type: 3}
+    chance: 3
+    volume: 0.2
+  - song: {fileID: 8300000, guid: 52889e277b7f34378923bf00deab5f48, type: 3}
+    chance: 3
+    volume: 0.2
   originalVolume: 0
 --- !u!82 &2031684592
 AudioSource:

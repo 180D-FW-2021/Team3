@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Diagnostics; 
+using System.Diagnostics;
 
 public class ButtonHandler : MonoBehaviour
 {
@@ -23,10 +23,18 @@ public class ButtonHandler : MonoBehaviour
 	// Start is called before the first frame update
 	public void Start()
 	{
-		if(handGes == true)
+		if (handGes == true)
 		{
-			hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
-			hgr.Start();
+			try
+			{
+				hgr.StartInfo.FileName = Environment.CurrentDirectory + @"/hgr";
+				hgr.Start();
+			}
+			catch (Exception e)
+			{
+				UnityEngine.Debug.Log(e);
+			}
+
 		}
 		handGes = false;
 		audioSources = gameObject.GetComponents<AudioSource>();
@@ -46,7 +54,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public string GetTip(string scene)
 	{
-		switch(scene)
+		switch (scene)
 		{
 			case "Main Scene":
 				tipList = new string[Gameplay.generalTips.Length + Gameplay.realisticTips.Length];
@@ -68,7 +76,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public string GetSceneName(float index)
 	{
-		switch(index)
+		switch (index)
 		{
 			case 0:
 				return "Main Scene";
@@ -81,7 +89,7 @@ public class ButtonHandler : MonoBehaviour
 
 	public float GetSceneIndex(string name)
 	{
-		switch(name)
+		switch (name)
 		{
 			case "Main Scene":
 				return 0f;
@@ -229,8 +237,9 @@ public class ButtonHandler : MonoBehaviour
 	{
 		Gameplay.enableKeyboard();
 	}
-	
-	public void controllerConnected() {
+
+	public void controllerConnected()
+	{
 		audioSources[2].Play();
 	}
 }
