@@ -895,8 +895,8 @@ MonoBehaviour:
   - song: {fileID: 0}
     chance: 0
     volume: 0.15
-  - song: {fileID: 8300000, guid: dfbb110a077c4e84aa9c3997ddbba5e3, type: 3}
-    chance: 5
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.2
   - song: {fileID: 0}
     chance: 0
@@ -910,8 +910,8 @@ MonoBehaviour:
   - song: {fileID: 0}
     chance: 0
     volume: 0.1
-  - song: {fileID: 8300000, guid: 565d4f7549156475b9bb7375e5823476, type: 3}
-    chance: 12
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.2
   originalVolume: 0
 --- !u!82 &344757808

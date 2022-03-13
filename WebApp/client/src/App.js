@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import './App.css';
 import Player from "./Player.js";
 import Axios from "axios";
+import userGuide from "./UserGuide.pdf"
 
 function getGlobalStats(data) {
   let total_score = 0;
@@ -123,11 +124,16 @@ function App() {
           <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
           Download for Windows
         </button>
+        <a href={userGuide} target="_blank" rel="noopener noreferrer">
+          <button>
+            <img src="https://img.icons8.com/ios-glyphs/90/000000/user-manual.png"/>
+            User Guide
+          </button>
+        </a>
       </div>
       <hr></hr>
       <div className="searchPlayer">
         <label>Search Player:</label>
-        
         <form onSubmit={toPlayerPage}>
           <input type="text" value={usernameSearch} onChange={(search) => setUsernameSearch(search.target.value)}></input>
         </form>

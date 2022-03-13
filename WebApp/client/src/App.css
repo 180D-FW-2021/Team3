@@ -94,6 +94,10 @@ body {
   margin-right: 4px;
 }
 
+.download a {
+  text-decoration: none;
+}
+
 .searchPlayer {
   display: flex;
   justify-content: center;

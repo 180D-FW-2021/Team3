@@ -1019,8 +1019,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - song: {fileID: 8300000, guid: 34aa799c00d8bc244ba930d721748c77, type: 3}
-    chance: 5
+  - song: {fileID: 0}
+    chance: 0
     volume: 1
   - song: {fileID: 8300000, guid: 4f73d1f7ca4cd91458bc1eaa8bb6f5ce, type: 3}
     chance: 4
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   - song: {fileID: 0}
     chance: 0
     volume: 0.6
-  - song: {fileID: 8300000, guid: 0376b31aceabb314daa677b16c20709c, type: 3}
+  - song: {fileID: 0}
     chance: 0
     volume: 0.4
   - song: {fileID: 8300000, guid: 5ad92d67d004a3748a5aac7754dc1d65, type: 3}
@@ -1043,8 +1043,8 @@ MonoBehaviour:
   - song: {fileID: 8300000, guid: 0c9aabd129a3840bca084920fe892f90, type: 3}
     chance: 6
     volume: 0.3
-  - song: {fileID: 8300000, guid: 70207a022572d45e4a762be46d80eb8b, type: 3}
-    chance: 4
+  - song: {fileID: 0}
+    chance: 0
     volume: 0.4
   originalVolume: 0
 --- !u!82 &332139501
