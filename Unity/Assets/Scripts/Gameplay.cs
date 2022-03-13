@@ -63,6 +63,8 @@ public static class Gameplay
 
 	public static int saltLength = 32;
 
+	public static bool newAchievements = false;
+
 	public static void startGame()
 	{
 		scene = ButtonHandler.sceneName;
