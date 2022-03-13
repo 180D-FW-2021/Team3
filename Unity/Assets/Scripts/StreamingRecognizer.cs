@@ -565,7 +565,7 @@ public class StreamingRecognizer : MonoBehaviour
 	public void menuSpeechOptions(string words)
 	{
 		ButtonHandler commandHandler = buttonHandler.GetComponent<ButtonHandler>();
-		if (words.Contains("start") || words.Contains("begin") || words.Contains("play"))
+		if (words.Contains("start"))
 		{
 			commandHandler.startGame();
 		}
@@ -665,6 +665,10 @@ public class StreamingRecognizer : MonoBehaviour
 			{
 				commandHandler.InsertUserData();
 			}
+		}
+		else if (words.Contains("quit") || words.Contains("exit"))
+		{
+			commandHandler.quitGame();
 		}
 	}
 }

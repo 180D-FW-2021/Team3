@@ -193,6 +193,12 @@ public class AuthenticationHandler : MonoBehaviour
         Achievements.SetLocalAchievements(userData);
         Debug.Log(data);
     }
+
+    public void quitGame()
+	{
+        audioSources[0].Play();
+		Application.Quit();
+	}
 }
 
 [System.Serializable]
