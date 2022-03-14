@@ -116,11 +116,11 @@ function App() {
         <h1 onClick={() => openWindow('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}>Aeroplay</h1>
       </div>
       <div className="download">
-        <button onClick={() => openWindow('https://drive.google.com/uc?id=10SRmmwc2BfGoA-bBRE0sfiGRCw6iPv-7&export=download')}>
+        <button onClick={() => openWindow('https://drive.google.com/uc?id=1ti6H7VwbRs-mWePiftbxSgXsgbmPjNFF&export=download')}>
           <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
           Download for MacOS
         </button>
-        <button onClick={() => openWindow('https://drive.google.com/uc?id=1N4CrwjidAtC3ua01Y6W8nwcnznfyPOtg&export=download')}>
+        <button onClick={() => openWindow('https://drive.google.com/uc?id=1TjiGkWuPS6M1hsVfP8tT3x-R9D2CZJiz&export=download')}>
           <img src="https://img.icons8.com/material-rounded/96/000000/download--v2.png"/>
           Download for Windows
         </button>
