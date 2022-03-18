@@ -37,23 +37,19 @@ In Unity ->
 
 ## IMU Plane Control
 1. ssh into Raspberry Pi
-Linux/Mac:
 ```
 ssh pi@raspberrypi.local
 ```
-Windows:
 
 1. Go to the Controls Directory
 ```
 cd Controls
 ```
-2. Run the game on Unity and get the IP Address from the Unity console
+2. Run publisher executable
 
-3. Run 'ourIMU.py' file with the IP Address from part 2 as an argument
+3. Run 'ourIMU.py' file on the Raspberry Pi
 ```
-python2 ourIMU.py 'IP Address'
-or
-python3 ourIMU.py 'IP Address'
+python3 ourIMU.py
 ```
 
 ## Gesture Recognition
