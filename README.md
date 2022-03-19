@@ -2,8 +2,9 @@
 A fun household game where you use a 3D printed plane + Gesture + Voice controls to fly a virtual plane!
 
 Checkout the [online leaderboard](https://www.aeroplay.online/) where you can also download our game! (MacOS + Windows) <br>
+[backup link](https://aeroplay.netlify.app/)
 
-Please visit the [User Guide](https://docs.google.com/document/d/1YpPP1kQf3QHHyk7c0A6Lcdp2TIKk9Tfp9LNCFGn9VaA/edit?usp=sharing) for the game! (Readme below is slightly outdated)
+Please visit the [User Guide](https://docs.google.com/document/d/1YpPP1kQf3QHHyk7c0A6Lcdp2TIKk9Tfp9LNCFGn9VaA/edit?usp=sharing) for the game! 
 
 Watch a v3.0 demo video of the game [here](https://youtu.be/Z3bomdumWlk)! [Winter, 2022 March] <br> Note: *This is the final version of our game and this video explains all the game features/mechanics in detail!*<br>
 
@@ -19,14 +20,31 @@ Watch a v1.0 demo video of the game [here](https://www.youtube.com/watch?v=9XCap
 - [GCP](https://cloud.google.com/speech-to-text) for Voice/Speech Recognition
 - [React](https://reactjs.org/), [Express](https://expressjs.com/), [MySQL](https://www.mysql.com/) for Web App
 
+# Game Setup
+## Playing the Game (Windows)
+1. Download the game package from [Aeroplay's website](https://www.aeroplay.online/) for your operating system
+2. [Unzip](https://www.hostinger.com/tutorials/how-to-unzip-files) the Aeroplay.zip package
+3. Double-click the Aeroplay.exe application to start the game
+
+## Playing the Game (Mac)
+1. Download the game package from [Aeroplay's website](https://www.aeroplay.online/) for your operating system
+2. [Unzip](https://www.hostinger.com/tutorials/how-to-unzip-files) the Aeroplay.zip package
+3. Right-click the Aeroplay.app application, select "Show Package Contents"
+4. Navigate to the MacOS folder, double-click the Aeroplay.exec application to start the game
+
+*note: hand gesture recognition will take about a minute to initialize, if the webcam feed does not start, see the "Gesture Recognition" section of the development instructions
+
+## Connecting a Controller
+If you wish to play using a controller instead of keyboard mode, please see the "IMU Plane Control" section of the development instructions
+
+
+# Development Instructions
 ## How can I run this on my local machine? 
 Simply clone this repo and follow the setup below!
 ``` 
 git clone https://github.com/180D-FW-2021/Team3.git 
 ```
 
-
-# Development Setup
 ## Unity (Game Development Environment)
 
 1. Download and Installl Unity Hub, get the [student version]((https://unity.com/products/unity-student)) if possible
